@@ -63,6 +63,7 @@ class CustomDrawer extends StatelessWidget {
               title: const Text('Log Out'),
               onTap: () {
                 Provider.of<AuthenticationProvider>(context, listen: false).signOut();
+                Navigator.of(context).pop();
                 context.go('/login');
               },
             ),
