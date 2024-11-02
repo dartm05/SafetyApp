@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   bool _isAuthenticated = false;
@@ -8,6 +9,17 @@ class AuthenticationProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get userId => _userId;
 
+  AuthenticationProvider() {
+    _loadUserId();
+  }
+
+  Future<void> _loadUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    _userId = prefs.getString('userId');
+    _isAuthenticated = _userId != null;
+    notifyListeners();
+  }
+
   Future<bool> signIn(String email, String password) async {
     _isLoading = true;
     notifyListeners();
@@ -15,14 +27,21 @@ class AuthenticationProvider with ChangeNotifier {
     _isAuthenticated = true;
     _userId = "unique_user_id";
     _isLoading = false;
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userId', _userId!);
+
     notifyListeners();
 
     return _isAuthenticated;
   }
 
-  void signOut() {
+  void signOut() async {
     _isAuthenticated = false;
     _userId = null;
     notifyListeners();
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('userId');
   }
 }
