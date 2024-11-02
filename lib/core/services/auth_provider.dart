@@ -44,4 +44,18 @@ class AuthenticationProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('userId');
   }
+
+  Future<void> signUp(String email, String password, String name) async {
+    _isLoading = true;
+    notifyListeners();
+    await Future.delayed(const Duration(seconds: 2));
+    _isAuthenticated = true;
+    _userId = "unique_user_id";
+    _isLoading = false;
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userId', _userId!);
+
+    notifyListeners();
+  }
 }
