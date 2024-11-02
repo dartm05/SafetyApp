@@ -48,9 +48,9 @@ class _FormPageState extends State<FormPage> {
     return Scaffold(
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 40.0),
-            child: const Text(
+          const Padding(
+            padding: EdgeInsets.only(top: 40.0),
+            child: Text(
               'How are you feeling today?',
               style: TextStyle(fontSize: 24),
             ),

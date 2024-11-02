@@ -48,7 +48,7 @@ class CustomDrawer extends StatelessWidget {
                 child: ListTile(
                   leading: const Icon(Icons.settings),
                   title: const Text('Settings'),
-                  onTap: () => context.go('/'),
+                  onTap: () => context.go('/settings'),
                 ),
               ),
             ],
