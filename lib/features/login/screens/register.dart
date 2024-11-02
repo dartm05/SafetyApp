@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/services/auth_provider.dart';
@@ -20,45 +21,83 @@ class _RegisterFormState extends State<RegisterForm> {
   Widget build(BuildContext context) {
     const sizedBox = SizedBox(height: 20);
     return Scaffold(
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: UserForm(
-              widgetList: [
-                Text(
-                  'Register',
-                  style: Theme.of(context).textTheme.headline5,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: UserForm(
+                  widgetList: [
+                    Text(
+                      'Register',
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                    sizedBox,
+                    TextField(
+                      controller: nameController,
+                      decoration: const InputDecoration(labelText: 'Name'),
+                    ),
+                    sizedBox,
+                    TextField(
+                      controller: emailController,
+                      decoration: const InputDecoration(labelText: 'Email'),
+                    ),
+                    sizedBox,
+                    TextField(
+                      controller: passwordController,
+                      decoration: const InputDecoration(labelText: 'Password'),
+                      obscureText: true,
+                    ),
+                  ],
+                  button: ElevatedButton(
+                    onPressed: () {
+                      Provider.of<AuthenticationProvider>(context,
+                              listen: false)
+                          .signUp(
+                        emailController.text.trim(),
+                        passwordController.text.trim(),
+                        nameController.text.trim(),
+                      )
+                          .then((_) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('User registered successfully'),
+                          ),
+                        );
+                        context.go('/chat');
+                      }).catchError((error) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(error.toString()),
+                          ),
+                        );
+                      });
+                    },
+                    child: const Text('Register'),
+                  ),
                 ),
-                  sizedBox,
-                TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(labelText: 'Name'),
-                ),
-                sizedBox,
-                TextField(
-                  controller: emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                ),
-                sizedBox,
-                TextField(
-                  controller: passwordController,
-                  decoration: const InputDecoration(labelText: 'Password'),
-                  obscureText: true,
-                ),
-              ],
-              button: ElevatedButton(
-                onPressed: () {
-                  Provider.of<AuthenticationProvider>(context, listen: false)
-                      .signIn(
-                    emailController.text.trim(),
-                    passwordController.text.trim(),
-                  );
-                },
-                child: const Text('Register'),
               ),
-            ),
+              sizedBox,
+              TextButton(
+                style: ButtonStyle(
+                  overlayColor: MaterialStateProperty.all(Colors.transparent),
+                ),
+                onPressed: () => context.go('/login'),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Already have an account? '),
+                    Text(
+                      'Login',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),

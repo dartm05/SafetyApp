@@ -37,6 +37,16 @@ class LoginPage extends StatelessWidget {
                   decoration: const InputDecoration(labelText: 'Password'),
                   obscureText: true,
                 ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    style: ButtonStyle(
+                      overlayColor: MaterialStateProperty.all(Colors.transparent),
+                    ),
+                    onPressed: () => context.go('/register'),
+                    child: const Text('Register'),
+                  ),
+                ),
               ],
               button: ElevatedButton(
                 onPressed: () async {
