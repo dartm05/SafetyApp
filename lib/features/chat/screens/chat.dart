@@ -11,36 +11,48 @@ class Chatbot extends StatefulWidget {
 
 class _ChatbotState extends State<Chatbot> {
   final TextEditingController _chatController = TextEditingController();
-
+  final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width - 200,
-          height: MediaQuery.of(context).size.height - 200,
-          constraints: const BoxConstraints(maxWidth: 700),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.background,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 6,
-                offset: const Offset(0, 3),
-              ),
-            ],
+      body: Column(
+        children: [
+          const Text(
+            'Evaluate your Doctors Diagnosis',
+            style: TextStyle(fontSize: 24),
           ),
-          child: Column(children: [
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: _buildMessages(context),
-            )),
-            _buildInputField(),
-          ]),
-        ),
+          const SizedBox(height: 40),
+          Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width - 200,
+              height: MediaQuery.of(context).size.height - 200,
+              constraints: const BoxConstraints(
+                maxWidth: 700,
+                minWidth: 500,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 6,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Column(children: [
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: _buildMessages(context),
+                )),
+                _buildInputField(),
+              ]),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -48,8 +60,15 @@ class _ChatbotState extends State<Chatbot> {
   Widget _buildMessages(BuildContext context) {
     return Consumer<ChatProvider>(
       builder: (context, chatProvider, child) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_scrollController.hasClients) {
+            _scrollController
+                .jumpTo(_scrollController.position.maxScrollExtent);
+          }
+        });
         return ListView.builder(
           itemCount: chatProvider.messages.length,
+          controller: _scrollController,
           itemBuilder: (context, index) {
             final message = chatProvider.messages[index];
             return Align(
