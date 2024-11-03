@@ -4,10 +4,15 @@ import 'package:menopause_app/core/services/auth_provider.dart';
 import 'package:menopause_app/routes/app-router.dart';
 import 'package:provider/provider.dart';
 
+import 'core/services/modal.provider.dart';
+
 void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (_) => AuthenticationProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (_) => ModalProvider(),
     ),
   ], child: const MyApp()));
 }
