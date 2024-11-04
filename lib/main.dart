@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:menopause_app/core/services/auth_provider.dart';
+import 'package:menopause_app/core/providers/auth_provider.dart';
 import 'package:menopause_app/routes/app-router.dart';
 import 'package:provider/provider.dart';
-
-import 'core/services/modal.provider.dart';
+import 'core/providers/error_provider.dart';
+import 'core/providers/modal.provider.dart';
+import 'core/services/http.service.dart';
+import 'core/usecases/auth_usecase.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => ErrorProvider()),
+    ChangeNotifierProvider(create: (_) => ModalProvider()),
     ChangeNotifierProvider(
-      create: (_) => AuthenticationProvider(),
-    ),
-    ChangeNotifierProvider(
-      create: (_) => ModalProvider(),
+      create: (context) => AuthenticationProvider(
+        authUseCase: AuthUsecase(
+          httpService: HttpService(baseUrl: 'https://us-central1-tasks-app-b53c1.cloudfunctions.net/api'),
+          errorProvider: context.read<ErrorProvider>(),
+          modalProvider: context.read<ModalProvider>(),
+        ),
+      ),
     ),
   ], child: const MyApp()));
 }
