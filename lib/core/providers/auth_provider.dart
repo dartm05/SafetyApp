@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:menopause_app/data/models/user.model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../usecases/auth_usecase.dart';
 
@@ -26,9 +27,10 @@ class AuthenticationProvider with ChangeNotifier {
   Future<bool> signIn(String email, String password) async {
     _isLoading = true;
     notifyListeners();
-    final user = await authUseCase.signIn(email, password);
+    /*   final user = await authUseCase.signIn(email, password);
+    _isLoading = false; */
+    final user = UserModel(id: '1', name: '', email: email, password: password);
     _isLoading = false;
-
     if (user != null) {
       _isAuthenticated = true;
       _userId = user.id;
@@ -52,7 +54,7 @@ class AuthenticationProvider with ChangeNotifier {
   Future<void> signUp(String email, String password, String name) async {
     _isLoading = true;
     notifyListeners();
-    await authUseCase.createUser(email, password, name);
+    /* await authUseCase.createUser(email, password, name); */
     _isLoading = false;
     notifyListeners();
   }
