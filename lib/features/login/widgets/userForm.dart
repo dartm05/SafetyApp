@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/services/auth_provider.dart';
+import '../../../core/providers/auth_provider.dart';
 
 class UserForm extends StatefulWidget {
   final List<Widget> widgetList;
@@ -21,7 +21,7 @@ class _UserFormState extends State<UserForm> {
     return Container(
       width: MediaQuery.of(context).size.width - 200,
       height: MediaQuery.of(context).size.height - 500,
-      constraints: const BoxConstraints(maxWidth: 600, minWidth: 400, maxHeight: 400),
+      constraints: const BoxConstraints(maxWidth: 600, minWidth: 400,minHeight: 400),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
