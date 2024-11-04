@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../usecases/auth_usecase.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   bool _isAuthenticated = false;
@@ -9,7 +10,9 @@ class AuthenticationProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get userId => _userId;
 
-  AuthenticationProvider() {
+  final AuthUsecase authUseCase;
+
+  AuthenticationProvider({required this.authUseCase}) {
     _loadUserId();
   }
 
@@ -23,39 +26,34 @@ class AuthenticationProvider with ChangeNotifier {
   Future<bool> signIn(String email, String password) async {
     _isLoading = true;
     notifyListeners();
-    await Future.delayed(const Duration(seconds: 2));
-    _isAuthenticated = true;
-    _userId = "unique_user_id";
+    final user = await authUseCase.signIn(email, password);
     _isLoading = false;
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('userId', _userId!);
+    if (user != null) {
+      _isAuthenticated = true;
+      _userId = user.id;
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userId', _userId!);
+      notifyListeners();
+      return true;
+    }
 
-    notifyListeners();
-
-    return _isAuthenticated;
+    return false;
   }
 
   void signOut() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('userId');
     _isAuthenticated = false;
     _userId = null;
     notifyListeners();
-
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('userId');
   }
 
   Future<void> signUp(String email, String password, String name) async {
     _isLoading = true;
     notifyListeners();
-    await Future.delayed(const Duration(seconds: 2));
-    _isAuthenticated = true;
-    _userId = "unique_user_id";
+    await authUseCase.createUser(email, password, name);
     _isLoading = false;
-
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('userId', _userId!);
-
     notifyListeners();
   }
 }
