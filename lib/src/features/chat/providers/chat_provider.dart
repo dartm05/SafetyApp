@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:menopause_app/src/data/models/message.dart';
+import 'package:menopause_app/src/features/chat/services/chat_service.dart';
 
 class ChatProvider with ChangeNotifier {
-  List<Map<String, String>> _messages = [];
-  List<Map<String, String>> get messages => _messages;
+  final ChatService chatService;
+  List<Message> _messages = [];
+  String? _lastMessageId;
 
-  void addMessage(String message) {
-    _messages.add({'message': message, 'isUser': 'true'});
-    notifyListeners();
+  ChatProvider({required this.chatService});
+  List<Message> get messages => _messages;
 
-    Future.delayed(const Duration(seconds: 1), () {
-      _messages
-          .add({'message': 'Hola, ¿en qué puedo ayudarte?', 'isUser': 'false'});
+  Future<void> fetchNewMessages() async {
+    final newMessages = await fetchMessagesAfter(_lastMessageId);
+
+    if (newMessages.isNotEmpty) {
+      _messages.addAll(newMessages);
+      _lastMessageId = newMessages.last.id;
       notifyListeners();
-    });
+    }
   }
 
-  void clearMessages() {
-    _messages.clear();
-    notifyListeners();
+  Future<List<Message>> fetchMessagesAfter(String? lastMessageId) async {
+    return await chatService.getMessages(lastMessageId ?? '');
+  }
+
+  Future<void> sendMessage(String message) async {
+    await chatService.sendMessage(message);
+    await fetchNewMessages();
   }
 }

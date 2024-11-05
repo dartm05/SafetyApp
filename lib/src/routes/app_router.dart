@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:menopause_app/src/features/chat/services/chat_service.dart';
 import 'package:provider/provider.dart';
 
 import '../core/providers/auth_provider.dart';
 import '../core/providers/error_provider.dart';
 import '../core/providers/modal_provider.dart';
+import '../core/services/http_service.dart';
 import '../core/widgets/modal.dart';
 import '../features/chat/providers/chat_provider.dart';
 import '../features/chat/screens/chat.dart';
@@ -54,7 +56,14 @@ final appRouter = GoRouter(
             name: 'chat',
             path: '/chat',
             builder: (context, state) => ChangeNotifierProvider(
-              create: (context) => ChatProvider(),
+              create: (context) => ChatProvider(
+                  chatService: ChatService(
+                httpServiceProvider: HttpServiceProvider(
+                  httpService: HttpService(),
+                ),
+                errorProvider: context.read<ErrorProvider>(),
+                userProvider: context.read<AuthenticationProvider>(),
+              )),
               child: const Chatbot(),
             ),
           ),

@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class HttpService {
-  final String baseUrl;
+  final String baseUrl =
+      'https://us-central1-tasks-app-b53c1.cloudfunctions.net/api';
 
-  HttpService({required this.baseUrl});
+  HttpService();
 
   Future<http.Response> get(String endpoint,
       {required Map<String, dynamic> body}) async {
@@ -24,7 +24,7 @@ class HttpService {
   }
 }
 
-class HttpServiceProvider with ChangeNotifier {
+class HttpServiceProvider {
   final HttpService httpService;
 
   HttpServiceProvider({required this.httpService});

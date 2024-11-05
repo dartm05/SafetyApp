@@ -27,7 +27,6 @@ class _ChatbotState extends State<Chatbot> {
               ),
             ),
           ),
-       
           Center(
             child: Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20.0),
@@ -82,12 +81,11 @@ class _ChatbotState extends State<Chatbot> {
           itemBuilder: (context, index) {
             final message = chatProvider.messages[index];
             return Align(
-              alignment: message['isUser'] == 'true'
-                  ? Alignment.centerRight
-                  : Alignment.centerLeft,
+              alignment:
+                  message.isUser ? Alignment.centerRight : Alignment.centerLeft,
               child: ChatBubble(
-                message: message['message']!,
-                isUser: message['isUser'] == 'true',
+                message: message.message,
+                isUser: message.isUser,
               ),
             );
           },
@@ -122,7 +120,7 @@ class _ChatbotState extends State<Chatbot> {
               onPressed: () {
                 if (_chatController.text.isNotEmpty) {
                   Provider.of<ChatProvider>(context, listen: false)
-                      .addMessage(_chatController.text);
+                      .sendMessage(_chatController.text);
                   _chatController.clear();
                 }
               },
