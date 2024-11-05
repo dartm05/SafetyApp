@@ -32,7 +32,10 @@ class CustomDrawer extends StatelessWidget {
                 child: ListTile(
                   leading: const Icon(Icons.message),
                   title: const Text('Diagnosis Evaluation'),
-                  onTap: () => context.go('/chat'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    context.go('/chat');
+                  },
                 ),
               ),
               Padding(
@@ -40,7 +43,10 @@ class CustomDrawer extends StatelessWidget {
                 child: ListTile(
                   leading: const Icon(Icons.info),
                   title: const Text('Form'),
-                  onTap: () => context.go('/form'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    context.go('/form');
+                  }
                 ),
               ),
               Padding(
@@ -48,7 +54,10 @@ class CustomDrawer extends StatelessWidget {
                 child: ListTile(
                   leading: const Icon(Icons.settings),
                   title: const Text('Settings'),
-                  onTap: () => context.go('/settings'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    context.go('/settings');
+                  },
                 ),
               ),
             ],
@@ -62,7 +71,8 @@ class CustomDrawer extends StatelessWidget {
               leading: const Icon(Icons.logout),
               title: const Text('Log Out'),
               onTap: () {
-                Provider.of<AuthenticationProvider>(context, listen: false).signOut();
+                Provider.of<AuthenticationProvider>(context, listen: false)
+                    .signOut();
                 Navigator.of(context).pop();
                 context.go('/login');
               },
