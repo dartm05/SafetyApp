@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:menopause_app/features/chat/providers/chatProvider.dart';
+import 'package:menopause_app/src/features/chat/providers/chat_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:menopause_app/features/chat/widgets/chat_bubble.dart';
+import 'package:menopause_app/src/features/chat/widgets/chat_bubble.dart';
 
 class Chatbot extends StatefulWidget {
   const Chatbot({super.key});

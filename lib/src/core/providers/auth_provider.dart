@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:menopause_app/data/models/user.model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/user_model.dart';
 import '../usecases/auth_usecase.dart';
 
 class AuthenticationProvider with ChangeNotifier {

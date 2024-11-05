@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:menopause_app/core/models/modal.model.dart';
-import 'package:menopause_app/core/providers/modal.provider.dart';
-import 'package:menopause_app/core/widgets/modal.dart';
-import 'package:menopause_app/features/chat/providers/chatProvider.dart';
-import 'package:menopause_app/features/chat/screens/chat.dart';
-import 'package:menopause_app/features/home/widgets/nav_drawer.dart';
-import 'package:menopause_app/features/form/screens/form.dart';
-import 'package:menopause_app/features/login/screens/login.dart';
-import 'package:menopause_app/features/login/screens/register.dart';
-import 'package:menopause_app/features/settings/screens/settings.dart';
 import 'package:provider/provider.dart';
 
 import '../core/providers/auth_provider.dart';
 import '../core/providers/error_provider.dart';
+import '../core/providers/modal_provider.dart';
+import '../core/widgets/modal.dart';
+import '../features/chat/providers/chat_provider.dart';
+import '../features/chat/screens/chat.dart';
+import '../features/form/screens/form.dart';
+import '../features/home/widgets/nav_drawer.dart';
+import '../features/login/screens/login.dart';
+import '../features/login/screens/register.dart';
+import '../features/settings/screens/settings.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/login',

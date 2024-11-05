@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:menopause_app/core/providers/auth_provider.dart';
-import 'package:menopause_app/routes/app-router.dart';
+import 'package:menopause_app/src/core/providers/auth_provider.dart';
+import 'package:menopause_app/src/routes/app_router.dart';
 import 'package:provider/provider.dart';
-import 'core/providers/error_provider.dart';
-import 'core/providers/modal.provider.dart';
-import 'core/services/http.service.dart';
-import 'core/usecases/auth_usecase.dart';
+
+import 'src/core/providers/error_provider.dart';
+import 'src/core/providers/modal_provider.dart';
+import 'src/core/services/http_service.dart';
+import 'src/core/usecases/auth_usecase.dart';
 
 void main() {
   runApp(MultiProvider(providers: [

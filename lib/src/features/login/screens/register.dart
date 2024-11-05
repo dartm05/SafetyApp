@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/providers/auth_provider.dart';
-import '../widgets/userForm.dart';
+import '../widgets/user_form.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});

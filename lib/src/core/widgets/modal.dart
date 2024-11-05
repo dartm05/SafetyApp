@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:menopause_app/core/providers/modal.provider.dart';
 import 'package:provider/provider.dart';
 
-import '../models/modal.model.dart';
+import '../models/modal_model.dart';
 import '../providers/error_provider.dart';
+import '../providers/modal_provider.dart';
 
 class ModalWidget extends StatelessWidget {
   final Modal modal;
@@ -23,25 +23,25 @@ class ModalWidget extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-          modalProvider.hideModal();
+                modalProvider.hideModal();
               },
               child: Container(
-          color: Colors.black54,
+                color: Colors.black54,
               ),
             ),
             Center(
               child: AlertDialog(
-          title: Text(modal.title),
-          content: Text(modal.message),
-          actions: [
-            TextButton(
-              onPressed: () {
-                modal.action!();
-                modalProvider.hideModal();
-              },
-              child: Text(modal.actionText),
-            ),
-          ],
+                title: Text(modal.title),
+                content: Text(modal.message),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      modal.action!();
+                      modalProvider.hideModal();
+                    },
+                    child: Text(modal.actionText),
+                  ),
+                ],
               ),
             ),
           ],

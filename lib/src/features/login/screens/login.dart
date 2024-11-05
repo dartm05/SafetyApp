@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:menopause_app/core/providers/auth_provider.dart';
-import 'package:menopause_app/features/login/widgets/userForm.dart';
 import 'package:provider/provider.dart';
+
+import '../../../core/providers/auth_provider.dart';
+import '../widgets/user_form.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -62,7 +63,8 @@ class LoginPage extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       style: ButtonStyle(
-                        overlayColor: WidgetStateProperty.all(Colors.transparent),
+                        overlayColor:
+                            WidgetStateProperty.all(Colors.transparent),
                       ),
                       onPressed: () => context.go('/register'),
                       child: const Text('Register'),
@@ -72,10 +74,10 @@ class LoginPage extends StatelessWidget {
                 button: ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState?.validate() ?? false) {
-                      final isSuccess = await Provider.of<AuthenticationProvider>(
-                              context,
-                              listen: false)
-                          .signIn(
+                      final isSuccess =
+                          await Provider.of<AuthenticationProvider>(context,
+                                  listen: false)
+                              .signIn(
                         emailController.text.trim(),
                         passwordController.text.trim(),
                       );
