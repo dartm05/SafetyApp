@@ -26,13 +26,16 @@ class ChatService {
       isUser: true,
     );
     try {
-      await _httpServiceProvider.post(
+      var response = await _httpServiceProvider.post(
         '/messages',
         body: {
           'message': newMessage.toMap(),
           'userId': _userProvider.userId!,
         },
       );
+      if (response.statusCode > 300) {
+        throw Exception('Error sending message');
+      }
     } catch (error) {
       _errorProvider.showError(
         error: Modal(
@@ -56,7 +59,10 @@ class ChatService {
           'lastMessageId': lastMessageId,
         },
       );
-       final messages = [
+      if (response.statusCode > 300) {
+        throw Exception('Error fetching messages');
+      }
+      final messages = [
         {
           "id": "1",
           "userId": "1",
