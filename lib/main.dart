@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'src/core/providers/error_provider.dart';
 import 'src/core/providers/modal_provider.dart';
+import 'src/core/services/auth_service.dart';
 import 'src/core/services/http_service.dart';
 import 'src/core/usecases/auth_usecase.dart';
 
@@ -16,9 +17,13 @@ void main() {
     ChangeNotifierProvider(
       create: (context) => AuthenticationProvider(
         authUseCase: AuthUsecase(
-          httpService: HttpService(baseUrl: 'https://us-central1-tasks-app-b53c1.cloudfunctions.net/api'),
-          errorProvider: context.read<ErrorProvider>(),
-          modalProvider: context.read<ModalProvider>(),
+          authService: AuthService(
+            httpService: HttpService(
+                baseUrl:
+                    'https://us-central1-tasks-app-b53c1.cloudfunctions.net/api'),
+            errorProvider: context.read<ErrorProvider>(),
+            modalProvider: context.read<ModalProvider>(),
+          ),
         ),
       ),
     ),

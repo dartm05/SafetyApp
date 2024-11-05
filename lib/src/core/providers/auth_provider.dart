@@ -27,8 +27,7 @@ class AuthenticationProvider with ChangeNotifier {
   Future<bool> signIn(String email, String password) async {
     _isLoading = true;
     notifyListeners();
-    /*   final user = await authUseCase.signIn(email, password);
-    _isLoading = false; */
+   /*  final user = await authUseCase.signIn(email, password); */
     final user = UserModel(id: '1', name: '', email: email, password: password);
     _isLoading = false;
     if (user != null) {
