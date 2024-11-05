@@ -21,7 +21,8 @@ class _UserFormState extends State<UserForm> {
     return Container(
       width: MediaQuery.of(context).size.width - 200,
       height: MediaQuery.of(context).size.height - 500,
-      constraints: const BoxConstraints(maxWidth: 600, minWidth: 400,minHeight: 400),
+      constraints: const BoxConstraints(
+          maxWidth: 600, minWidth: 400, minHeight: 400, maxHeight: 400),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),

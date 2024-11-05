@@ -18,81 +18,94 @@ class LoginPage extends StatelessWidget {
 
     return Scaffold(
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Form(
-              key: _formKey,
-              child: UserForm(
-                widgetList: [
-                  Text(
-                    'Login',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  sizedBox,
-                  TextFormField(
-                    controller: emailController,
-                    decoration: const InputDecoration(labelText: 'Email'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
-                      }
-                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                        return 'Please enter a valid email address';
-                      }
-                      return null;
-                    },
-                  ),
-                  sizedBox,
-                  TextFormField(
-                    controller: passwordController,
-                    decoration: const InputDecoration(labelText: 'Password'),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters long';
-                      }
-                      return null;
-                    },
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      style: ButtonStyle(
-                        overlayColor:
-                            WidgetStateProperty.all(Colors.transparent),
-                      ),
-                      onPressed: () => context.go('/register'),
-                      child: const Text('Register'),
-                    ),
-                  ),
-                ],
-                button: ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState?.validate() ?? false) {
-                      final isSuccess =
-                          await Provider.of<AuthenticationProvider>(context,
-                                  listen: false)
-                              .signIn(
-                        emailController.text.trim(),
-                        passwordController.text.trim(),
-                      );
-                      if (isSuccess) {
-                        emailController.clear();
-                        passwordController.clear();
-                        context.go('/chat');
-                      }
-                    }
-                  },
-                  child: const Text('Login'),
+        child: ListView(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 20.0, bottom: 20),
+              child: Center(
+                child: Text(
+                  'Login',
+                  style: TextStyle(fontSize: 24),
                 ),
               ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: UserForm(
+                        widgetList: [
+                          sizedBox,
+                          TextFormField(
+                            controller: emailController,
+                            decoration: const InputDecoration(labelText: 'Email'),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your email';
+                              }
+                              if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                                return 'Please enter a valid email address';
+                              }
+                              return null;
+                            },
+                          ),
+                          sizedBox,
+                          TextFormField(
+                            controller: passwordController,
+                            decoration: const InputDecoration(labelText: 'Password'),
+                            obscureText: true,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your password';
+                              }
+                              if (value.length < 6) {
+                                return 'Password must be at least 6 characters long';
+                              }
+                              return null;
+                            },
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              style: ButtonStyle(
+                                overlayColor:
+                                    WidgetStateProperty.all(Colors.transparent),
+                              ),
+                              onPressed: () => context.go('/register'),
+                              child: const Text('Register'),
+                            ),
+                          ),
+                        ],
+                        button: ElevatedButton(
+                          onPressed: () async {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              final isSuccess =
+                                  await Provider.of<AuthenticationProvider>(context,
+                                          listen: false)
+                                      .signIn(
+                                emailController.text.trim(),
+                                passwordController.text.trim(),
+                              );
+                              if (isSuccess) {
+                                emailController.clear();
+                                passwordController.clear();
+                                context.go('/chat');
+                              }
+                            }
+                          },
+                          child: const Text('Login'),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

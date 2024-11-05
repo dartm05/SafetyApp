@@ -46,13 +46,16 @@ class _FormPageState extends State<FormPage> {
   Widget build(BuildContext context) {
     const sizedBox = SizedBox(height: 40);
     return Scaffold(
-      body: Column(
+      body: ListView(
+        shrinkWrap: true,
         children: [
           const Padding(
-            padding: EdgeInsets.only(top: 40.0),
-            child: Text(
-              'How are you feeling today?',
-              style: TextStyle(fontSize: 24),
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: Center(
+              child: Text(
+                'How are you feeling today?',
+                style: TextStyle(fontSize: 24),
+              ),
             ),
           ),
           Center(

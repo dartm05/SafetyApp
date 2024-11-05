@@ -15,41 +15,49 @@ class _ChatbotState extends State<Chatbot> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: ListView(
+        shrinkWrap: true,
         children: [
-          const Text(
-            'Evaluate your Doctors Diagnosis',
-            style: TextStyle(fontSize: 24),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              'Evaluate your Doctors Diagnosis',
+              style: TextStyle(fontSize: 24),
+            ),
           ),
-          const SizedBox(height: 40),
+       
           Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width - 200,
-              height: MediaQuery.of(context).size.height - 200,
-              constraints: const BoxConstraints(
-                maxWidth: 700,
-                minWidth: 500,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+              child: Container(
+                margin: const EdgeInsets.only(top: 20),
+                width: MediaQuery.of(context).size.width - 200,
+                height: MediaQuery.of(context).size.height - 200,
+                constraints: const BoxConstraints(
+                  maxWidth: 700,
+                  minWidth: 500,
+                ),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 6,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Column(children: [
+                  Expanded(
+                      child: Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: _buildMessages(context),
+                  )),
+                  _buildInputField(),
+                ]),
               ),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 6,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Column(children: [
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: _buildMessages(context),
-                )),
-                _buildInputField(),
-              ]),
             ),
           ),
         ],
