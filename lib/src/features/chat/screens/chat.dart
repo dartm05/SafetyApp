@@ -22,7 +22,7 @@ class _ChatbotState extends State<Chatbot> {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Center(
               child: Text(
-                'Evaluate your Doctors Diagnosis',
+                'Safety Chatbot',
                 style: TextStyle(fontSize: 24),
               ),
             ),
