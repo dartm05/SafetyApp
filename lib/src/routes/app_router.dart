@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:menopause_app/src/features/chat/services/chat_service.dart';
+import 'package:menopause_app/src/features/tripForm/providers/trip_form_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../core/providers/auth_provider.dart';
@@ -10,11 +11,12 @@ import '../core/services/http_service.dart';
 import '../core/widgets/modal.dart';
 import '../features/chat/providers/chat_provider.dart';
 import '../features/chat/screens/chat.dart';
-import '../features/form/screens/form.dart';
+import '../features/tripForm/screens/trip_form.dart';
 import '../features/home/widgets/nav_drawer.dart';
 import '../features/login/screens/login.dart';
 import '../features/login/screens/register.dart';
 import '../features/settings/screens/settings.dart';
+import '../features/tripForm/services/trip_service.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/login',
@@ -68,10 +70,16 @@ final appRouter = GoRouter(
             ),
           ),
           GoRoute(
-            name: 'form',
-            path: '/form',
-            builder: (context, state) => const FormPage(),
-          ),
+              name: 'tripForm',
+              path: '/tripForm',
+              builder: (context, state) => ChangeNotifierProvider(
+                    create: (context) => TripFormProvider(
+                      tripService: TripService(
+                        errorProvider: context.read<ErrorProvider>(),
+                      ),
+                    ),
+                    child: const TripFormPage(),
+                  )),
           GoRoute(
             name: 'settings',
             path: '/settings',

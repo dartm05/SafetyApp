@@ -31,7 +31,7 @@ class CustomDrawer extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 20),
                 child: ListTile(
                   leading: const Icon(Icons.message),
-                  title: const Text('Diagnosis Evaluation'),
+                  title: const Text('Safety Chatbot'),
                   onTap: () {
                     Navigator.of(context).pop();
                     context.go('/chat');
@@ -42,18 +42,18 @@ class CustomDrawer extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 20),
                 child: ListTile(
                   leading: const Icon(Icons.info),
-                  title: const Text('Form'),
+                  title: const Text('Your Trip Info'),
                   onTap: () {
                     Navigator.of(context).pop();
-                    context.go('/form');
+                    context.go('/tripForm');
                   }
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: ListTile(
-                  leading: const Icon(Icons.settings),
-                  title: const Text('Settings'),
+                  leading: const Icon(Icons.person),
+                  title: const Text('Profile'),
                   onTap: () {
                     Navigator.of(context).pop();
                     context.go('/settings');
