@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:menopause_app/src/core/providers/auth_provider.dart';
+import 'package:menopause_app/src/features/tripForm/providers/trip_form_provider.dart';
 import 'package:menopause_app/src/routes/app_router.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +10,7 @@ import 'src/core/providers/modal_provider.dart';
 import 'src/core/services/auth_service.dart';
 import 'src/core/services/http_service.dart';
 import 'src/core/usecases/auth_usecase.dart';
+import 'src/features/tripForm/services/trip_service.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
@@ -25,6 +27,11 @@ void main() {
         ),
       ),
     ),
+    ChangeNotifierProvider(
+        create: (context) => TripFormProvider(
+                tripService: TripService(
+              errorProvider: context.read<ErrorProvider>(),
+            ))),
   ], child: const MyApp()));
 }
 

@@ -25,6 +25,21 @@ class TripService {
     }
   }
 
+  Future<List<String>> fetchTripPlaces(String place) async {
+    final response = await http.get(
+      Uri.parse(
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${place}&type=lodging&key=AIzaSyBGzIzmMiVwWqVr7-dK6-4dzxWZgZOS7Z8',
+      ),
+    );
+    if (response.statusCode == 200) {
+      final predictions = json.decode(response.body)['predictions'];
+      return List<String>.from(
+          predictions.map((prediction) => prediction['description']));
+    } else {
+      throw Exception('Failed to load suggestions');
+    }
+  }
+
   Future<void> createTrip(Trip trip) async {
     // Create a new trip
   }
