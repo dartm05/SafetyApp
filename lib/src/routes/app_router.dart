@@ -15,7 +15,7 @@ import '../features/tripForm/screens/trip_form.dart';
 import '../features/home/widgets/nav_drawer.dart';
 import '../features/login/screens/login.dart';
 import '../features/login/screens/register.dart';
-import '../features/settings/screens/settings.dart';
+import '../features/profile/screens/profile.dart';
 import '../features/tripForm/services/trip_service.dart';
 
 final appRouter = GoRouter(
@@ -81,9 +81,9 @@ final appRouter = GoRouter(
                     child: const TripFormPage(),
                   )),
           GoRoute(
-            name: 'settings',
-            path: '/settings',
-            builder: (context, state) => const SettingsPage(),
+            name: 'profile',
+            path: '/profile',
+            builder: (context, state) => const ProfileForm(),
           ),
           GoRoute(
             name: 'login',

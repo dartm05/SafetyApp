@@ -56,7 +56,7 @@ class CustomDrawer extends StatelessWidget {
                   title: const Text('Profile'),
                   onTap: () {
                     Navigator.of(context).pop();
-                    context.go('/settings');
+                    context.go('/profile');
                   },
                 ),
               ),
