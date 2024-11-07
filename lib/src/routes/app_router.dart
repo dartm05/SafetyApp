@@ -11,11 +11,12 @@ import '../core/services/http_service.dart';
 import '../core/widgets/modal.dart';
 import '../features/chat/providers/chat_provider.dart';
 import '../features/chat/screens/chat.dart';
-import '../features/tripForm/screens/trip_form.dart';
+import '../features/tripForm/screens/trip_details_screen.dart';
 import '../features/home/widgets/nav_drawer.dart';
 import '../features/login/screens/login.dart';
 import '../features/login/screens/register.dart';
 import '../features/profile/screens/profile.dart';
+import '../features/tripForm/screens/trip_places_screen.dart';
 import '../features/tripForm/services/trip_service.dart';
 
 final appRouter = GoRouter(
@@ -72,14 +73,15 @@ final appRouter = GoRouter(
           GoRoute(
               name: 'tripForm',
               path: '/tripForm',
-              builder: (context, state) => ChangeNotifierProvider(
-                    create: (context) => TripFormProvider(
-                      tripService: TripService(
-                        errorProvider: context.read<ErrorProvider>(),
-                      ),
-                    ),
-                    child: const TripFormPage(),
-                  )),
+              builder: (context, state) => const TripDetailsPage(),
+              routes: [
+                GoRoute(
+                    name: 'tripPlaces',
+                    path: 'places',
+                    builder: (context, state) {
+                      return const TripPlacesScreen();
+                    }),
+              ]),
           GoRoute(
             name: 'profile',
             path: '/profile',
