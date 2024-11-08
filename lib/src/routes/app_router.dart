@@ -62,7 +62,9 @@ final appRouter = GoRouter(
               create: (context) => ChatProvider(
                   chatService: ChatService(
                 httpServiceProvider: HttpServiceProvider(
-                  httpService: HttpService(),
+                  httpService: HttpService(
+                      baseUrl:
+                          'https://us-central1-tasks-app-b53c1.cloudfunctions.net/api'),
                 ),
                 errorProvider: context.read<ErrorProvider>(),
                 userProvider: context.read<AuthenticationProvider>(),

@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class HttpService {
-  final String baseUrl =
-      'https://us-central1-tasks-app-b53c1.cloudfunctions.net/api';
+  final String baseUrl;
 
-  HttpService();
+  HttpService({required this.baseUrl});
 
   Future<http.Response> get(String endpoint,
       {required Map<String, dynamic> body}) async {
@@ -16,6 +15,16 @@ class HttpService {
   Future<http.Response> post(String endpoint,
       {required Map<String, dynamic> body}) async {
     final response = await http.post(
+      Uri.parse('$baseUrl$endpoint'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(body),
+    );
+    return response;
+  }
+
+  Future<http.Response> put(String endpoint,
+      {required Map<String, dynamic> body}) async {
+    final response = await http.put(
       Uri.parse('$baseUrl$endpoint'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(body),
@@ -37,5 +46,10 @@ class HttpServiceProvider {
   Future<http.Response> post(String endpoint,
       {required Map<String, dynamic> body}) async {
     return await httpService.post(endpoint, body: body);
+  }
+
+  Future<http.Response> put(String endpoint,
+      {required Map<String, dynamic> body}) async {
+    return await httpService.put(endpoint, body: body);
   }
 }

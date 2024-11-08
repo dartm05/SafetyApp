@@ -20,7 +20,9 @@ void main() {
       create: (context) => AuthenticationProvider(
         authUseCase: AuthUsecase(
           authService: AuthService(
-            httpService: HttpService(),
+            httpService: HttpService(
+                baseUrl:
+                    'https://us-central1-tasks-app-b53c1.cloudfunctions.net/api'),
             errorProvider: context.read<ErrorProvider>(),
             modalProvider: context.read<ModalProvider>(),
           ),
