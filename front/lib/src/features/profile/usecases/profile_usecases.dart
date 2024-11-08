@@ -1,5 +1,5 @@
-import 'package:menopause_app/src/core/providers/auth_provider.dart';
-import 'package:menopause_app/src/data/models/profile.dart';
+import 'package:safety_app/src/core/providers/auth_provider.dart';
+import 'package:safety_app/src/data/models/profile.dart';
 
 import '../services/profile_service.dart';
 

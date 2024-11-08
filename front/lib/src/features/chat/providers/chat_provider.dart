@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:menopause_app/src/data/models/message.dart';
-import 'package:menopause_app/src/features/chat/services/chat_service.dart';
+import 'package:safety_app/src/data/models/message.dart';
+import 'package:safety_app/src/features/chat/services/chat_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatProvider with ChangeNotifier {

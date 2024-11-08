@@ -1,4 +1,4 @@
-import 'package:menopause_app/src/core/services/auth_service.dart';
+import 'package:safety_app/src/core/services/auth_service.dart';
 import '../models/user_model.dart';
 
 class AuthUsecase {

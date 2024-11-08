@@ -1,6 +1,6 @@
-import 'package:menopause_app/src/core/providers/auth_provider.dart';
-import 'package:menopause_app/src/core/providers/error_provider.dart';
-import 'package:menopause_app/src/core/services/http_service.dart';
+import 'package:safety_app/src/core/providers/auth_provider.dart';
+import 'package:safety_app/src/core/providers/error_provider.dart';
+import 'package:safety_app/src/core/services/http_service.dart';
 
 import '../../../core/models/modal_model.dart';
 import '../../../data/models/message.dart';

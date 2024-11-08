@@ -1,4 +1,4 @@
-import 'package:menopause_app/src/features/chat/services/chat_service.dart';
+import 'package:safety_app/src/features/chat/services/chat_service.dart';
 
 import '../../../data/models/message.dart';
 

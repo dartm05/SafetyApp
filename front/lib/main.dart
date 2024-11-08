@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:menopause_app/src/core/providers/auth_provider.dart';
-import 'package:menopause_app/src/features/tripForm/providers/trip_form_provider.dart';
-import 'package:menopause_app/src/routes/app_router.dart';
+import 'package:safety_app/src/core/providers/auth_provider.dart';
+import 'package:safety_app/src/features/tripForm/providers/trip_form_provider.dart';
+import 'package:safety_app/src/routes/app_router.dart';
 import 'package:provider/provider.dart';
 
 import 'src/core/providers/error_provider.dart';

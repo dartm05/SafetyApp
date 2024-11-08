@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:menopause_app/src/core/providers/error_provider.dart';
+import 'package:safety_app/src/core/providers/error_provider.dart';
 
 import '../models/trip.dart';
 import 'package:http/http.dart' as http;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:menopause_app/src/features/chat/services/chat_service.dart';
-import 'package:menopause_app/src/features/tripForm/providers/trip_form_provider.dart';
+import 'package:safety_app/src/features/chat/services/chat_service.dart';
+import 'package:safety_app/src/features/tripForm/providers/trip_form_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../core/providers/auth_provider.dart';
