@@ -48,7 +48,7 @@ class _ProfileFormState extends State<ProfileForm> {
   @override
   Widget build(BuildContext context) {
     const sizedBox = SizedBox(height: 20);
-    const sizedBox_m = SizedBox(height: 10);
+    const sizedboxM = SizedBox(height: 10);
     return Scaffold(
       body: Column(
         children: [
@@ -133,7 +133,7 @@ class _ProfileFormState extends State<ProfileForm> {
                               });
                             },
                           ),
-                          sizedBox_m,
+                          sizedboxM,
                           SwitchListTile(
                             title: const Text('Traveling with Children'),
                             value: _travelingWithChildren,
