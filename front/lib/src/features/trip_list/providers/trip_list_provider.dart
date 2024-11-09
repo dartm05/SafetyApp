@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../trip_detail/models/trip.dart';
+import '../../../data/models/trip.dart';
 import '../usecases/trip_list_usecases.dart';
 
 class TripListProvider extends ChangeNotifier {

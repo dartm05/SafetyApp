@@ -1,6 +1,6 @@
 import 'package:safety_app/src/features/trip_list/services/trip_list_service.dart';
 
-import '../../trip_detail/models/trip.dart';
+import '../../../data/models/trip.dart';
 
 class TripListUseCases {
   final TripListService tripListService;

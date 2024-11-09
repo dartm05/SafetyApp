@@ -4,7 +4,7 @@ import 'package:safety_app/src/core/models/modal_model.dart';
 import 'package:safety_app/src/core/providers/error_provider.dart';
 import 'package:safety_app/src/core/services/http_service.dart';
 
-import '../../trip_detail/models/trip.dart';
+import '../../../data/models/trip.dart';
 
 class TripListService {
   final ErrorProvider errorProvider;

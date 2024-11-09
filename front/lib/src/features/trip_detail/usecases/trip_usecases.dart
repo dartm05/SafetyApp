@@ -1,5 +1,5 @@
 
-import '../models/trip.dart';
+import '../../../data/models/trip.dart';
 import '../services/trip_service.dart';
 
 class TripUseCases {

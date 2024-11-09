@@ -3,7 +3,7 @@ import 'package:safety_app/src/core/providers/error_provider.dart';
 import 'package:safety_app/src/core/services/http_service.dart';
 
 import '../../../core/models/modal_model.dart';
-import '../models/trip.dart';
+import '../../../data/models/trip.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
