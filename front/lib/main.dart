@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:safety_app/src/core/providers/auth_provider.dart';
 import 'package:safety_app/src/features/tripForm/providers/trip_form_provider.dart';
@@ -12,7 +13,8 @@ import 'src/core/services/http_service.dart';
 import 'src/core/usecases/auth_usecase.dart';
 import 'src/features/tripForm/services/trip_service.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load(fileName: ".env");
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => ErrorProvider()),
     ChangeNotifierProvider(create: (_) => ModalProvider()),
@@ -20,9 +22,7 @@ void main() {
       create: (context) => AuthenticationProvider(
         authUseCase: AuthUsecase(
           authService: AuthService(
-            httpService: HttpService(
-                baseUrl:
-                    'https://us-central1-tasks-app-b53c1.cloudfunctions.net/api'),
+            httpService: HttpService(baseUrl: dotenv.env['BASE_URL'] ?? ''),
             errorProvider: context.read<ErrorProvider>(),
             modalProvider: context.read<ModalProvider>(),
           ),
