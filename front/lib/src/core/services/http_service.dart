@@ -33,6 +33,10 @@ class HttpService {
     );
     return response;
   }
+
+  Future<http.Response> delete(String endpoint) async {
+    return await http.delete(Uri.parse('$baseUrl$endpoint'));
+  }
 }
 
 class HttpServiceProvider {
