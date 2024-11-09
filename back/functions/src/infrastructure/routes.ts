@@ -2,6 +2,7 @@ import express from "express";
 import * as functions from "firebase-functions/v1";
 import taskApp from "./routes/task.routes";
 import userApp from "./routes/user.routes";
+import profileApp from "./routes/profile.routes";
 import { NotFoundError } from "../domain/errors/not-found.error";
 import { errorHandler } from "./controllers/error.controller";
 
@@ -10,6 +11,7 @@ var cors = require("cors");
 appRoutes.use(cors());
 appRoutes.use("/", taskApp);
 appRoutes.use("/users", userApp);
+appRoutes.use("/", profileApp);
 
 appRoutes.all("*", (req, res, next) => {
   next(new NotFoundError());
