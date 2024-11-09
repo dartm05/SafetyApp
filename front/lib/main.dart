@@ -3,7 +3,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:safety_app/src/core/providers/auth_provider.dart';
 import 'package:safety_app/src/features/profile/providers/profile_provider.dart';
-import 'package:safety_app/src/features/tripForm/providers/trip_form_provider.dart';
+import 'package:safety_app/src/features/trip_detail/providers/trip_form_provider.dart';
+import 'package:safety_app/src/features/trip_detail/usecases/trip_usecases.dart';
+import 'package:safety_app/src/features/trip_list/providers/trip_list_provider.dart';
 import 'package:safety_app/src/routes/app_router.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +16,9 @@ import 'src/core/services/http_service.dart';
 import 'src/core/usecases/auth_usecase.dart';
 import 'src/features/profile/services/profile_service.dart';
 import 'src/features/profile/usecases/profile_usecases.dart';
-import 'src/features/tripForm/services/trip_service.dart';
+import 'src/features/trip_detail/services/trip_service.dart';
+import 'src/features/trip_list/services/trip_list_service.dart';
+import 'src/features/trip_list/usecases/trip_list_usecases.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -33,11 +37,25 @@ Future<void> main() async {
       ),
     ),
     ChangeNotifierProvider(
-        create: (context) => TripFormProvider(
-                tripService: TripService(
-              httpService: HttpService(baseUrl: dotenv.env['BASE_URL'] ?? ''),
-              errorProvider: context.read<ErrorProvider>(),
-            ))),
+      create: (context) => TripFormProvider(
+        tripUseCases: TripUseCases(
+          tripService: TripService(
+            httpService: HttpService(baseUrl: dotenv.env['BASE_URL'] ?? ''),
+            errorProvider: context.read<ErrorProvider>(),
+          ),
+        ),
+      ),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => TripListProvider(
+        tripListUseCases: TripListUseCases(
+          tripListService: TripListService(
+            httpService: HttpService(baseUrl: dotenv.env['BASE_URL'] ?? ''),
+            errorProvider: context.read<ErrorProvider>(),
+          ),
+        ),
+      ),
+    ),
     ChangeNotifierProvider(
       create: (context) => ProfileProvider(
         profileUsecase: ProfileUsecase(

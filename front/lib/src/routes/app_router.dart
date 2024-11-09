@@ -3,22 +3,25 @@ import 'package:go_router/go_router.dart';
 import 'package:safety_app/src/features/chat/services/chat_service.dart';
 
 import 'package:provider/provider.dart';
+import 'package:safety_app/src/features/trip_list/providers/trip_list_provider.dart';
+import 'package:safety_app/src/features/trip_list/screens/trip_list_screen.dart';
 
 import '../core/providers/auth_provider.dart';
 import '../core/providers/error_provider.dart';
 import '../core/providers/modal_provider.dart';
 import '../core/services/http_service.dart';
 import '../core/widgets/modal.dart';
+
 import '../features/chat/providers/chat_provider.dart';
 import '../features/chat/screens/chat.dart';
 import '../features/profile/providers/profile_provider.dart';
-import '../features/tripForm/screens/trip_details_screen.dart';
+import '../features/trip_detail/screens/trip_details_screen.dart';
 import '../features/home/widgets/nav_drawer.dart';
 import '../features/login/screens/login.dart';
 import '../features/login/screens/register.dart';
 import '../features/profile/screens/profile.dart';
-import '../features/tripForm/screens/trip_places_screen.dart';
-import '../features/tripForm/services/trip_service.dart';
+import '../features/trip_detail/screens/trip_places_screen.dart';
+import '../features/trip_detail/services/trip_service.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/login',
@@ -86,6 +89,13 @@ final appRouter = GoRouter(
               child: const Chatbot(),
             ),
           ),
+          GoRoute(
+              path: '/trips',
+              builder: (context, state) {
+                return ChangeNotifierProvider.value(
+                    value: context.read<TripListProvider>(),
+                    child: const TripListScreen());
+              }),
           GoRoute(
               name: 'tripForm',
               path: '/tripForm',

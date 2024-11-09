@@ -27,8 +27,4 @@ class TripUseCases {
     return await tripService.updateTrip(userId, tripId, trip);
   }
 
-  Future<void> deleteTrip(String userId, String tripId) async {
-    return await tripService.deleteTrip(userId, tripId);
-  }
-
 }

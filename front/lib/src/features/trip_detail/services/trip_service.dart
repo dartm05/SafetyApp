@@ -125,34 +125,4 @@ class TripService {
     }
     return null;
   }
-
-  Future<void> deleteTrip(String userId, String tripId) async {
-    try {
-      var response = await httpService.delete('/trips/$tripId');
-      if (response.statusCode > 300) {
-        throw Exception('Failed to delete trip');
-      }
-      errorProvider.showError(
-        error: Modal(
-          title: 'Success',
-          message: 'Trip deleted successfully',
-          actionText: 'Close',
-          action: () {
-            errorProvider.hideError();
-          },
-        ),
-      );
-    } catch (error) {
-      errorProvider.showError(
-        error: Modal(
-          title: 'Error',
-          message: 'An error occurred while deleting trip. Please try again.',
-          actionText: 'Close',
-          action: () {
-            errorProvider.hideError();
-          },
-        ),
-      );
-    }
-  }
 }

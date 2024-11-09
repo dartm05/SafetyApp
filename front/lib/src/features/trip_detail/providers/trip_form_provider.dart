@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../services/trip_service.dart';
+import '../usecases/trip_usecases.dart';
 
 class TripFormProvider extends ChangeNotifier {
   String? destination;
@@ -9,10 +8,10 @@ class TripFormProvider extends ChangeNotifier {
   DateTime? _endDate;
   String? _transportation;
   var _placesList = <String>[];
-  final TripService _tripService;
+  final TripUseCases _tripUseCases;
 
-  TripFormProvider({required TripService tripService})
-      : _tripService = tripService;
+  TripFormProvider({required TripUseCases tripUseCases})
+      : _tripUseCases = tripUseCases;
 
   List<String> get placesList => _placesList;
 
@@ -23,7 +22,7 @@ class TripFormProvider extends ChangeNotifier {
       return;
     }
     placesList.clear();
-    final places = await _tripService.fetchPlaces(place);
+    final places = await _tripUseCases.fetchPlaces(place);
     _placesList.addAll(places);
     notifyListeners();
   }
@@ -35,7 +34,7 @@ class TripFormProvider extends ChangeNotifier {
       return;
     }
     placesList.clear();
-    final places = await _tripService.fetchTripPlaces(place);
+    final places = await _tripUseCases.fetchTripPlaces(place);
     _placesList.addAll(places);
     notifyListeners();
   }
@@ -52,7 +51,6 @@ class TripFormProvider extends ChangeNotifier {
 
   void setOrigin(String origin) {
     _origin = origin;
-    print(_origin);
     notifyListeners();
   }
 
@@ -77,7 +75,7 @@ class TripFormProvider extends ChangeNotifier {
         _startDate != null &&
         _endDate != null &&
         _transportation != null) {
- /*      _tripService.saveTrip(
+      /*      _tripService.saveTrip(
         destination: _destination!,
         origin: _origin!,
         startDate: _startDate!,
