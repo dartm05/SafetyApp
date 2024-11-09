@@ -1,6 +1,22 @@
-# menopause_app
+# Safety App
 
-A new Flutter project.
+To run the backend:
+Requirements
+Node version ^18
+
+Run the following commands
+- cd back
+- cd functions
+- npm run serve
+if you are having troubles with firebase finding the index in the package.json main to point "lib/src/index.ts"
+
+To run front:
+Requires flutter version 3.24.3
+on ios
+- cd front
+- cd ios
+- flutter run
+  
 
 ## Getting Started
 
