@@ -15,7 +15,6 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -87,16 +86,9 @@ class _RegisterFormState extends State<RegisterForm> {
                                   content: Text('User registered successfully'),
                                 ),
                               );
-
                               if (user) {
-                                context.go('/chat');
+                                context.go('/profile');
                               }
-                            }).catchError((error) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(error.toString()),
-                                ),
-                              );
                             });
                           }
                         },

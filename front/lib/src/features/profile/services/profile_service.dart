@@ -21,16 +21,12 @@ class ProfileService {
   Future<Profile?> getProfile(String userId) async {
     try {
       var response = await httpService.get('/$userId/profile');
-
-      if (response.statusCode > 300) {
-        throw Exception('Failed to load profile');
-      }
       return Profile.fromJson(jsonDecode(response.body));
     } catch (error) {
       errorProvider.showError(
         error: Modal(
-          title: 'Error',
-          message: 'An error occurred while getting profile. Please try again.',
+          title: 'Create your profile',
+          message: 'Let us get to know you better to provide better services',
           actionText: 'Close',
           action: () {
             errorProvider.hideError();
