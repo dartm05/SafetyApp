@@ -8,6 +8,7 @@ Run the following commands
 - cd back
 - cd functions
 - npm run serve
+  
 if you are having troubles with firebase finding the index in the package.json main to point "lib/src/index.ts"
 
 To run front:
