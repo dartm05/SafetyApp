@@ -19,10 +19,7 @@ class _UserFormState extends State<UserForm> {
     final authProvider = Provider.of<AuthenticationProvider>(context);
 
     return Container(
-      width: MediaQuery.of(context).size.width - 200,
-      height: MediaQuery.of(context).size.height - 500,
-      constraints: const BoxConstraints(
-          maxWidth: 600, minWidth: 400, minHeight: 400, maxHeight: 400),
+      constraints: const BoxConstraints(maxWidth: 400),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -36,7 +33,7 @@ class _UserFormState extends State<UserForm> {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
         child: !authProvider.isLoading
             ? Column(
                 children: [

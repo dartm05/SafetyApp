@@ -63,32 +63,20 @@ class _RegisterFormState extends State<RegisterForm> {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your email';
                             }
-                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                .hasMatch(value)) {
                               return 'Please enter a valid email';
                             }
                             return null;
                           },
                         ),
                         sizedBox,
-                        TextFormField(
-                          controller: passwordController,
-                          decoration: const InputDecoration(labelText: 'Password'),
-                          obscureText: true,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your password';
-                            }
-                            if (value.length < 6) {
-                              return 'Password must be at least 6 characters long';
-                            }
-                            return null;
-                          },
-                        ),
                       ],
                       button: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            Provider.of<AuthenticationProvider>(context, listen: false)
+                            Provider.of<AuthenticationProvider>(context,
+                                    listen: false)
                                 .signUp(
                               emailController.text.trim(),
                               passwordController.text.trim(),

@@ -42,32 +42,20 @@ class LoginPage extends StatelessWidget {
                           sizedBox,
                           TextFormField(
                             controller: emailController,
-                            decoration: const InputDecoration(labelText: 'Email'),
+                            decoration:
+                                const InputDecoration(labelText: 'Email'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter your email';
                               }
-                              if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                              if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                  .hasMatch(value)) {
                                 return 'Please enter a valid email address';
                               }
                               return null;
                             },
                           ),
                           sizedBox,
-                          TextFormField(
-                            controller: passwordController,
-                            decoration: const InputDecoration(labelText: 'Password'),
-                            obscureText: true,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your password';
-                              }
-                              if (value.length < 6) {
-                                return 'Password must be at least 6 characters long';
-                              }
-                              return null;
-                            },
-                          ),
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
@@ -84,7 +72,8 @@ class LoginPage extends StatelessWidget {
                           onPressed: () async {
                             if (_formKey.currentState?.validate() ?? false) {
                               final isSuccess =
-                                  await Provider.of<AuthenticationProvider>(context,
+                                  await Provider.of<AuthenticationProvider>(
+                                          context,
                                           listen: false)
                                       .signIn(
                                 emailController.text.trim(),
