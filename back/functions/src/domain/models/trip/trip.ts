@@ -5,7 +5,7 @@ export interface ITrip {
   endDate: string;
   origin: string;
   destination: string;
-  transport: string;
+  transportation: string;
   createdAt: Date;
   hotel: string;
   travelStyle: string;
