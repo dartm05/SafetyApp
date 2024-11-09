@@ -11,6 +11,7 @@ import '../core/services/http_service.dart';
 import '../core/widgets/modal.dart';
 import '../features/chat/providers/chat_provider.dart';
 import '../features/chat/screens/chat.dart';
+import '../features/profile/providers/profile_provider.dart';
 import '../features/tripForm/screens/trip_details_screen.dart';
 import '../features/home/widgets/nav_drawer.dart';
 import '../features/login/screens/login.dart';
@@ -89,7 +90,12 @@ final appRouter = GoRouter(
           GoRoute(
             name: 'profile',
             path: '/profile',
-            builder: (context, state) => const ProfileForm(),
+            builder: (context, state) {
+              return ChangeNotifierProvider.value(
+                value: context.read<ProfileProvider>(),
+                child: const ProfileForm(),
+              );
+            },
           ),
           GoRoute(
             name: 'login',

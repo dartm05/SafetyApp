@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:safety_app/src/core/providers/auth_provider.dart';
+import 'package:safety_app/src/features/profile/providers/profile_provider.dart';
 import 'package:safety_app/src/features/tripForm/providers/trip_form_provider.dart';
 import 'package:safety_app/src/routes/app_router.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,8 @@ import 'src/core/providers/modal_provider.dart';
 import 'src/core/services/auth_service.dart';
 import 'src/core/services/http_service.dart';
 import 'src/core/usecases/auth_usecase.dart';
+import 'src/features/profile/services/profile_service.dart';
+import 'src/features/profile/usecases/profile_usecases.dart';
 import 'src/features/tripForm/services/trip_service.dart';
 
 Future<void> main() async {
@@ -34,6 +37,15 @@ Future<void> main() async {
                 tripService: TripService(
               errorProvider: context.read<ErrorProvider>(),
             ))),
+    ChangeNotifierProvider(
+        create: (context) => ProfileProvider(
+            profileUsecase: ProfileUsecase(
+                profileService: ProfileService(
+                    httpService:
+                        HttpService(baseUrl: dotenv.env['BASE_URL'] ?? ''),
+                    errorProvider: context.read<ErrorProvider>()),
+                authenticationProvider:
+                    context.read<AuthenticationProvider>()))),
   ], child: const MyApp()));
 }
 

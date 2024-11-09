@@ -17,13 +17,12 @@ class ProfileService {
 
   Future<Profile?> getProfile(String userId) async {
     try {
-      var response =
-          await httpService.get('/profile', body: {'userId': userId});
+      var response = await httpService.get('/$userId/profile');
 
-      if (response.statusCode == 200) {
-        return Profile.fromJson(jsonDecode(response.body));
+      if (response.statusCode > 300) {
+        throw Exception('Failed to load profile');
       }
-      throw Exception('Failed to load profile');
+      return Profile.fromJson(jsonDecode(response.body));
     } catch (error) {
       errorProvider.showError(
         error: Modal(
@@ -41,7 +40,8 @@ class ProfileService {
 
   Future<Profile?> createProfile(String userId, Profile profile) async {
     try {
-      var response = await httpService.post('/profile', body: profile.toJson());
+      var response =
+          await httpService.post('/$userId/profile', body: profile.toJson());
 
       if (response.statusCode == 200) {
         return Profile.fromJson(jsonDecode(response.body));
@@ -61,17 +61,17 @@ class ProfileService {
         ),
       );
     }
+    return null;
   }
 
   Future<Profile?> updateProfile(String userId, Profile profile) async {
     try {
-      var response = await httpService.put('/profile', body: profile.toJson());
-
-      if (response.statusCode == 200) {
-        return Profile.fromJson(jsonDecode(response.body));
-      } else {
+      var response =
+          await httpService.put('/$userId/profile', body: profile.toJson());
+      if (response.statusCode > 300) {
         throw Exception('Failed to update profile');
       }
+      return Profile.fromJson(jsonDecode(response.body));
     } catch (error) {
       errorProvider.showError(
         error: Modal(
@@ -85,5 +85,6 @@ class ProfileService {
         ),
       );
     }
+    return null;
   }
 }

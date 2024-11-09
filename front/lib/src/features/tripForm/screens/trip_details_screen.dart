@@ -62,7 +62,6 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
     const sizedBox = SizedBox(height: 40);
     const sizedBoxM = SizedBox(height: 20);
     final tripFormProvider = Provider.of<TripFormProvider>(context);
-    print(tripFormProvider.placesList);
 
     return Column(
       children: [
