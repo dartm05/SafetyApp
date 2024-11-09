@@ -17,14 +17,10 @@ class AuthService {
     required this.modalProvider,
   });
 
-  Future<UserModel?> signIn(String email, String password) async {
+  Future<UserModel?> signIn(String email) async {
     try {
       final response = await httpService.get(
-        '/users/users',
-        body: {
-          'email': email,
-          'password': password,
-        },
+        '/users/users/$email',
       );
       if (response.statusCode == 200) {
         return UserModel.fromJson(jsonDecode(response.body));
@@ -32,7 +28,7 @@ class AuthService {
         errorProvider.showError(
           error: Modal(
             title: 'Error',
-            message: 'Invalid email or password. Please try again.',
+            message: 'Invalid email. Please try again.',
             actionText: 'Close',
             action: () {
               errorProvider.hideError();
@@ -56,13 +52,12 @@ class AuthService {
     }
   }
 
-  Future<void> createUser(String email, String password, String name) async {
+  Future<UserModel?> createUser(String email, String name) async {
     try {
       final response = await httpService.post(
-        '/register',
+        '/users/users',
         body: {
           'email': email,
-          'password': password,
           'name': name,
         },
       );
@@ -78,17 +73,9 @@ class AuthService {
             },
           ),
         );
+        return UserModel.fromJson(jsonDecode(response.body));
       } else {
-        errorProvider.showError(
-          error: Modal(
-            title: 'Error',
-            message: 'An error occurred while creating user. Please try again.',
-            actionText: 'Close',
-            action: () {
-              errorProvider.hideError();
-            },
-          ),
-        );
+        throw Exception('An error occurred while creating user.');
       }
     } catch (error) {
       errorProvider.showError(
@@ -102,5 +89,6 @@ class AuthService {
         ),
       );
     }
+    return null;
   }
 }

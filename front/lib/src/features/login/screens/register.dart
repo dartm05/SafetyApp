@@ -79,7 +79,6 @@ class _RegisterFormState extends State<RegisterForm> {
                                     listen: false)
                                 .signUp(
                               emailController.text.trim(),
-                              passwordController.text.trim(),
                               nameController.text.trim(),
                             )
                                 .then((_) {

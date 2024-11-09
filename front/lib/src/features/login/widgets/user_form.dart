@@ -16,8 +16,6 @@ class _UserFormState extends State<UserForm> {
   @override
   Widget build(BuildContext context) {
     const sizedBox = SizedBox(height: 20);
-    final authProvider = Provider.of<AuthenticationProvider>(context);
-
     return Container(
       constraints: const BoxConstraints(maxWidth: 400),
       decoration: BoxDecoration(
@@ -34,20 +32,16 @@ class _UserFormState extends State<UserForm> {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-        child: !authProvider.isLoading
-            ? Column(
-                children: [
-                  sizedBox,
-                  ...widget.widgetList,
-                  sizedBox,
-                  sizedBox,
-                  sizedBox,
-                  widget.button,
-                ],
-              )
-            : const Center(
-                child: CircularProgressIndicator(),
-              ),
+        child: Column(
+          children: [
+            sizedBox,
+            ...widget.widgetList,
+            sizedBox,
+            sizedBox,
+            sizedBox,
+            widget.button,
+          ],
+        ),
       ),
     );
   }

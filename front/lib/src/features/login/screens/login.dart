@@ -77,7 +77,6 @@ class LoginPage extends StatelessWidget {
                                           listen: false)
                                       .signIn(
                                 emailController.text.trim(),
-                                passwordController.text.trim(),
                               );
                               if (isSuccess) {
                                 emailController.clear();

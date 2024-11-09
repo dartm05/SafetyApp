@@ -8,11 +8,11 @@ class AuthUsecase {
     required this.authService,
   });
 
-  Future<UserModel?> signIn(String email, String password) async {
-    return await authService.signIn(email, password);
+  Future<UserModel?> signIn(String email) async {
+    return await authService.signIn(email);
   }
 
-  Future<void> createUser(String email, String password, String name) async {
-    return await authService.createUser(email, password, name);
+  Future<UserModel?> createUser(String email, String name) async {
+    return await authService.createUser(email, name);
   }
 }

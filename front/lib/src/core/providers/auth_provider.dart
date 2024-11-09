@@ -24,11 +24,10 @@ class AuthenticationProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> signIn(String email, String password) async {
+  Future<bool> signIn(String email) async {
     _isLoading = true;
     notifyListeners();
-   /*  final user = await authUseCase.signIn(email, password); */
-    final user = UserModel(id: '1', name: '', email: email, password: password);
+    final user = await authUseCase.signIn(email);
     _isLoading = false;
     if (user != null) {
       _isAuthenticated = true;
@@ -50,11 +49,20 @@ class AuthenticationProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> signUp(String email, String password, String name) async {
+  Future<bool> signUp(String email, String name) async {
     _isLoading = true;
     notifyListeners();
-    /* await authUseCase.createUser(email, password, name); */
+    final user = await authUseCase.createUser(email, name);
+    if (user != null) {
+      _isAuthenticated = true;
+      _userId = user.id;
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userId', _userId!);
+      notifyListeners();
+      return true;
+    }
     _isLoading = false;
     notifyListeners();
+    return false;
   }
 }
