@@ -14,7 +14,8 @@ if you are having troubles with firebase finding the index in the package.json m
 To run front:
 
 Requires flutter version 3.24.3
-Crete .env file with the back url "http://127.0.0.1:5001/safety-app-ff42c/us-central1/api" inside the front folder
+
+Create .env file with the back url "http://127.0.0.1:5001/safety-app-ff42c/us-central1/api" inside the front folder
 
 on ios
 - cd front
