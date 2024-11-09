@@ -3,13 +3,13 @@ import 'package:safety_app/src/features/chat/providers/chat_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:safety_app/src/features/chat/widgets/chat_bubble.dart';
 
-class Chatbot extends StatefulWidget {
-  const Chatbot({super.key});
+class ChatScreen extends StatefulWidget {
+  const ChatScreen({super.key});
   @override
-  State<Chatbot> createState() => _ChatbotState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatbotState extends State<Chatbot> {
+class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _chatController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   @override

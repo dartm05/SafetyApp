@@ -13,7 +13,7 @@ import '../core/services/http_service.dart';
 import '../core/widgets/modal.dart';
 
 import '../features/chat/providers/chat_provider.dart';
-import '../features/chat/screens/chat.dart';
+import '../features/chat/screens/chat_screen.dart';
 import '../features/profile/providers/profile_provider.dart';
 import '../features/trip_detail/screens/trip_details_screen.dart';
 import '../features/home/widgets/nav_drawer.dart';
@@ -75,19 +75,12 @@ final appRouter = GoRouter(
           GoRoute(
             name: 'chat',
             path: '/chat',
-            builder: (context, state) => ChangeNotifierProvider(
-              create: (context) => ChatProvider(
-                  chatService: ChatService(
-                httpServiceProvider: HttpServiceProvider(
-                  httpService: HttpService(
-                      baseUrl:
-                          'https://us-central1-tasks-app-b53c1.cloudfunctions.net/api'),
-                ),
-                errorProvider: context.read<ErrorProvider>(),
-                userProvider: context.read<AuthenticationProvider>(),
-              )),
-              child: const Chatbot(),
-            ),
+            builder: (context, state) {
+              return ChangeNotifierProvider.value(
+                value: context.read<ChatProvider>(),
+                child: const ChatScreen(),
+              );
+            },
           ),
           GoRoute(
               path: '/trips',

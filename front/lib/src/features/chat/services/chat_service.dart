@@ -1,4 +1,3 @@
-import 'package:safety_app/src/core/providers/auth_provider.dart';
 import 'package:safety_app/src/core/providers/error_provider.dart';
 import 'package:safety_app/src/core/services/http_service.dart';
 
@@ -6,31 +5,28 @@ import '../../../core/models/modal_model.dart';
 import '../../../data/models/message.dart';
 
 class ChatService {
-  final HttpServiceProvider _httpServiceProvider;
+  final HttpService _httpService;
   final ErrorProvider _errorProvider;
-  final AuthenticationProvider _userProvider;
 
   ChatService({
-    required HttpServiceProvider httpServiceProvider,
+    required HttpService httpService,
     required ErrorProvider errorProvider,
-    required AuthenticationProvider userProvider,
-  })  : _httpServiceProvider = httpServiceProvider,
-        _errorProvider = errorProvider,
-        _userProvider = userProvider;
+  })  : _httpService = httpService,
+        _errorProvider = errorProvider;
 
-  Future<void> sendMessage(String message) async {
+  Future<void> sendMessage(String userId, String message) async {
     Message newMessage = Message(
-      userId: _userProvider.userId!,
+      userId: userId,
       message: message,
       timestamp: DateTime.now(),
       isUser: true,
     );
     try {
-      var response = await _httpServiceProvider.post(
+      var response = await _httpService.post(
         '/messages',
         body: {
           'message': newMessage.toMap(),
-          'userId': _userProvider.userId!,
+          'userId': userId,
         },
       );
       if (response.statusCode > 300) {
@@ -50,12 +46,12 @@ class ChatService {
     }
   }
 
-  Future<List<Message>> getMessages(String lastMessageId) async {
+  Future<List<Message>> getMessages(String userId, String lastMessageId) async {
     try {
-      final response = await _httpServiceProvider.get(
+      final response = await _httpService.get(
         '/messages',
         body: {
-          'userId': _userProvider.userId!,
+          'userId': userId,
           'lastMessageId': lastMessageId,
         },
       );

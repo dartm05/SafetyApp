@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:safety_app/src/core/providers/auth_provider.dart';
+
+import 'package:safety_app/src/features/chat/providers/chat_provider.dart';
+import 'package:safety_app/src/features/chat/services/chat_service.dart';
+import 'package:safety_app/src/features/chat/usecases/chat_usecases.dart';
+
 import 'package:safety_app/src/features/profile/providers/profile_provider.dart';
+
 import 'package:safety_app/src/features/trip_detail/providers/trip_form_provider.dart';
 import 'package:safety_app/src/features/trip_detail/usecases/trip_usecases.dart';
 import 'package:safety_app/src/features/trip_list/providers/trip_list_provider.dart';
@@ -35,6 +42,16 @@ Future<void> main() async {
           ),
         ),
       ),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => ChatProvider(
+          chatUsecases: ChatUsecases(
+        chatService: ChatService(
+          httpService: HttpService(baseUrl: dotenv.env['BASE_URL'] ?? ''),
+          errorProvider: context.read<ErrorProvider>(),
+        ),
+        authenticationProvider: context.read<AuthenticationProvider>(),
+      )),
     ),
     ChangeNotifierProvider(
       create: (context) => TripFormProvider(
