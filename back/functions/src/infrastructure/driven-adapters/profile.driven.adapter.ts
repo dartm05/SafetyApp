@@ -18,26 +18,27 @@ export class ProfileDrivenAdapter implements IProfileUseCase {
     return newProfile;
   }
 
-  async findOne(userId: string, id: string): Promise<IProfile | undefined> {
+  async findOne(userId: string): Promise<IProfile | undefined> {
     const querySnapshot = await db
       .collection("users")
       .doc(userId)
       .collection("profile")
-      .doc(id)
       .get();
-    return { ...querySnapshot.data(), id } as IProfile;
+    return querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return { ...data, id: doc.id } as IProfile;
+    })[0];
   }
 
   async update(
     userId: string,
-    id: string,
     profile: IProfile
   ): Promise<IProfile | undefined> {
     const updated = await db
       .collection("users")
       .doc(userId)
       .collection("profile")
-      .doc(id)
+      .get()[0]
       .update({ ...profile })
       .then(() => {
         return profile;

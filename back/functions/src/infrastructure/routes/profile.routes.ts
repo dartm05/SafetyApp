@@ -7,7 +7,7 @@ import {
 
 const profileApp = express();
 
-profileApp.get("/:userId/profile/:id", (req, res, next) =>
+profileApp.get("/:userId/profile", (req, res, next) =>
   ProfileController.findOne(req, res, next, serviceInjection)
 );
 
@@ -15,7 +15,7 @@ profileApp.post("/:userId/profile", (req, res, next) =>
   ProfileController.create(req, res, next, serviceInjection)
 );
 
-profileApp.put("/:userId/profile/:id", (req, res, next) =>
+profileApp.put("/:userId/profile", (req, res, next) =>
   ProfileController.update(req, res, next, serviceInjection)
 );
 

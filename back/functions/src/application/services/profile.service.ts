@@ -8,15 +8,11 @@ export class ProfileService implements IProfileUseCase {
     return this.profileDrivenAdapter.create(userId, profile);
   }
 
-  findOne(userId: string, id: string): Promise<IProfile | undefined> {
-    return this.profileDrivenAdapter.findOne(userId, id);
+  findOne(userId: string): Promise<IProfile | undefined> {
+    return this.profileDrivenAdapter.findOne(userId);
   }
 
-  update(
-    userId: string,
-    id: string,
-    profile: IProfile
-  ): Promise<IProfile | undefined> {
-    return this.profileDrivenAdapter.update(userId, id, profile);
+  update(userId: string, profile: IProfile): Promise<IProfile | undefined> {
+    return this.profileDrivenAdapter.update(userId, profile);
   }
 }
