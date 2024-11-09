@@ -81,13 +81,16 @@ class _RegisterFormState extends State<RegisterForm> {
                               emailController.text.trim(),
                               nameController.text.trim(),
                             )
-                                .then((_) {
+                                .then((user) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text('User registered successfully'),
                                 ),
                               );
-                              context.go('/chat');
+
+                              if (user) {
+                                context.go('/chat');
+                              }
                             }).catchError((error) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
