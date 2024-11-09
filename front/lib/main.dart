@@ -35,6 +35,7 @@ Future<void> main() async {
     ChangeNotifierProvider(
         create: (context) => TripFormProvider(
                 tripService: TripService(
+              httpService: HttpService(baseUrl: dotenv.env['BASE_URL'] ?? ''),
               errorProvider: context.read<ErrorProvider>(),
             ))),
     ChangeNotifierProvider(
