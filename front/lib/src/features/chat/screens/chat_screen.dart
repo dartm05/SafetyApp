@@ -67,7 +67,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget _buildMessages(BuildContext context) {
-    return Consumer<ChatProvider>(
+    return Placeholder(); /* Consumer<ChatProvider>(
       builder: (context, chatProvider, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (_scrollController.hasClients) {
@@ -91,7 +91,7 @@ class _ChatScreenState extends State<ChatScreen> {
           },
         );
       },
-    );
+    ); */
   }
 
   Widget _buildInputField() {
