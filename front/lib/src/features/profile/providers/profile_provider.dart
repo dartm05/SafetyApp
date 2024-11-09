@@ -20,14 +20,12 @@ class ProfileProvider extends ChangeNotifier {
     await profileUsecase.getProfile().then((value) {
       profile = value;
       isLoading = false;
-      notifyListeners();
     }).catchError((error) {
       isLoading = false;
-      notifyListeners();
     }).whenComplete(() {
       isLoading = false;
-      notifyListeners();
     });
+    notifyListeners();
   }
 
   Future<void> updateProfile(Profile profile) async {

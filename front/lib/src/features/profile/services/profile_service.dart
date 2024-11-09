@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:safety_app/src/core/providers/error_provider.dart';
+import 'package:safety_app/src/core/providers/modal_provider.dart';
 import 'package:safety_app/src/core/services/http_service.dart';
 import 'package:safety_app/src/data/models/profile.dart';
 
@@ -9,10 +10,12 @@ import '../../../core/models/modal_model.dart';
 class ProfileService {
   final HttpService httpService;
   final ErrorProvider errorProvider;
+  final ModalProvider modalProvider;
 
   ProfileService({
     required this.httpService,
     required this.errorProvider,
+    required this.modalProvider,
   });
 
   Future<Profile?> getProfile(String userId) async {
@@ -71,6 +74,16 @@ class ProfileService {
       if (response.statusCode > 300) {
         throw Exception('Failed to update profile');
       }
+      errorProvider.showError(
+        error: Modal(
+          title: 'Success',
+          message: 'Profile updated successfully',
+          actionText: 'Close',
+          action: () {
+            errorProvider.hideError();
+          },
+        ),
+      );
       return Profile.fromJson(jsonDecode(response.body));
     } catch (error) {
       errorProvider.showError(

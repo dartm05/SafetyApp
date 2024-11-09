@@ -43,7 +43,8 @@ Future<void> main() async {
                 profileService: ProfileService(
                     httpService:
                         HttpService(baseUrl: dotenv.env['BASE_URL'] ?? ''),
-                    errorProvider: context.read<ErrorProvider>()),
+                    errorProvider: context.read<ErrorProvider>(),
+                    modalProvider: context.read<ModalProvider>()),
                 authenticationProvider:
                     context.read<AuthenticationProvider>()))),
   ], child: const MyApp()));

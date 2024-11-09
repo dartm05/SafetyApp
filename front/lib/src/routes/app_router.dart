@@ -38,6 +38,19 @@ final appRouter = GoRouter(
             body: Stack(
               children: [
                 child,
+                Consumer<ModalProvider>(
+                  builder: (context, modalProvider, child) {
+                    final modal = modalProvider.modal;
+                    if (modal != null) {
+                      return ModalWidget(
+                        modal: modal,
+                        modalProvider: context.read<ModalProvider>(),
+                        errorProvider: context.read<ErrorProvider>(),
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
                 Consumer<ErrorProvider>(
                   builder: (context, modalProvider, child) {
                     final modal = modalProvider.error;

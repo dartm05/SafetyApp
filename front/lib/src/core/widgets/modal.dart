@@ -36,7 +36,7 @@ class ModalWidget extends StatelessWidget {
                 actions: [
                   TextButton(
                     onPressed: () {
-                      modal.action!();
+                      modal.action();
                       modalProvider.hideModal();
                     },
                     child: Text(modal.actionText),
