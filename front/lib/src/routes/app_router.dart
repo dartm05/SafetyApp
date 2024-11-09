@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:safety_app/src/features/chat/services/chat_service.dart';
-import 'package:safety_app/src/features/tripForm/providers/trip_form_provider.dart';
+
 import 'package:provider/provider.dart';
 
 import '../core/providers/auth_provider.dart';
@@ -75,7 +75,9 @@ final appRouter = GoRouter(
           GoRoute(
               name: 'tripForm',
               path: '/tripForm',
-              builder: (context, state) => const TripDetailsPage(),
+              builder: (context, state) {
+                return const TripDetailsPage();
+              },
               routes: [
                 GoRoute(
                     name: 'tripPlaces',
@@ -92,7 +94,13 @@ final appRouter = GoRouter(
           GoRoute(
             name: 'login',
             path: '/login',
-            builder: (context, state) => LoginPage(),
+            builder: (context, state) {
+              final authProvider = Provider.of<AuthenticationProvider>(context);
+              if (authProvider.isAuthenticated) {
+                return const ProfileForm();
+              }
+              return LoginPage();
+            },
           ),
           GoRoute(
             name: 'register',
