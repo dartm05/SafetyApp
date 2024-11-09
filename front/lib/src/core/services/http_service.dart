@@ -6,8 +6,10 @@ class HttpService {
 
   HttpService({required this.baseUrl});
 
-  Future<http.Response> get(String endpoint,
-      {required Map<String, dynamic> body}) async {
+  Future<http.Response> get(
+    String endpoint, {
+    Map<String, dynamic>? body,
+  }) async {
     final response = await http.get(Uri.parse('$baseUrl$endpoint'));
     return response;
   }
