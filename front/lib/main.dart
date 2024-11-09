@@ -38,15 +38,16 @@ Future<void> main() async {
               errorProvider: context.read<ErrorProvider>(),
             ))),
     ChangeNotifierProvider(
-        create: (context) => ProfileProvider(
-            profileUsecase: ProfileUsecase(
-                profileService: ProfileService(
-                    httpService:
-                        HttpService(baseUrl: dotenv.env['BASE_URL'] ?? ''),
-                    errorProvider: context.read<ErrorProvider>(),
-                    modalProvider: context.read<ModalProvider>()),
-                authenticationProvider:
-                    context.read<AuthenticationProvider>()))),
+      create: (context) => ProfileProvider(
+        profileUsecase: ProfileUsecase(
+          profileService: ProfileService(
+              httpService: HttpService(baseUrl: dotenv.env['BASE_URL'] ?? ''),
+              errorProvider: context.read<ErrorProvider>(),
+              modalProvider: context.read<ModalProvider>()),
+          authenticationProvider: context.read<AuthenticationProvider>(),
+        ),
+      ),
+    ),
   ], child: const MyApp()));
 }
 
