@@ -34,15 +34,19 @@ export class ProfileDrivenAdapter implements IProfileUseCase {
     userId: string,
     profile: IProfile
   ): Promise<IProfile | undefined> {
-    const updated = await db
+    const profileCollection = db
       .collection("users")
       .doc(userId)
-      .collection("profile")
-      .get()[0]
-      .update({ ...profile })
-      .then(() => {
-        return profile;
-      });
-    return updated as IProfile;
+      .collection("profile");
+
+    const querySnapshot = await profileCollection.get();
+    const doc = querySnapshot.docs[0];
+
+    if (doc) {
+      await doc.ref.update({ ...profile });
+      return { ...profile, id: doc.id } as IProfile;
+    } else {
+      throw new Error("Profile not found");
+    }
   }
 }
