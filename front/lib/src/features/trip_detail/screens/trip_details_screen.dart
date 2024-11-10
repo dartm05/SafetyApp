@@ -4,7 +4,7 @@ import 'package:safety_app/src/features/trip_detail/providers/trip_form_provider
 import 'package:provider/provider.dart';
 
 class TripDetailsPage extends StatefulWidget {
-  const TripDetailsPage({Key? key}) : super(key: key);
+  const TripDetailsPage({super.key});
 
   @override
   State<TripDetailsPage> createState() => _TripDetailsPageState();
@@ -195,7 +195,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                           child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                context.push('/tripForm/places');
+                                context.push('/trip_detail/trip_detail_next');
                               }
                             },
                             child: const Text('Next'),
