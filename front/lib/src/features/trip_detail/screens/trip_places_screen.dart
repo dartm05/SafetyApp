@@ -14,8 +14,8 @@ class TripPlacesScreen extends StatefulWidget {
 
 class _TripPlacesScreenState extends State<TripPlacesScreen> {
   final _formKey = GlobalKey<FormState>();
+
   String? _selectedTravelStyle;
-  String? _selectedHotel;
   bool _ladiesOnlyMetro = false;
   bool _ladiesOnlyTaxi = false;
   bool _loudNoiseSensitivity = false;
@@ -23,6 +23,23 @@ class _TripPlacesScreenState extends State<TripPlacesScreen> {
   bool _noIsolatedPlace = false;
   bool _lowCrime = false;
   bool _publicTransportationOnly = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final tripFormProvider = Provider.of<TripFormProvider>(context);
+    if (tripFormProvider.selectedTrip != null) {
+      final trip = tripFormProvider.selectedTrip!;
+      _selectedTravelStyle = trip.travelStyle;
+      _ladiesOnlyMetro = trip.ladiesOnlyMetro;
+      _ladiesOnlyTaxi = trip.ladiesOnlyTaxi;
+      _loudNoiseSensitivity = trip.loudNoiseSensitive;
+      _crowdFear = trip.crowdFear;
+      _noIsolatedPlace = trip.noIsolatedPlaces;
+      _lowCrime = trip.lowCrime;
+      _publicTransportationOnly = trip.publicTransportOnly;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +81,13 @@ class _TripPlacesScreenState extends State<TripPlacesScreen> {
                                 .fetchTripPlaces(textEditingValue.text);
                             return tripFormProvider.placesList;
                           },
+                          initialValue: TextEditingValue(
+                            text: tripFormProvider.selectedTrip?.hotel ?? '',
+                          ),
                           onSelected: (String selection) {
-                            _selectedHotel = selection;
+                            setState(() {
+                              tripFormProvider.setHotel(selection);
+                            });
                           },
                           fieldViewBuilder: (BuildContext context,
                               TextEditingController textEditingController,
@@ -183,7 +205,7 @@ class _TripPlacesScreenState extends State<TripPlacesScreen> {
                                   endDate: tripFormProvider.endDate,
                                   transportation:
                                       tripFormProvider.transportation,
-                                  hotel: _selectedHotel!,
+                                  hotel: tripFormProvider.hotel,
                                   travelStyle: _selectedTravelStyle!,
                                   ladiesOnlyMetro: _ladiesOnlyMetro,
                                   ladiesOnlyTaxi: _ladiesOnlyTaxi,
@@ -194,11 +216,21 @@ class _TripPlacesScreenState extends State<TripPlacesScreen> {
                                   publicTransportOnly:
                                       _publicTransportationOnly,
                                 );
-                                tripFormProvider
-                                    .createTrip(newTrip)
-                                    .then((value) {
-                                  context.go('/trip_list');
-                                });
+                                if (tripFormProvider.selectedTrip != null) {
+                                  newTrip.id =
+                                      tripFormProvider.selectedTrip!.id;
+                                  tripFormProvider.updateTrip(newTrip).then(
+                                    (value) {
+                                      context.go('/trip_list');
+                                    },
+                                  );
+                                } else {
+                                  tripFormProvider
+                                      .createTrip(newTrip)
+                                      .then((value) {
+                                    context.go('/trip_list');
+                                  });
+                                }
                               }
                             },
                             child: const Text('Submit'),
