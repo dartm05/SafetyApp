@@ -34,7 +34,7 @@ class _TripListScreenState extends State<TripListScreen> {
         Provider.of<TripFormProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Trips'),
+        title: const Text('Trips', style: TextStyle(fontSize: 24)),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -50,6 +50,7 @@ class _TripListScreenState extends State<TripListScreen> {
                 icon: const Icon(Icons.add),
               ),
             ),
+            const SizedBox(height: 20),
             Expanded(
               child: FutureBuilder<List<Trip>?>(
                 future: futureTripsList,
@@ -60,21 +61,25 @@ class _TripListScreenState extends State<TripListScreen> {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(34.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text('No trips found'),
-                            const SizedBox(height: 16),
-                            SvgPicture.asset(
-                              'assets/img/no_trips.svg',
-                              height: 200,
-                              placeholderBuilder: (context) =>
-                                  const CircularProgressIndicator(),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 20),
+                          SvgPicture.asset(
+                            'assets/img/no_trips.svg',
+                            height: 200,
+                            placeholderBuilder: (context) =>
+                                const CircularProgressIndicator(),
+                          ),
+                          const SizedBox(height: 20),
+                          Text(
+                            'Oops! No trips found!',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     );
                   } else {
