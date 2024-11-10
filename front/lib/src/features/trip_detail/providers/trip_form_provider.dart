@@ -56,7 +56,7 @@ class TripFormProvider extends ChangeNotifier {
       return;
     }
     placesList.clear();
-    final places = await _tripUseCases.fetchTripPlaces(place);
+    final places = await _tripUseCases.fetchPlaces(place);
     _placesList.addAll(places);
     notifyListeners();
   }
