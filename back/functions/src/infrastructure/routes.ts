@@ -1,6 +1,5 @@
 import express from "express";
 import * as functions from "firebase-functions/v1";
-import taskApp from "./routes/task.routes";
 import userApp from "./routes/user.routes";
 import profileApp from "./routes/profile.routes";
 import tripsApp from "./routes/trip.routes";
@@ -10,7 +9,6 @@ import { errorHandler } from "./controllers/error.controller";
 const appRoutes = express();
 var cors = require("cors");
 appRoutes.use(cors());
-appRoutes.use("/", taskApp);
 appRoutes.use("/users", userApp);
 appRoutes.use("/", profileApp);
 appRoutes.use("/", tripsApp);
