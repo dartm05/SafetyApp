@@ -8,19 +8,34 @@ class TripFormProvider extends ChangeNotifier {
   DateTime? _startDate;
   DateTime? _endDate;
   String? _transportation;
-
+  String? _hotel;
+  Trip? selectedTrip;
   var _placesList = <String>[];
+
   get origin => _origin;
   get destination => _destination;
   get startDate => _startDate;
   get endDate => _endDate;
   get transportation => _transportation;
+  get hotel => _hotel;
+
   final TripUseCases _tripUseCases;
 
   TripFormProvider({required TripUseCases tripUseCases})
       : _tripUseCases = tripUseCases;
 
   List<String> get placesList => _placesList;
+
+  void setSelectedTrip(Trip trip) {
+    selectedTrip = trip;
+    setDestination(trip.destination);
+    setOrigin(trip.origin);
+    setStartDate(trip.startDate);
+    setEndDate(trip.endDate);
+    setTransportation(trip.transportation);
+    setHotel(trip.hotel);
+    notifyListeners();
+  }
 
   Future<void> fetchPlaces(String place) async {
     if (place.isEmpty) {
@@ -76,7 +91,20 @@ class TripFormProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setHotel(String hotel) {
+    _hotel = hotel;
+    notifyListeners();
+  }
+
   Future<void> createTrip(Trip trip) async {
     await _tripUseCases.createTrip(trip);
+  }
+
+  Future<void> updateTrip(Trip trip) async {
+    await _tripUseCases.updateTrip(trip).then((value) {
+      if (value != null) {
+        selectedTrip = null;
+      }
+    });
   }
 }
