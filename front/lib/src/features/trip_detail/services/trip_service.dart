@@ -107,10 +107,10 @@ class TripService {
     return null;
   }
 
-  Future<Trip?> updateTrip(String userId, String tripId, Trip trip) async {
+  Future<Trip?> updateTrip(String userId, Trip trip) async {
     try {
-      var response =
-          await httpService.put('/$userId/trips/$tripId', body: trip.toJson());
+      var response = await httpService.put('/$userId/trips/${trip.id}',
+          body: trip.toJson());
 
       if (response.statusCode > 300) {
         throw Exception('Failed to update trip');
@@ -125,6 +125,7 @@ class TripService {
           },
         ),
       );
+      return Trip.fromJson(jsonDecode(response.body));
     } catch (error) {
       errorProvider.showError(
         error: Modal(
