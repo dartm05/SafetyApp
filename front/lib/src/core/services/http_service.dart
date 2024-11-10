@@ -9,8 +9,13 @@ class HttpService {
   Future<http.Response> get(
     String endpoint, {
     Map<String, dynamic>? body,
+    Map<String, String>? query,
   }) async {
-    final response = await http.get(Uri.parse('$baseUrl$endpoint'));
+    final uri = Uri.parse('$baseUrl$endpoint').replace(queryParameters: query);
+    final response = await http.get(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+    );
     return response;
   }
 
