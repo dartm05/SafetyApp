@@ -25,7 +25,7 @@ class TripUseCases {
     return await tripService.createTrip(authenticationProvider.userId!, trip);
   }
 
-  Future<Trip?> updateTrip(String userId, String tripId, Trip trip) async {
-    return await tripService.updateTrip(userId, tripId, trip);
+  Future<Trip?> updateTrip(Trip trip) async {
+    return await tripService.updateTrip(authenticationProvider.userId!, trip);
   }
 }
