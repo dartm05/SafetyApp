@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:safety_app/src/features/chat/services/chat_service.dart';
-
 import 'package:provider/provider.dart';
+import 'package:safety_app/src/features/trip_detail/providers/trip_form_provider.dart';
 import 'package:safety_app/src/features/trip_list/providers/trip_list_provider.dart';
 import 'package:safety_app/src/features/trip_list/screens/trip_list_screen.dart';
 
 import '../core/providers/auth_provider.dart';
 import '../core/providers/error_provider.dart';
 import '../core/providers/modal_provider.dart';
-import '../core/services/http_service.dart';
 import '../core/widgets/modal.dart';
 
 import '../features/chat/providers/chat_provider.dart';
@@ -21,7 +19,6 @@ import '../features/login/screens/login.dart';
 import '../features/login/screens/register.dart';
 import '../features/profile/screens/profile.dart';
 import '../features/trip_detail/screens/trip_places_screen.dart';
-import '../features/trip_detail/services/trip_service.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/login',
@@ -83,24 +80,30 @@ final appRouter = GoRouter(
             },
           ),
           GoRoute(
-              path: '/trips',
+              path: '/trip_list',
               builder: (context, state) {
                 return ChangeNotifierProvider.value(
                     value: context.read<TripListProvider>(),
                     child: const TripListScreen());
               }),
           GoRoute(
-              name: 'tripForm',
-              path: '/tripForm',
+              name: 'trip_detail',
+              path: '/trip_detail',
               builder: (context, state) {
-                return const TripDetailsPage();
+                return ChangeNotifierProvider.value(
+                  value: context.read<TripFormProvider>(),
+                  child: const TripDetailsPage(),
+                );
               },
               routes: [
                 GoRoute(
-                    name: 'tripPlaces',
-                    path: 'places',
+                    name: 'trip_detail_next',
+                    path: 'trip_detail_next',
                     builder: (context, state) {
-                      return const TripPlacesScreen();
+                      return ChangeNotifierProvider.value(
+                        value: context.read<TripFormProvider>(),
+                        child: const TripPlacesScreen(),
+                      );
                     }),
               ]),
           GoRoute(
