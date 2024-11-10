@@ -1,17 +1,21 @@
+import 'package:safety_app/src/core/providers/auth_provider.dart';
 import 'package:safety_app/src/features/trip_list/services/trip_list_service.dart';
 
 import '../../../data/models/trip.dart';
 
 class TripListUseCases {
   final TripListService tripListService;
+  final AuthenticationProvider authenticationProvider;
 
-  TripListUseCases({required this.tripListService});
+  TripListUseCases(
+      {required this.tripListService, required this.authenticationProvider});
 
-  Future<List<Trip>?> fetchTrips(String userId) async {
-    return await tripListService.fetchTrips(userId);
+  Future<List<Trip>?> fetchTrips() async {
+    return await tripListService.fetchTrips(authenticationProvider.userId!);
   }
 
-  Future<void> deleteTrip(String userId, String tripId) async {
-    return await tripListService.deleteTrip(userId, tripId);
+  Future<Trip?> deleteTrip(String tripId) async {
+    return await tripListService.deleteTrip(
+        authenticationProvider.userId!, tripId);
   }
 }

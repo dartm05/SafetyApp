@@ -10,9 +10,9 @@ class TripListProvider extends ChangeNotifier {
 
   TripListProvider({required this.tripListUseCases});
 
-  Future<List<Trip>?> fetchTrips(String userId) async {
+  Future<List<Trip>?> fetchTrips() async {
     isLoading = true;
-    await tripListUseCases.fetchTrips(userId).then((value) {
+    await tripListUseCases.fetchTrips().then((value) {
       _tripsList = value ?? [];
       isLoading = false;
     }).catchError((error) {
@@ -24,10 +24,12 @@ class TripListProvider extends ChangeNotifier {
     return _tripsList;
   }
 
-  Future<void> deleteTrip(String userId, String tripId) async {
+  Future<void> deleteTrip(String tripId) async {
     isLoading = true;
-    await tripListUseCases.deleteTrip(userId, tripId).then((value) {
-      _tripsList.removeWhere((element) => element.id == tripId);
+    await tripListUseCases.deleteTrip(tripId).then((value) {
+      if (value != null) {
+        _tripsList.removeWhere((element) => element.id == tripId);
+      }
       isLoading = false;
     }).catchError((error) {
       isLoading = false;

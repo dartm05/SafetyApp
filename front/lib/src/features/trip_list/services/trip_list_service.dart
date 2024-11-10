@@ -16,31 +16,14 @@ class TripListService {
   });
 
   Future<List<Trip>?> fetchTrips(String userId) async {
-    try {
-      var response = await httpService.get('/users/$userId/trips');
-      if (response.statusCode > 300) {
-        throw Exception('Failed to fetch trips');
-      }
-      var trips = List<Map<String, dynamic>>.from(jsonDecode(response.body));
-      return trips.map((trip) => Trip.fromJson(trip)).toList();
-    } catch (error) {
-      errorProvider.showError(
-        error: Modal(
-          title: 'Error',
-          message: 'An error occurred while fetching trips. Please try again.',
-          actionText: 'Close',
-          action: () {
-            errorProvider.hideError();
-          },
-        ),
-      );
-    }
-    return [];
+    var response = await httpService.get('/$userId/trips');
+    var trips = List<Map<String, dynamic>>.from(jsonDecode(response.body));
+    return trips.map((trip) => Trip.fromJson(trip)).toList();
   }
 
-  Future<void> deleteTrip(String userId, String tripId) async {
+  Future<Trip?> deleteTrip(String userId, String tripId) async {
     try {
-      var response = await httpService.delete('/trips/$tripId');
+      var response = await httpService.delete('/$userId/trips/$tripId');
       if (response.statusCode > 300) {
         throw Exception('Failed to delete trip');
       }
@@ -54,6 +37,7 @@ class TripListService {
           },
         ),
       );
+      return Trip.fromJson(jsonDecode(response.body));
     } catch (error) {
       errorProvider.showError(
         error: Modal(
@@ -66,5 +50,6 @@ class TripListService {
         ),
       );
     }
+    return null;
   }
 }
