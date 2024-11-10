@@ -4,6 +4,7 @@ import * as functions from "firebase-functions/v1";
 import userApp from "./routes/user.routes";
 import profileApp from "./routes/profile.routes";
 import tripsApp from "./routes/trip.routes";
+import messagesApp from "./routes/message.routes";
 import { NotFoundError } from "../domain/errors/not-found.error";
 import { errorHandler } from "./controllers/error.controller";
 import dotenv from "dotenv";
@@ -16,6 +17,7 @@ appRoutes.use(cors());
 appRoutes.use("/users", userApp);
 appRoutes.use("/", profileApp);
 appRoutes.use("/", tripsApp);
+appRoutes.use("/", messagesApp);
 
 appRoutes.use("/autocomplete", (req, res) => {
   const place = req.query.place;
