@@ -97,14 +97,27 @@ class TripFormProvider extends ChangeNotifier {
   }
 
   Future<void> createTrip(Trip trip) async {
-    await _tripUseCases.createTrip(trip);
+    await _tripUseCases.createTrip(trip).then((value) {
+      clearTrip();
+      notifyListeners();
+    });
   }
 
   Future<void> updateTrip(Trip trip) async {
     await _tripUseCases.updateTrip(trip).then((value) {
-      if (value != null) {
-        selectedTrip = null;
-      }
+      clearTrip();
+      notifyListeners();
     });
+  }
+
+  void clearTrip() {
+    selectedTrip = null;
+    _destination = null;
+    _origin = null;
+    _startDate = null;
+    _endDate = null;
+    _transportation = null;
+    _hotel = null;
+    notifyListeners();
   }
 }

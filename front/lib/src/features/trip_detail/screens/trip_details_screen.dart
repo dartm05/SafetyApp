@@ -38,8 +38,8 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
       if (isStartDate) {
         setState(() {
           _startDate = picked;
+          tripFormProvider.setStartDate(picked);
         });
-        tripFormProvider.setStartDate(picked);
       } else {
         if (_startDate != null && picked.isBefore(_startDate!)) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -50,8 +50,8 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
         } else {
           setState(() {
             _endDate = picked;
+            tripFormProvider.setEndDate(picked);
           });
-          tripFormProvider.setEndDate(picked);
         }
       }
     }

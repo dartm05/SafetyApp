@@ -79,22 +79,27 @@ final appRouter = GoRouter(
               );
             },
           ),
-            GoRoute(
+          GoRoute(
               path: '/trip_list',
               builder: (context, state) {
-              return MultiProvider(
-                providers: [
-                ChangeNotifierProvider.value(
-                  value: context.read<TripListProvider>(),
-                ),
-                ChangeNotifierProvider.value(
-                  value: context.read<TripFormProvider>(),
-                ),
-                ],
-                child: const TripListScreen(),
-              );
+                return MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider.value(
+                      value: context.read<TripListProvider>(),
+                    ),
+                    ChangeNotifierProvider.value(
+                      value: context.read<TripFormProvider>(),
+                    ),
+                  ],
+                  child: const TripListScreen(),
+                );
               }),
           GoRoute(
+              onExit: (context, state) {
+                final tripFormProvider = context.read<TripFormProvider>();
+                tripFormProvider.clearTrip();
+                return true;
+              },
               name: 'trip_detail',
               path: '/trip_detail',
               builder: (context, state) {
