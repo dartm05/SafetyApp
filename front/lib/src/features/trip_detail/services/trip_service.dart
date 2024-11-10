@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:safety_app/src/core/providers/error_provider.dart';
 import 'package:safety_app/src/core/services/http_service.dart';
 
@@ -12,7 +13,7 @@ class TripService {
   final HttpService httpService;
   final String baseUrlPlaces =
       'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=';
-  final String api_key = dotenv.env['PLACES_API_KEY'] ?? '';
+  final String apiKey = dotenv.env['PLACES_API_KEY'] ?? '';
 
   TripService({
     required this.errorProvider,
@@ -20,11 +21,14 @@ class TripService {
   });
 
   Future<List<String>> fetchPlaces(String place) async {
-    final response = await http.get(
-      Uri.parse(
-        '$baseUrlPlaces$place&key=$api_key',
-      ),
+    final uri = Uri.https(
+      'maps.googleapis.com',
+      '/maps/api/place/autocomplete/json',
+      {'input': place, 'key': apiKey},
     );
+    final response = await http.get(uri, headers: {
+      "Content-Type": "application/json",
+    });
 
     if (response.statusCode == 200) {
       final predictions = json.decode(response.body)['predictions'];
@@ -38,7 +42,7 @@ class TripService {
   Future<List<String>> fetchTripPlaces(String place) async {
     final response = await http.get(
       Uri.parse(
-        '$baseUrlPlaces$place&type=lodging&key=$api_key',
+        '$baseUrlPlaces$place&type=lodging&key=$apiKey',
       ),
     );
     if (response.statusCode == 200) {
@@ -74,6 +78,16 @@ class TripService {
       var response =
           await httpService.post('/$userId/trips', body: trip.toJson());
       if (response.statusCode == 200) {
+        errorProvider.showError(
+          error: Modal(
+            title: 'Success',
+            message: 'Trip created successfully',
+            actionText: 'Close',
+            action: () {
+              errorProvider.hideError();
+            },
+          ),
+        );
         return Trip.fromJson(jsonDecode(response.body));
       } else {
         throw Exception('Failed to create trip');

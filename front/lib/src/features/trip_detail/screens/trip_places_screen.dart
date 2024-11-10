@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:safety_app/src/data/models/trip.dart';
 
 import '../providers/trip_form_provider.dart';
 
@@ -13,7 +15,7 @@ class TripPlacesScreen extends StatefulWidget {
 class _TripPlacesScreenState extends State<TripPlacesScreen> {
   final _formKey = GlobalKey<FormState>();
   String? _selectedTravelStyle;
-
+  String? _selectedHotel;
   bool _ladiesOnlyMetro = false;
   bool _ladiesOnlyTaxi = false;
   bool _loudNoiseSensitivity = false;
@@ -26,8 +28,7 @@ class _TripPlacesScreenState extends State<TripPlacesScreen> {
   Widget build(BuildContext context) {
     const sizedBoxM = SizedBox(height: 20);
     final tripFormProvider = Provider.of<TripFormProvider>(context);
-
-    return Column(
+    return ListView(
       children: [
         const Padding(
           padding: EdgeInsets.only(top: 40.0),
@@ -64,7 +65,7 @@ class _TripPlacesScreenState extends State<TripPlacesScreen> {
                             return tripFormProvider.placesList;
                           },
                           onSelected: (String selection) {
-                            tripFormProvider.setOrigin(selection);
+                            _selectedHotel = selection;
                           },
                           fieldViewBuilder: (BuildContext context,
                               TextEditingController textEditingController,
@@ -168,6 +169,40 @@ class _TripPlacesScreenState extends State<TripPlacesScreen> {
                               _publicTransportationOnly = value ?? false;
                             });
                           },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5.0, horizontal: 20),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                Trip newTrip = Trip(
+                                  origin: tripFormProvider.origin,
+                                  destination: tripFormProvider.destination,
+                                  startDate: tripFormProvider.startDate,
+                                  endDate: tripFormProvider.endDate,
+                                  transportation:
+                                      tripFormProvider.transportation,
+                                  hotel: _selectedHotel!,
+                                  travelStyle: _selectedTravelStyle!,
+                                  ladiesOnlyMetro: _ladiesOnlyMetro,
+                                  ladiesOnlyTaxi: _ladiesOnlyTaxi,
+                                  loudNoiseSensitive: _loudNoiseSensitivity,
+                                  crowdFear: _crowdFear,
+                                  noIsolatedPlaces: _noIsolatedPlace,
+                                  lowCrime: _lowCrime,
+                                  publicTransportOnly:
+                                      _publicTransportationOnly,
+                                );
+                                tripFormProvider
+                                    .createTrip(newTrip)
+                                    .then((value) {
+                                  context.go('/trip_list');
+                                });
+                              }
+                            },
+                            child: const Text('Submit'),
+                          ),
                         ),
                       ],
                     ),
