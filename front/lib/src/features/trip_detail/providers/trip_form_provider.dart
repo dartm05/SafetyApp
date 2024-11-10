@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:safety_app/src/data/models/trip.dart';
 import '../usecases/trip_usecases.dart';
 
 class TripFormProvider extends ChangeNotifier {
-  String? destination;
+  String? _destination;
   String? _origin;
   DateTime? _startDate;
   DateTime? _endDate;
   String? _transportation;
+
   var _placesList = <String>[];
+  get origin => _origin;
+  get destination => _destination;
+  get startDate => _startDate;
+  get endDate => _endDate;
+  get transportation => _transportation;
   final TripUseCases _tripUseCases;
 
   TripFormProvider({required TripUseCases tripUseCases})
@@ -45,7 +52,7 @@ class TripFormProvider extends ChangeNotifier {
   }
 
   void setDestination(String destination) {
-    destination = destination;
+    _destination = destination;
     notifyListeners();
   }
 
@@ -69,19 +76,7 @@ class TripFormProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void submitForm() {
-    if (destination != null &&
-        _origin != null &&
-        _startDate != null &&
-        _endDate != null &&
-        _transportation != null) {
-      /*      _tripService.saveTrip(
-        destination: _destination!,
-        origin: _origin!,
-        startDate: _startDate!,
-        endDate: _endDate!,
-        transportation: _transportation!,
-      ); */
-    }
+  Future<void> createTrip(Trip trip) async {
+    await _tripUseCases.createTrip(trip);
   }
 }
