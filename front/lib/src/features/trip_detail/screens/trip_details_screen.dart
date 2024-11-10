@@ -58,6 +58,23 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final tripFormProvider = Provider.of<TripFormProvider>(context);
+    if (tripFormProvider.selectedTrip != null) {
+      final trip = tripFormProvider.selectedTrip!;
+      _startDate = trip.startDate;
+      _endDate = trip.endDate;
+      _transportation = trip.transportation;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     const sizedBox = SizedBox(height: 40);
     const sizedBoxM = SizedBox(height: 20);
@@ -99,6 +116,9 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                                 .fetchPlaces(textEditingValue.text);
                             return tripFormProvider.placesList;
                           },
+                          initialValue: TextEditingValue(
+                              text:
+                                  tripFormProvider.selectedTrip?.origin ?? ''),
                           onSelected: (String selection) {
                             tripFormProvider.setOrigin(selection);
                           },
@@ -131,6 +151,10 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                                 .fetchPlaces(textEditingValue.text);
                             return tripFormProvider.placesList;
                           },
+                          initialValue: TextEditingValue(
+                              text:
+                                  tripFormProvider.selectedTrip?.destination ??
+                                      ''),
                           onSelected: (String selection) {
                             tripFormProvider.setDestination(selection);
                           },
