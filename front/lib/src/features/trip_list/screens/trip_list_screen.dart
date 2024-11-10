@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
+import 'package:safety_app/src/features/trip_detail/providers/trip_form_provider.dart';
 import 'package:safety_app/src/features/trip_list/widgets/trip_card.dart';
 
 import '../../../data/models/trip.dart';
@@ -28,6 +28,10 @@ class _TripListScreenState extends State<TripListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final TripListProvider tripListProvider =
+        Provider.of<TripListProvider>(context, listen: false);
+    final TripFormProvider tripFormProvider =
+        Provider.of<TripFormProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Trips'),
@@ -85,9 +89,7 @@ class _TripListScreenState extends State<TripListScreen> {
                               setState(() {
                                 tripsList.removeAt(index);
                               });
-                              final TripListProvider tripListProvider =
-                                  Provider.of<TripListProvider>(context,
-                                      listen: false);
+
                               tripListProvider.deleteTrip(tripId).then((value) {
                                 futureTripsList = tripListProvider.fetchTrips();
                               });
@@ -100,7 +102,13 @@ class _TripListScreenState extends State<TripListScreen> {
                               child:
                                   const Icon(Icons.delete, color: Colors.white),
                             ),
-                            child: TripCard(trip: tripsList[index]),
+                            child: TripCard(
+                                trip: tripsList[index],
+                                onUpdate: () {
+                                  tripFormProvider
+                                      .setSelectedTrip(tripsList[index]);
+                                  context.go('/trip_detail');
+                                }),
                           );
                         });
                   }

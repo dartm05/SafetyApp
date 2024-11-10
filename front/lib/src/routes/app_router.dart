@@ -79,12 +79,20 @@ final appRouter = GoRouter(
               );
             },
           ),
-          GoRoute(
+            GoRoute(
               path: '/trip_list',
               builder: (context, state) {
-                return ChangeNotifierProvider.value(
-                    value: context.read<TripListProvider>(),
-                    child: const TripListScreen());
+              return MultiProvider(
+                providers: [
+                ChangeNotifierProvider.value(
+                  value: context.read<TripListProvider>(),
+                ),
+                ChangeNotifierProvider.value(
+                  value: context.read<TripFormProvider>(),
+                ),
+                ],
+                child: const TripListScreen(),
+              );
               }),
           GoRoute(
               name: 'trip_detail',
