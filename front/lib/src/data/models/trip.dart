@@ -34,10 +34,12 @@ class Trip {
     this.lowCrime = false,
     this.publicTransportOnly = false,
     this.placesToVisit = const [],
+    this.id,
   });
 
   factory Trip.fromJson(Map<String, dynamic> json) {
     return Trip(
+      id: json['id'],
       origin: json['origin'],
       destination: json['destination'],
       startDate: DateTime.parse(json['startDate']),
@@ -58,6 +60,7 @@ class Trip {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'origin': origin,
       'destination': destination,
       'startDate': startDate.toIso8601String(),
