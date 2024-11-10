@@ -1,19 +1,14 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:safety_app/src/core/providers/error_provider.dart';
 import 'package:safety_app/src/core/services/http_service.dart';
 
 import '../../../core/models/modal_model.dart';
 import '../../../data/models/trip.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class TripService {
   final ErrorProvider errorProvider;
   final HttpService httpService;
-  final String baseUrlPlaces =
-      'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=';
-  final String apiKey = dotenv.env['PLACES_API_KEY'] ?? '';
 
   TripService({
     required this.errorProvider,
@@ -21,30 +16,10 @@ class TripService {
   });
 
   Future<List<String>> fetchPlaces(String place) async {
-    final uri = Uri.https(
-      'maps.googleapis.com',
-      '/maps/api/place/autocomplete/json',
-      {'input': place, 'key': apiKey},
-    );
-    final response = await http.get(uri, headers: {
-      "Content-Type": "application/json",
+    final response = await httpService.get("/autocomplete", query: {
+      'place': place,
     });
 
-    if (response.statusCode == 200) {
-      final predictions = json.decode(response.body)['predictions'];
-      return List<String>.from(
-          predictions.map((prediction) => prediction['description']));
-    } else {
-      throw Exception('Failed to load suggestions');
-    }
-  }
-
-  Future<List<String>> fetchTripPlaces(String place) async {
-    final response = await http.get(
-      Uri.parse(
-        '$baseUrlPlaces$place&type=lodging&key=$apiKey',
-      ),
-    );
     if (response.statusCode == 200) {
       final predictions = json.decode(response.body)['predictions'];
       return List<String>.from(
