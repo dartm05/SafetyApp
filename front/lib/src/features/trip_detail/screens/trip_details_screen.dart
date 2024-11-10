@@ -13,10 +13,6 @@ class TripDetailsPage extends StatefulWidget {
 class _TripDetailsPageState extends State<TripDetailsPage> {
   final _formKey = GlobalKey<FormState>();
 
-  DateTime? _startDate;
-  DateTime? _endDate;
-  String? _transportation;
-
   final List<String> _transportationOptions = [
     'Car',
     'Plane',
@@ -34,53 +30,31 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
     );
     final tripFormProvider =
         Provider.of<TripFormProvider>(context, listen: false);
-    if (picked != null && picked != (isStartDate ? _startDate : _endDate)) {
+    if (picked != null) {
       if (isStartDate) {
-        setState(() {
-          _startDate = picked;
-          tripFormProvider.setStartDate(picked);
-        });
+        tripFormProvider.setStartDate(picked);
       } else {
-        if (_startDate != null && picked.isBefore(_startDate!)) {
+        if (tripFormProvider.startDate != null && picked.isBefore(tripFormProvider.startDate!)) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('End date cannot be before start date'),
             ),
           );
         } else {
-          setState(() {
-            _endDate = picked;
-            tripFormProvider.setEndDate(picked);
-          });
+          tripFormProvider.setEndDate(picked);
         }
       }
     }
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final tripFormProvider = Provider.of<TripFormProvider>(context);
-    if (tripFormProvider.selectedTrip != null) {
-      final trip = tripFormProvider.selectedTrip!;
-      _startDate = trip.startDate;
-      _endDate = trip.endDate;
-      _transportation = trip.transportation;
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final tripFormProvider = Provider.of<TripFormProvider>(context);
     const sizedBox = SizedBox(height: 40);
     const sizedBoxM = SizedBox(height: 20);
-    final tripFormProvider = Provider.of<TripFormProvider>(context);
 
-    return Column(
+    return ListView(
+      shrinkWrap: true,
       children: [
         const Padding(
           padding: EdgeInsets.only(top: 40.0),
@@ -96,8 +70,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
             shrinkWrap: true,
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.only(top: 24.0, left: 20.0, right: 20.0),
+                padding: const EdgeInsets.only(top: 24.0, left: 20.0, right: 20.0),
                 child: Container(
                   constraints: const BoxConstraints(maxWidth: 600),
                   child: Form(
@@ -106,19 +79,15 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                       shrinkWrap: true,
                       children: [
                         Autocomplete<String>(
-                          optionsBuilder:
-                              (TextEditingValue textEditingValue) async {
+                          optionsBuilder: (TextEditingValue textEditingValue) async {
                             if (textEditingValue.text.isEmpty) {
                               tripFormProvider.clearPlacesList();
                               return const Iterable<String>.empty();
                             }
-                            await tripFormProvider
-                                .fetchPlaces(textEditingValue.text);
+                            await tripFormProvider.fetchPlaces(textEditingValue.text);
                             return tripFormProvider.placesList;
                           },
-                          initialValue: TextEditingValue(
-                              text:
-                                  tripFormProvider.selectedTrip?.origin ?? ''),
+                          initialValue: TextEditingValue(text: tripFormProvider.selectedTrip?.origin ?? ''),
                           onSelected: (String selection) {
                             tripFormProvider.setOrigin(selection);
                           },
@@ -132,29 +101,21 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                               decoration: const InputDecoration(
                                 labelText: 'Origin',
                               ),
-                              validator: (value) =>
-                                  value == null || value.isEmpty
-                                      ? 'Please enter your origin'
-                                      : null,
+                              validator: (value) => value == null || value.isEmpty ? 'Please enter your origin' : null,
                             );
                           },
                         ),
                         sizedBoxM,
                         Autocomplete<String>(
-                          optionsBuilder:
-                              (TextEditingValue textEditingValue) async {
+                          optionsBuilder: (TextEditingValue textEditingValue) async {
                             if (textEditingValue.text.isEmpty) {
                               tripFormProvider.clearPlacesList();
                               return const Iterable<String>.empty();
                             }
-                            await tripFormProvider
-                                .fetchPlaces(textEditingValue.text);
+                            await tripFormProvider.fetchPlaces(textEditingValue.text);
                             return tripFormProvider.placesList;
                           },
-                          initialValue: TextEditingValue(
-                              text:
-                                  tripFormProvider.selectedTrip?.destination ??
-                                      ''),
+                          initialValue: TextEditingValue(text: tripFormProvider.selectedTrip?.destination ?? ''),
                           onSelected: (String selection) {
                             tripFormProvider.setDestination(selection);
                           },
@@ -168,10 +129,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                               decoration: const InputDecoration(
                                 labelText: 'Destination',
                               ),
-                              validator: (value) =>
-                                  value == null || value.isEmpty
-                                      ? 'Please enter your destination'
-                                      : null,
+                              validator: (value) => value == null || value.isEmpty ? 'Please enter your destination' : null,
                             );
                           },
                         ),
@@ -179,8 +137,8 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                         ListTile(
                           title: const Text('Start Date'),
                           subtitle: Text(
-                            _startDate != null
-                                ? _startDate!.toLocal().toString().split(' ')[0]
+                            tripFormProvider.startDate != null
+                                ? tripFormProvider.startDate!.toLocal().toString().split(' ')[0]
                                 : 'Select a date',
                           ),
                           onTap: () => _selectDate(context, true),
@@ -189,8 +147,8 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                         ListTile(
                           title: const Text('End Date'),
                           subtitle: Text(
-                            _endDate != null
-                                ? _endDate!.toLocal().toString().split(' ')[0]
+                            tripFormProvider.endDate != null
+                                ? tripFormProvider.endDate!.toLocal().toString().split(' ')[0]
                                 : 'Select a date',
                           ),
                           onTap: () => _selectDate(context, false),
@@ -200,7 +158,7 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                           decoration: const InputDecoration(
                             labelText: 'Transportation',
                           ),
-                          value: _transportation,
+                          value: tripFormProvider.transportation,
                           items: _transportationOptions
                               .map((transport) => DropdownMenuItem(
                                   value: transport, child: Text(transport)))
@@ -208,14 +166,11 @@ class _TripDetailsPageState extends State<TripDetailsPage> {
                           onChanged: (value) {
                             tripFormProvider.setTransportation(value!);
                           },
-                          validator: (value) => value == null
-                              ? 'Please select your transportation'
-                              : null,
+                          validator: (value) => value == null ? 'Please select your transportation' : null,
                         ),
                         sizedBox,
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 20),
+                          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20),
                           child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
