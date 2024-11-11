@@ -1,7 +1,7 @@
 export interface IMessage {
-  id: string;
+  id?: string;
   userId: string;
   message: string;
-  timestamp: Date;
+  timestamp?: string;
   isUser: boolean;
 }

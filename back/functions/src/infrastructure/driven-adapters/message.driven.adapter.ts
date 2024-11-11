@@ -11,11 +11,17 @@ export class MessageDrivenAdapter implements IMessageUseCase {
       .collection("users")
       .doc(userId)
       .collection("messages")
-      .add(message)
-      .then((docRef) => {
-        return { ...message, id: docRef.id };
-      });
-    return newMessage;
+      .add(message);
+    var newDate = new Date().toISOString();
+    await newMessage.update({
+      id: newMessage.id,
+      timestamp: newDate,
+    });
+    return {
+      ...message,
+      id: newMessage.id,
+      timestamp: newDate,
+    } as IMessage;
   }
 
   async findAll(userId: string): Promise<IMessage[]> {
@@ -24,10 +30,30 @@ export class MessageDrivenAdapter implements IMessageUseCase {
       .doc(userId)
       .collection("messages")
       .get();
-    return querySnapshot.docs.map((doc) => {
-      const data = doc.data();
-      return { ...data, id: doc.id } as IMessage;
-    });
+
+    if (querySnapshot.empty) {
+      const defaultMessage: IMessage = {
+        isUser: false,
+        message: "Ask me about any concerns for your upcoming trip!",
+        userId: userId,
+      };
+      var newMessage = await this.create(userId, defaultMessage).then(
+        (message) => {
+          return message;
+        }
+      );
+      return [newMessage];
+    }
+
+    return querySnapshot.docs
+      .map((doc) => {
+        const data = doc.data() as IMessage;
+        return data;
+      })
+      .sort(
+        (a, b) =>
+          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+      );
   }
 
   async deleteAll(userId: string): Promise<void> {
