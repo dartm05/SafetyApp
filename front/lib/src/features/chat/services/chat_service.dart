@@ -17,13 +17,9 @@ class ChatService {
         _errorProvider = errorProvider;
 
   Future<Message?> sendMessage(String userId, String message) async {
-    DateTime now = DateTime.now();
-    String dateString = now.toIso8601String();
-
     Message newMessage = Message(
       userId: userId,
       message: message,
-      timestamp: dateString,
       isUser: true,
     );
     try {
