@@ -12,6 +12,12 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _chatController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    Provider.of<ChatProvider>(context, listen: false).refreshMessages();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +73,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget _buildMessages(BuildContext context) {
-    return Placeholder(); /* Consumer<ChatProvider>(
+    return Consumer<ChatProvider>(
       builder: (context, chatProvider, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (_scrollController.hasClients) {
@@ -91,7 +97,7 @@ class _ChatScreenState extends State<ChatScreen> {
           },
         );
       },
-    ); */
+    );
   }
 
   Widget _buildInputField() {

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:safety_app/src/core/providers/error_provider.dart';
 import 'package:safety_app/src/core/services/http_service.dart';
 
@@ -14,24 +16,25 @@ class ChatService {
   })  : _httpService = httpService,
         _errorProvider = errorProvider;
 
-  Future<void> sendMessage(String userId, String message) async {
+  Future<Message?> sendMessage(String userId, String message) async {
+    DateTime now = DateTime.now();
+    String dateString = now.toIso8601String();
+
     Message newMessage = Message(
       userId: userId,
       message: message,
-      timestamp: DateTime.now(),
+      timestamp: dateString,
       isUser: true,
     );
     try {
       var response = await _httpService.post(
-        '/messages',
-        body: {
-          'message': newMessage.toMap(),
-          'userId': userId,
-        },
+        '/$userId/messages',
+        body: newMessage.toMap(),
       );
       if (response.statusCode > 300) {
         throw Exception('Error sending message');
       }
+      return Message.fromMap(jsonDecode(response.body));
     } catch (error) {
       _errorProvider.showError(
         error: Modal(
@@ -46,27 +49,15 @@ class ChatService {
     }
   }
 
-  Future<List<Message>> getMessages(String userId, String lastMessageId) async {
+  Future<List<Message>?> getMessages(String userId) async {
     try {
       final response = await _httpService.get(
-        '/messages',
-        body: {
-          'userId': userId,
-          'lastMessageId': lastMessageId,
-        },
+        '/$userId/messages',
       );
-      if (response.statusCode > 300) {
+      if (response.statusCode == 500) {
         throw Exception('Error fetching messages');
       }
-      final messages = [
-        {
-          "id": "1",
-          "userId": "1",
-          "message": "Hello",
-          "timestamp": "2021-10-10T10:10:10.000Z",
-          "isUser": "true"
-        }
-      ];
+      var messages = List<Map<String, dynamic>>.from(jsonDecode(response.body));
       return messages.map((message) => Message.fromMap(message)).toList();
     } catch (error) {
       _errorProvider.showError(
@@ -81,6 +72,26 @@ class ChatService {
         ),
       );
       return [];
+    }
+  }
+
+  Future<void> deleteMessages(String userId) async {
+    try {
+      await _httpService.delete(
+        '/$userId/messages',
+      );
+    } catch (error) {
+      _errorProvider.showError(
+        error: Modal(
+          title: 'Error',
+          message:
+              'An error occurred while deleting messages. Please try again.',
+          actionText: 'Close',
+          action: () {
+            _errorProvider.hideError();
+          },
+        ),
+      );
     }
   }
 }

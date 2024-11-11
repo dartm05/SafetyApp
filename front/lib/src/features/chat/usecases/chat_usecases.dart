@@ -10,12 +10,16 @@ class ChatUsecases {
   ChatUsecases(
       {required this.chatService, required this.authenticationProvider});
 
-  Future<void> sendMessage(String message) async {
-    await chatService.sendMessage(authenticationProvider.userId!, message);
+  Future<Message?> sendMessage(String message) async {
+    return await chatService.sendMessage(
+        authenticationProvider.userId!, message);
   }
 
-  Future<List<Message>> getMessages(String lastMessageId) async {
-    return await chatService.getMessages(
-        authenticationProvider.userId!, lastMessageId);
+  Future<List<Message>?> getMessages() async {
+    return await chatService.getMessages(authenticationProvider.userId!);
+  }
+
+  Future<void> deleteMessages() async {
+    return await chatService.deleteMessages(authenticationProvider.userId!);
   }
 }

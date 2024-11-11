@@ -17,7 +17,7 @@ class ChatProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     _lastMessageId = prefs.getString('lastMessageId');
 
-    _messages = await fetchMessagesAfter(_lastMessageId);
+    _messages = await fetchMessagesAfter(null);
 
     if (_messages.isNotEmpty) {
       _lastMessageId = _messages.last.id;
@@ -26,21 +26,54 @@ class ChatProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchNewMessages() async {
-    final newMessages = await fetchMessagesAfter(_lastMessageId);
-    _messages.addAll(newMessages);
+  Future<void> refreshMessages() async {
+    _messages = await fetchMessagesAfter(null);
     _lastMessageId = _messages.last.id;
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('lastMessageId', _lastMessageId!);
     notifyListeners();
   }
 
+  Future<void> fetchNewMessages() async {
+    final newMessages = await fetchMessagesAfter(_lastMessageId);
+    if (newMessages.isNotEmpty) {
+      _messages.addAll(newMessages);
+      _lastMessageId = newMessages.last.id;
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('lastMessageId', _lastMessageId!);
+      notifyListeners();
+    }
+  }
+
   Future<List<Message>> fetchMessagesAfter(String? lastMessageId) async {
-    return await chatUsecases.getMessages(lastMessageId ?? '');
+    return await chatUsecases.getMessages().then((messages) {
+      if (lastMessageId == null) {
+        return messages ?? [];
+      }
+      final lastMessageIndex =
+          messages!.indexWhere((message) => message.id == lastMessageId);
+      if (lastMessageIndex == -1) {
+        return messages;
+      }
+      return messages.sublist(lastMessageIndex + 1);
+    });
   }
 
   Future<void> sendMessage(String message) async {
-    await chatUsecases.sendMessage(message);
-    await fetchNewMessages();
+    await chatUsecases.sendMessage(message).then((newMessage) {
+      if (newMessage != null) {
+        _messages.add(newMessage);
+        _lastMessageId = newMessage.id;
+      }
+      notifyListeners();
+    });
+  }
+
+  Future<void> clearMessages() async {
+    await chatUsecases.deleteMessages().then((_) {
+      _messages.clear();
+      _lastMessageId = null;
+      notifyListeners();
+    });
   }
 }

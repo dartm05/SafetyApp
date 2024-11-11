@@ -2,14 +2,14 @@ class Message {
   String? id;
   final String userId;
   final String message;
-  final DateTime timestamp;
+  final String? timestamp;
   final bool isUser;
 
   Message({
     this.id,
     required this.userId,
     required this.message,
-    required this.timestamp,
+    this.timestamp,
     required this.isUser,
   });
 
@@ -18,18 +18,17 @@ class Message {
       id: map['id'],
       userId: map['userId'],
       message: map['message'],
-      timestamp: DateTime.parse(map['timestamp']),
-      isUser: map['isUser'] == 'true',
+      timestamp: map['timestamp'],
+      isUser: map['isUser'],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'userId': userId,
       'message': message,
-      'timestamp': timestamp.toIso8601String(),
-      'isUser': isUser ? 'true' : 'false',
+      'timestamp': timestamp,
+      'isUser': isUser,
     };
   }
 }
