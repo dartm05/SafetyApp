@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:safety_app/src/features/chat/widgets/formatted_text.dart';
 
 class ChatBubble extends StatelessWidget {
   final String message;
@@ -27,15 +28,16 @@ class ChatBubble extends StatelessWidget {
           ),
         ],
       ),
-      child: Text(
-        message,
-        style: const TextStyle(
-          color: Colors.white,
-          wordSpacing: 1.5,
-          fontSize: 16,
-          fontWeight: FontWeight.w500
-        ),
-      ),
+      child: isUser
+          ? Text(
+              message,
+              style: const TextStyle(
+                  color: Colors.white,
+                  wordSpacing: 1.5,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500),
+            )
+          : FormattedText(message),
     );
   }
 }
