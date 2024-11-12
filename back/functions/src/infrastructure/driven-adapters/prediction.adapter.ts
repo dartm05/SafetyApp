@@ -46,7 +46,7 @@ const predict = async (trip: ITrip, profile: IProfile) => {
 
 const formatSafetyPrompt = (trip: ITrip, profile: IProfile) => {
   return `
-      Provide safety recommendations for this trip, creating a maximum of 4 sections of detailed information with safety recommendations in topics such as unsafe crime areas in trhe trip destination, accommodation, transportation and before departure based on the following information:
+      Provide safety recommendations for this trip, creating a maximum of 4 sections of detailed information, maximum of 300 characters, with safety recommendations in topics such as unsafe crime areas in trhe trip destination, accommodation, transportation and before departure based on the following information:
 
       Trip Details:
       Origin: ${trip.origin}
