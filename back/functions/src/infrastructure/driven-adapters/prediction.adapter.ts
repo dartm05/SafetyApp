@@ -2,6 +2,7 @@ import { ITrip } from "../../domain/models/trip/trip";
 import { IProfile } from "../../domain/models/profile/profile";
 import { IMessage } from "../../domain/models/message/message";
 import dotenv from "dotenv";
+import { SchemaType } from "@google/generative-ai";
 
 dotenv.config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -9,6 +10,34 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 const predict = async (trip: ITrip, profile: IProfile) => {
+
+  const schema = {
+    description: "List of safety recommendations for the trip",
+    type: SchemaType.ARRAY,
+    items: {
+      type: SchemaType.OBJECT,
+      properties: {
+        title: {
+          type: SchemaType.STRING,
+          description: "Title of the section of safety recommendation",
+          nullable: false,
+        },
+        description :{
+          type: SchemaType.STRING,
+          description: "Safety recommendation",
+          nullable: false,
+        }
+      },
+      required: ["title", "description"],
+    },
+  };
+  const model = genAI.getGenerativeModel({
+    model: "gemini-1.5-pro",
+    generationConfig: {
+      responseMimeType: "application/json",
+      responseSchema: schema,
+    },
+  });
   const promptText = formatSafetyPrompt(trip, profile);
   const result = await model.generateContent(promptText);
   const response = await result.response;
@@ -17,7 +46,7 @@ const predict = async (trip: ITrip, profile: IProfile) => {
 
 const formatSafetyPrompt = (trip: ITrip, profile: IProfile) => {
   return `
-      Provide safety recommendations for this trip, creating a maximum of 4 sections of information such as crime areas, accommodation, transportation, based on the following information:
+      Provide safety recommendations for this trip, creating a maximum of 4 sections of detailed information with safety recommendations in topics such as unsafe crime areas in trhe trip destination, accommodation, transportation and before departure based on the following information:
 
       Trip Details:
       Origin: ${trip.origin}

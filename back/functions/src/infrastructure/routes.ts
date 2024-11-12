@@ -5,6 +5,7 @@ import userApp from "./routes/user.routes";
 import profileApp from "./routes/profile.routes";
 import tripsApp from "./routes/trip.routes";
 import messagesApp from "./routes/message.routes";
+import dashboardApp from "./routes/dashboard.routes";
 import { NotFoundError } from "../domain/errors/not-found.error";
 import { errorHandler } from "./controllers/error.controller";
 import dotenv from "dotenv";
@@ -18,6 +19,7 @@ appRoutes.use("/users", userApp);
 appRoutes.use("/", profileApp);
 appRoutes.use("/", tripsApp);
 appRoutes.use("/", messagesApp);
+appRoutes.use("/", dashboardApp);
 
 appRoutes.use("/autocomplete", (req, res) => {
   const place = req.query.place;
