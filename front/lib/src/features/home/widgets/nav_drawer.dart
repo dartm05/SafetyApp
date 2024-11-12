@@ -41,6 +41,17 @@ class CustomDrawer extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: ListTile(
+                  leading: const Icon(Icons.dashboard),
+                  title: const Text('Dashboard'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    context.go('/dashboard');
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: ListTile(
                   leading: const Icon(Icons.list),
                   title: const Text('Trips'),
                   onTap: () {
