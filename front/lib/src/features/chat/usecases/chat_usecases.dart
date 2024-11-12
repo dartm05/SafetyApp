@@ -10,7 +10,7 @@ class ChatUsecases {
   ChatUsecases(
       {required this.chatService, required this.authenticationProvider});
 
-  Future<Message?> sendMessage(String message) async {
+  Future<List<Message>?> sendMessage(String message) async {
     return await chatService.sendMessage(
         authenticationProvider.userId!, message);
   }

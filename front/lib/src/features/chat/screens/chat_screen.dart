@@ -18,6 +18,7 @@ class _ChatScreenState extends State<ChatScreen> {
     Provider.of<ChatProvider>(context, listen: false).refreshMessages();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,9 +77,25 @@ class _ChatScreenState extends State<ChatScreen> {
     return Consumer<ChatProvider>(
       builder: (context, chatProvider, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (_scrollController.hasClients) {
-            _scrollController
-                .jumpTo(_scrollController.position.maxScrollExtent);
+          if (_scrollController.hasClients &&
+              chatProvider.messages.last.isUser) {
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+            );
+          } else if (_scrollController.hasClients) {
+            final position = _scrollController.position;
+            final lastMessageOffset =
+                position.maxScrollExtent - position.viewportDimension - 300;
+
+            _scrollController.animateTo(
+              lastMessageOffset > 0
+                  ? lastMessageOffset
+                  : position.maxScrollExtent,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+            );
           }
         });
         return ListView.builder(

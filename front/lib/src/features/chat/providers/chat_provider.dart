@@ -60,10 +60,16 @@ class ChatProvider with ChangeNotifier {
   }
 
   Future<void> sendMessage(String message) async {
-    await chatUsecases.sendMessage(message).then((newMessage) {
-      if (newMessage != null) {
-        _messages.add(newMessage);
-        _lastMessageId = newMessage.id;
+    _messages
+        .add(Message(userId: '', id: 'temp', message: message, isUser: true));
+    notifyListeners();
+    await chatUsecases.sendMessage(message).then((newMessages) {
+      if (newMessages != null) {
+        _messages.removeWhere((element) => element.id == 'temp');
+        _messages.addAll(newMessages);
+        _lastMessageId = newMessages.last.id;
+      } else {
+        _messages.removeWhere((element) => element.id == 'temp');
       }
       notifyListeners();
     });

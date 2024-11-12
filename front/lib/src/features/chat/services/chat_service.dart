@@ -16,7 +16,7 @@ class ChatService {
   })  : _httpService = httpService,
         _errorProvider = errorProvider;
 
-  Future<Message?> sendMessage(String userId, String message) async {
+  Future<List<Message>?> sendMessage(String userId, String message) async {
     Message newMessage = Message(
       userId: userId,
       message: message,
@@ -30,7 +30,9 @@ class ChatService {
       if (response.statusCode > 300) {
         throw Exception('Error sending message');
       }
-      return Message.fromMap(jsonDecode(response.body));
+      return List<Map<String, dynamic>>.from(jsonDecode(response.body))
+          .map((message) => Message.fromMap(message))
+          .toList();
     } catch (error) {
       _errorProvider.showError(
         error: Modal(
