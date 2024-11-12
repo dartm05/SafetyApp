@@ -32,25 +32,94 @@ class _TripListScreenState extends State<TripListScreen> {
         Provider.of<TripListProvider>(context, listen: false);
     final TripFormProvider tripFormProvider =
         Provider.of<TripFormProvider>(context, listen: false);
+    double width = MediaQuery.sizeOf(context).width;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Trips', style: TextStyle(fontSize: 24)),
-      ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
         child: Column(
           children: [
+            Row(
+              mainAxisAlignment: width > 800
+                  ? MainAxisAlignment.center
+                  : MainAxisAlignment.start,
+              children: [
+                width > 800
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Trips",
+                            style: const TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'Your upcoming trips!',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 30),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 24, bottom: 20),
+                              child: Text(
+                                "Trips",
+                                style: const TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 24),
+                              child: Text(
+                                'Your upcoming trips!',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                SizedBox(width: width > 800 ? 20 : 0),
+                SvgPicture.asset(
+                  'assets/img/plane.svg',
+                  height: 80,
+                  width: width / 3,
+                  placeholderBuilder: (context) =>
+                      const CircularProgressIndicator(),
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
             const SizedBox(height: 16),
-            Align(
-              alignment: Alignment.centerRight,
-              child: IconButton.filled(
-                onPressed: () {
-                  context.go('/trip_detail');
-                },
-                icon: const Icon(Icons.add),
+            Padding(
+              padding: width > 800
+                  ? const EdgeInsets.only(right: 60)
+                  : const EdgeInsets.only(right: 34),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: IconButton.filled(
+                  onPressed: () {
+                    context.go('/trip_detail');
+                  },
+                  icon: const Icon(Icons.add),
+                ),
               ),
             ),
-            const SizedBox(height: 20),
+            width > 800 ? const SizedBox.shrink() : const SizedBox(height: 60),
             Expanded(
               child: FutureBuilder<List<Trip>?>(
                 future: futureTripsList,
@@ -60,27 +129,27 @@ class _TripListScreenState extends State<TripListScreen> {
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 20),
-                          SvgPicture.asset(
-                            'assets/img/no_trips.svg',
-                            height: 200,
-                            placeholderBuilder: (context) =>
-                                const CircularProgressIndicator(),
+                    return Column(
+                      mainAxisAlignment: width > 800
+                          ? MainAxisAlignment.center
+                          : MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 20),
+                        SvgPicture.asset(
+                          'assets/img/no_trips.svg',
+                          height: width > 800 ? 300 : 200,
+                          placeholderBuilder: (context) =>
+                              const CircularProgressIndicator(),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Oops! No trips found!',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w900,
                           ),
-                          const SizedBox(height: 20),
-                          Text(
-                            'Oops! No trips found!',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     );
                   } else {
                     final tripsList = snapshot.data!;
