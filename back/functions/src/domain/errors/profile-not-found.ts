@@ -5,7 +5,7 @@ export class ProfileNotFoundError extends Error {
     super(
       404,
       "Error Finding The Profile",
-      "There was an error finding the profile",
+      "Please create a profile before sending a message",
       "Not Found"
     );
   }
