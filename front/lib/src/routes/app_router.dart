@@ -74,6 +74,11 @@ final appRouter = GoRouter(
           GoRoute(
             name: 'chat',
             path: '/chat',
+            onExit: (context, state) {
+              final chatProvider = context.read<ChatProvider>();
+              chatProvider.clearMessages();
+              return true;
+            },
             builder: (context, state) {
               return ChangeNotifierProvider.value(
                 value: context.read<ChatProvider>(),
@@ -134,8 +139,15 @@ final appRouter = GoRouter(
           GoRoute(
               path: '/dashboard',
               builder: (context, state) {
-                return ChangeNotifierProvider.value(
-                  value: context.read<DashboardProvider>(),
+                return MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider.value(
+                      value: context.read<DashboardProvider>(),
+                    ),
+                    ChangeNotifierProvider.value(
+                      value: context.read<TripListProvider>(),
+                    ),
+                  ],
                   child: const DashboardScreen(),
                 );
               }),

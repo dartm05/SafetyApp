@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:safety_app/src/features/dashboard/widgets/dashboard_card.dart';
+import 'package:safety_app/src/features/trip_list/providers/trip_list_provider.dart';
 
 import '../providers/dashboard_provider.dart';
 
@@ -19,8 +20,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<DashboardProvider>(context, listen: false)
-          .initializeDashboard();
+      final tripProvider =
+          Provider.of<TripListProvider>(context, listen: false);
+      final dashboardProvider =
+          Provider.of<DashboardProvider>(context, listen: false);
+
+      if (tripProvider.tripsList.isEmpty) {
+        dashboardProvider.deleteDashboard();
+      }
+      dashboardProvider.initializeDashboard();
     });
   }
 
@@ -150,12 +158,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                 48,
                                             child: Column(
                                               children: [
-                                                Text(
-                                                  dashboard.cards[index].title,
-                                                  style: const TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                                Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 34),
+                                                  child: Text(
+                                                    dashboard.cards[index].title,
+                                                    style: const TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
                                                 ),
                                                 DashboardCardWidget(
                                                     card: dashboard
@@ -210,7 +221,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ? MainAxisAlignment.center
                       : MainAxisAlignment.start,
                   children: [
-                     Text(
+                    Text(
                       'Oops!',
                       style: TextStyle(
                         fontSize: 30,

@@ -15,6 +15,12 @@ class DashboardUsecase {
   }
 
   Future<void> createDashboard() async {
-    return await dashboardService.createDashboard(authenticationProvider.userId!);
+    return await dashboardService
+        .createDashboard(authenticationProvider.userId!);
+  }
+
+  Future<void> deleteDashboard(String dashboardId) async {
+    return await dashboardService.deleteDashboard(
+        authenticationProvider.userId!, dashboardId);
   }
 }

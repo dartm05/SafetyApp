@@ -61,4 +61,29 @@ class DashboardService {
       );
     }
   }
+
+  Future<void> deleteDashboard(String userId, String dashboardId) async {
+    final response = await _httpService.delete(
+      '/$userId/dashboard/$dashboardId',
+    );
+   if (response.statusCode == 404 || response.statusCode == 500) {
+      final Map<String, dynamic> errorResponse = jsonDecode(response.body);
+      Error error = Error(
+        title: errorResponse['title'],
+        message: errorResponse['message'],
+        statusCode: errorResponse['statusCode'],
+        status: errorResponse['status'],
+      );
+      _errorProvider.showError(
+        error: Modal(
+          title: error.title,
+          message: error.message,
+          actionText: 'Close',
+          action: () {
+            _errorProvider.hideError();
+          },
+        ),
+      );
+    }
+  }
 }
