@@ -6,7 +6,7 @@ import { ITripUseCase } from "../../domain/usecases/trip/trip.usecase";
 import { IProfileUseCase } from "../../domain/usecases/profile/profile.usecase";
 
 import { NoTripFoundError } from "../../domain/errors/no-trip-found.error";
-import { ProfileNotFoundError } from "../../domain/errors/profile-not-found";
+import { ProfileNotFoundError } from "../../domain/errors/profile-not-found.error";
 import { predict } from "../driven-adapters/prediction.adapter";
 import { ProfileService } from "../../application/services/profile.service";
 import { TripService } from "../../application/services/trip.service";
