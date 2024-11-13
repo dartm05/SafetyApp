@@ -145,6 +145,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   Provider.of<ChatProvider>(context, listen: false)
                       .sendMessage(_chatController.text);
                   _chatController.clear();
+                  _scrollToBottom();
                 }
               },
             ),
@@ -152,5 +153,24 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
     );
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        Future.doWhile(() {
+          if (_scrollController.position.extentAfter == 0) {
+            return Future.value(false);
+          }
+          return _scrollController
+              .animateTo(
+                _scrollController.position.maxScrollExtent,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.linear,
+              )
+              .then((value) => true);
+        });
+      }
+    });
   }
 }
