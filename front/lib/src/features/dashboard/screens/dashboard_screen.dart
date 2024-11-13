@@ -25,7 +25,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       final dashboardProvider =
           Provider.of<DashboardProvider>(context, listen: false);
 
-      if (tripProvider.tripsList.isEmpty) {
+      if (tripProvider.tripsList.isEmpty &&
+          dashboardProvider.dashboard != null) {
         dashboardProvider.deleteDashboard();
       }
       dashboardProvider.initializeDashboard();
@@ -141,41 +142,46 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             ? dashboard.cards.length
                                             : start + 2;
 
-                                    return Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children:
-                                          List.generate(end - start, (index) {
-                                        return Container(
-                                          margin: const EdgeInsets.all(10),
-                                          child: SizedBox(
-                                            width: (MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2) -
-                                                48,
-                                            child: Column(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 34),
-                                                  child: Text(
-                                                    dashboard.cards[index].title,
-                                                    style: const TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                    return IntrinsicHeight(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children:
+                                            List.generate(end - start, (index) {
+                                          return Container(
+                                            margin: const EdgeInsets.all(10),
+                                            child: SizedBox(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      2) -
+                                                  48,
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 34),
+                                                    child: Text(
+                                                      dashboard
+                                                          .cards[index].title,
+                                                      style: const TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
                                                   ),
-                                                ),
-                                                DashboardCardWidget(
-                                                    card: dashboard
-                                                        .cards[start + index]),
-                                              ],
+                                                  DashboardCardWidget(
+                                                      card: dashboard.cards[
+                                                          start + index]),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                      }),
+                                          );
+                                        }),
+                                      ),
                                     );
                                   },
                                 )
