@@ -8,7 +8,6 @@ class DashboardProvider extends ChangeNotifier {
   Dashboard? _dashboard;
   bool isLoading = false;
 
-
   List<DashboardCard> get cards => _cards;
   Dashboard? get dashboard => _dashboard;
 
@@ -24,10 +23,10 @@ class DashboardProvider extends ChangeNotifier {
       await dashboardUsecase.createDashboard();
       dashboard = await dashboardUsecase.getDashboard();
     } else {
-      isLoading = false;
       _dashboard = dashboard;
       _cards = dashboard.cards;
     }
+    isLoading = false;
     notifyListeners();
   }
 }
