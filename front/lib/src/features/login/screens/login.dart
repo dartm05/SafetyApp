@@ -81,7 +81,7 @@ class LoginPage extends StatelessWidget {
                               if (isSuccess) {
                                 emailController.clear();
                                 passwordController.clear();
-                                context.go('/chat');
+                                context.go('/dashboard');
                               }
                             }
                           },
