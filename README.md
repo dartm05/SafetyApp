@@ -1,16 +1,16 @@
 # Safety App
 
-**To run the backend:**
 
-**REQUIREMENTS**
+## REQUIREMENTS
+
+## To run the backend:
 
 Node version ^18
 
 Firebase cli installed with credentials (you might need to create a new project within your console and replace the project id )
 
-- use command: firebase use **project_id**
 
-- You must create a .env file containing with:
+- You must create a .env file containing:
   
 **PLACES_API_KEY**={YOUR GOOGLE PLACES API KEY}
 
@@ -19,6 +19,51 @@ Firebase cli installed with credentials (you might need to create a new project 
 **YOUR_FIREBASE_API_KEY**={YOUR FIREBASE API KEY}  --> make sure not to use reserved FIREBASE_*** As Keys
 
 You must activate this APIs within each respective console.
+
+## Setup
+
+1. Check the Node version:
+
+```
+node --version
+```
+
+Install Firebase `functions` and `admin` in the functions directory. At the top level project directory:
+
+```
+cd functions
+npm install firebase-functions@latest --save
+```
+
+2. Your Node version needs to be version 18. If you need multiple Node versions, consider using [nvm](https://github.com/nvm-sh/nvm):
+
+```
+nvm use 18
+nvm alias default 18 # set the version for vs code
+```
+
+**Setting up Firebase**
+
+Taken from the Firebase [getting started documentation](https://firebase.google.com/docs/functions/get-started?authuser=1).
+
+3. Install the latest firebase tools
+
+```
+npm install -g firebase-tools
+```
+
+4. Log in
+
+```
+firebase login
+```
+
+5. Set your active project (optionally, list available projects with `firebase projects:list`):
+
+```
+firebase use project-id
+```
+
 
 
 Run the following commands
@@ -33,10 +78,17 @@ Run the following commands
 **REQUIREMENTS** 
 flutter version 3.24.3
 
-Create .env file with: 
+Create .env file in front directory with: 
 
 for testing locally
-BASE_URL=http://127.0.0.1:5001/safety-app-edf4a/us-central1/api 
+```
+BASE_URL=http://127.0.0.1:5001/safety-app-edf4a/us-central1/api
+```
+
+for production 
+```
+BASE_URL=https://us-central1-safety-app-edf4a.cloudfunctions.net/api
+```
 
 on ios
 - cd front
