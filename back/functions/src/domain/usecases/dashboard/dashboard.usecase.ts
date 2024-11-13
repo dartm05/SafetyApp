@@ -1,4 +1,4 @@
-import { IDashboard } from "../../models/dashboard/dashboard";
+import {IDashboard} from "../../models/dashboard/dashboard";
 
 export interface IDashboardUseCase {
   findOne(userId: string): Promise<IDashboard | undefined>;

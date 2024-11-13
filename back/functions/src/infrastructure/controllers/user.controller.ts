@@ -1,13 +1,13 @@
-import { Request, Response } from "express";
-import { UserService } from "../../application/services/user.service";
-import { IUserUseCase } from "../../domain/usecases/user/user.usecase";
-import { UserDrivenAdapter } from "../driven-adapters/user.driven.adapter";
-import { UserNotFoundError } from "../../domain/errors/user-not-found.error";
-import { UserNotCreatedError } from "../../domain/errors/user-not-created.error";
- 
+import {Request, Response} from "express";
+import {UserService} from "../../application/services/user.service";
+import {IUserUseCase} from "../../domain/usecases/user/user.usecase";
+import {UserDrivenAdapter} from "../driven-adapters/user.driven.adapter";
+import {UserNotFoundError} from "../../domain/errors/user-not-found.error";
+import {UserNotCreatedError} from "../../domain/errors/user-not-created.error";
+
 export class UserController {
   static async create(
-    { body }: Request,
+    {body}: Request,
     res: Response,
     next: any,
     serviceInjection: () => IUserUseCase
@@ -20,7 +20,7 @@ export class UserController {
   }
 
   static async findOne(
-    { params: { email } }: Request,
+    {params: {email}}: Request,
     res: Response,
     next: any,
     serviceInjection: () => IUserUseCase

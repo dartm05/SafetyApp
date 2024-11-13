@@ -1,5 +1,5 @@
-import { ITrip } from "../../domain/models/trip/trip";
-import { ITripUseCase } from "../../domain/usecases/trip/trip.usecase";
+import {ITrip} from "../../domain/models/trip/trip";
+import {ITripUseCase} from "../../domain/usecases/trip/trip.usecase";
 
 export class TripService implements ITripUseCase {
   constructor(private tripDrivenAdapter: ITripUseCase) {}

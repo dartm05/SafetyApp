@@ -1,4 +1,4 @@
-import { IMessage } from "../../models/message/message";
+import {IMessage} from "../../models/message/message";
 
 export interface IMessageUseCase {
   create(userId: string, message: IMessage): Promise<IMessage | undefined>;

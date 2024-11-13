@@ -1,5 +1,5 @@
-import { IMessage } from "../../domain/models/message/message";
-import { IMessageUseCase } from "../../domain/usecases/message/message.usecase";
+import {IMessage} from "../../domain/models/message/message";
+import {IMessageUseCase} from "../../domain/usecases/message/message.usecase";
 
 export class MessageService implements IMessageUseCase {
   constructor(private messageDrivenAdapter: IMessageUseCase) {}

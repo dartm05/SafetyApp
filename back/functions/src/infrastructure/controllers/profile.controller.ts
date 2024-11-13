@@ -1,14 +1,14 @@
-import { Request, Response } from "express";
-import { IProfileUseCase } from "../../domain/usecases/profile/profile.usecase";
-import { ProfileService } from "../../application/services/profile.service";
-import { ProfileDrivenAdapter } from "../driven-adapters/profile.driven.adapter";
-import { ProfileNotCreatedError } from "../../domain/errors/profile-not-created.error";
-import { ProfileNotFoundError } from "../../domain/errors/profile-not-found.error";
-import { ProfileNotUpdatedError } from "../../domain/errors/profile-not-updated.error";
+import {Request, Response} from "express";
+import {IProfileUseCase} from "../../domain/usecases/profile/profile.usecase";
+import {ProfileService} from "../../application/services/profile.service";
+import {ProfileDrivenAdapter} from "../driven-adapters/profile.driven.adapter";
+import {ProfileNotCreatedError} from "../../domain/errors/profile-not-created.error";
+import {ProfileNotFoundError} from "../../domain/errors/profile-not-found.error";
+import {ProfileNotUpdatedError} from "../../domain/errors/profile-not-updated.error";
 
 export class ProfileController {
   static async create(
-    { params: { userId }, body }: Request<{ userId: string }>,
+    {params: {userId}, body}: Request<{ userId: string }>,
     res: Response,
     next: any,
     serviceInjection: () => IProfileUseCase
@@ -20,7 +20,7 @@ export class ProfileController {
   }
 
   static async findOne(
-    { params: { userId } }: Request<{ userId: string }>,
+    {params: {userId}}: Request<{ userId: string }>,
     res: Response,
     next: any,
     serviceInjection: () => IProfileUseCase
@@ -32,7 +32,7 @@ export class ProfileController {
   }
 
   static async update(
-    { params: { userId }, body }: Request<{ userId: string }>,
+    {params: {userId}, body}: Request<{ userId: string }>,
     res: Response,
     next: any,
     serviceInjection: () => IProfileUseCase

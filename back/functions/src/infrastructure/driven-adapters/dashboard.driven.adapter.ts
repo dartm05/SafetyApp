@@ -1,6 +1,6 @@
-import { db } from "../../index";
-import { IDashboard } from "../../domain/models/dashboard/dashboard";
-import { IDashboardUseCase } from "../../domain/usecases/dashboard/dashboard.usecase";
+import {db} from "../../index";
+import {IDashboard} from "../../domain/models/dashboard/dashboard";
+import {IDashboardUseCase} from "../../domain/usecases/dashboard/dashboard.usecase";
 
 export class DashboardDrivenAdapter implements IDashboardUseCase {
   async findOne(userId: string): Promise<IDashboard | undefined> {
@@ -29,7 +29,7 @@ export class DashboardDrivenAdapter implements IDashboardUseCase {
       .doc(userId)
       .collection("dashboards")
       .add(dashboard);
-    var newDate = new Date().toISOString();
+    const newDate = new Date().toISOString();
     await newDashboard.update({
       id: newDashboard.id,
       timestamp: newDate,
@@ -59,7 +59,7 @@ export class DashboardDrivenAdapter implements IDashboardUseCase {
       .collection("dashboards")
       .doc(id)
       .delete();
-      
+
     return deleted;
   }
 }

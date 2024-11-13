@@ -1,4 +1,4 @@
-import { ITrip } from "../../models/trip/trip";
+import {ITrip} from "../../models/trip/trip";
 
 export interface ITripUseCase {
   create(userId: string, trip: ITrip): Promise<ITrip | undefined>;

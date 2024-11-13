@@ -1,23 +1,23 @@
-import { Request, Response } from "express";
-import { IMessageUseCase } from "../../domain/usecases/message/message.usecase";
-import { MessageService } from "../../application/services/message.service";
-import { MessageDrivenAdapter } from "../driven-adapters/message.driven.adapter";
-import { MessageNotCreatedError } from "../../domain/errors/message-not-created.error";
-import { MessageNotDeletedError } from "../../domain/errors/messages-not-deleted.error";
-import { IProfileUseCase } from "../../domain/usecases/profile/profile.usecase";
-import { ITripUseCase } from "../../domain/usecases/trip/trip.usecase";
-import { chat } from "../driven-adapters/prediction.adapter";
-import { TripDrivenAdapter } from "../driven-adapters/trip.driven.adappter";
-import { TripService } from "../../application/services/trip.service";
-import { ProfileService } from "../../application/services/profile.service";
-import { ProfileDrivenAdapter } from "../driven-adapters/profile.driven.adapter";
-import { NoTripFoundError } from "../../domain/errors/no-trip-found.error";
-import { ProfileNotFoundError } from "../../domain/errors/profile-not-found.error";
-import { IMessage } from "../../domain/models/message/message";
+import {Request, Response} from "express";
+import {IMessageUseCase} from "../../domain/usecases/message/message.usecase";
+import {MessageService} from "../../application/services/message.service";
+import {MessageDrivenAdapter} from "../driven-adapters/message.driven.adapter";
+import {MessageNotCreatedError} from "../../domain/errors/message-not-created.error";
+import {MessageNotDeletedError} from "../../domain/errors/messages-not-deleted.error";
+import {IProfileUseCase} from "../../domain/usecases/profile/profile.usecase";
+import {ITripUseCase} from "../../domain/usecases/trip/trip.usecase";
+import {chat} from "../driven-adapters/prediction.adapter";
+import {TripDrivenAdapter} from "../driven-adapters/trip.driven.adappter";
+import {TripService} from "../../application/services/trip.service";
+import {ProfileService} from "../../application/services/profile.service";
+import {ProfileDrivenAdapter} from "../driven-adapters/profile.driven.adapter";
+import {NoTripFoundError} from "../../domain/errors/no-trip-found.error";
+import {ProfileNotFoundError} from "../../domain/errors/profile-not-found.error";
+import {IMessage} from "../../domain/models/message/message";
 
 export class MessageController {
   static async create(
-    { params: { userId }, body }: Request<{ userId: string }>,
+    {params: {userId}, body}: Request<{ userId: string }>,
     res: Response,
     next: any,
     serviceInjection: () => IMessageUseCase,
@@ -55,7 +55,7 @@ export class MessageController {
   }
 
   static async findAll(
-    { params: { userId } }: Request<{ userId: string }>,
+    {params: {userId}}: Request<{ userId: string }>,
     res: Response,
     next: any,
     serviceInjection: () => IMessageUseCase,
@@ -77,14 +77,14 @@ export class MessageController {
         message: "Ask me about any concerns for your upcoming trip!",
         userId: userId,
       };
-      var newMessage = await messageService.create(userId, defaultMessage);
+      const newMessage = await messageService.create(userId, defaultMessage);
       messages.push(newMessage);
     }
     res.json(messages);
   }
 
   static async deleteAll(
-    { params: { userId } }: Request<{ userId: string }>,
+    {params: {userId}}: Request<{ userId: string }>,
     res: Response,
     next: any,
     serviceInjection: () => IMessageUseCase

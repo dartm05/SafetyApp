@@ -1,6 +1,6 @@
-import { IProfile } from "../../domain/models/profile/profile";
-import { IProfileUseCase } from "../../domain/usecases/profile/profile.usecase";
-import { db } from "../../index";
+import {IProfile} from "../../domain/models/profile/profile";
+import {IProfileUseCase} from "../../domain/usecases/profile/profile.usecase";
+import {db} from "../../index";
 
 export class ProfileDrivenAdapter implements IProfileUseCase {
   async create(
@@ -13,7 +13,7 @@ export class ProfileDrivenAdapter implements IProfileUseCase {
       .collection("profile")
       .add(profile)
       .then((docRef) => {
-        return { ...profile, id: docRef.id };
+        return {...profile, id: docRef.id};
       });
     return newProfile;
   }
@@ -26,7 +26,7 @@ export class ProfileDrivenAdapter implements IProfileUseCase {
       .get();
     return querySnapshot.docs.map((doc) => {
       const data = doc.data();
-      return { ...data, id: doc.id } as IProfile;
+      return {...data, id: doc.id} as IProfile;
     })[0];
   }
 
@@ -43,8 +43,8 @@ export class ProfileDrivenAdapter implements IProfileUseCase {
     const doc = querySnapshot.docs[0];
 
     if (doc) {
-      await doc.ref.update({ ...profile });
-      return { ...profile, id: doc.id } as IProfile;
+      await doc.ref.update({...profile});
+      return {...profile, id: doc.id} as IProfile;
     } else {
       throw new Error("Profile not found");
     }

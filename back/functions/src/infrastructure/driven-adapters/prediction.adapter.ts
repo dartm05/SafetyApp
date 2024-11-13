@@ -1,13 +1,14 @@
-import { ITrip } from "../../domain/models/trip/trip";
-import { IProfile } from "../../domain/models/profile/profile";
-import { IMessage } from "../../domain/models/message/message";
+// ignore_for_file: max-len
+import {ITrip} from "../../domain/models/trip/trip";
+import {IProfile} from "../../domain/models/profile/profile";
+import {IMessage} from "../../domain/models/message/message";
 import dotenv from "dotenv";
-import { SchemaType } from "@google/generative-ai";
+import {SchemaType, GoogleGenerativeAI} from "@google/generative-ai";
 
 dotenv.config();
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+const model = genAI.getGenerativeModel({model: "gemini-pro"});
 
 const predict = async (trip: ITrip, profile: IProfile) => {
   const schema = {
@@ -128,16 +129,16 @@ const chat = async (
     contextMessage,
     ...messages.map((msg) => ({
       role: "user",
-      parts: [{ text: msg.message }],
+      parts: [{text: msg.message}],
     })),
   ];
   const chat = model.startChat({
     history: chatHistory,
-    generationConfig: { maxOutputTokens: 400 },
+    generationConfig: {maxOutputTokens: 400},
   });
   const result = await chat.sendMessage(newMessage.message);
   const response = await result.response;
   return await response.text();
 };
 
-export { predict, chat };
+export {predict, chat};

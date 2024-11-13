@@ -1,24 +1,24 @@
-import { Request, Response } from "express";
-import { IDashboardUseCase } from "../../domain/usecases/dashboard/dashboard.usecase";
-import { DashboardService } from "../../application/services/dashboard.service";
-import { DashboardDrivenAdapter } from "../driven-adapters/dashboard.driven.adapter";
-import { ITripUseCase } from "../../domain/usecases/trip/trip.usecase";
-import { IProfileUseCase } from "../../domain/usecases/profile/profile.usecase";
+import {Request, Response} from "express";
+import {IDashboardUseCase} from "../../domain/usecases/dashboard/dashboard.usecase";
+import {DashboardService} from "../../application/services/dashboard.service";
+import {DashboardDrivenAdapter} from "../driven-adapters/dashboard.driven.adapter";
+import {ITripUseCase} from "../../domain/usecases/trip/trip.usecase";
+import {IProfileUseCase} from "../../domain/usecases/profile/profile.usecase";
 
-import { NoTripFoundError } from "../../domain/errors/no-trip-found.error";
-import { ProfileNotFoundError } from "../../domain/errors/profile-not-found.error";
-import { predict } from "../driven-adapters/prediction.adapter";
-import { ProfileService } from "../../application/services/profile.service";
-import { TripService } from "../../application/services/trip.service";
-import { ProfileDrivenAdapter } from "../driven-adapters/profile.driven.adapter";
-import { TripDrivenAdapter } from "../driven-adapters/trip.driven.adappter";
-import { formatSafetyRecommendations } from "../../utils/formatResponse";
-import { IDashboard } from "../../domain/models/dashboard/dashboard";
-import { DashboardNotFoundError } from "../../domain/errors/dashboard-not-found.error";
+import {NoTripFoundError} from "../../domain/errors/no-trip-found.error";
+import {ProfileNotFoundError} from "../../domain/errors/profile-not-found.error";
+import {predict} from "../driven-adapters/prediction.adapter";
+import {ProfileService} from "../../application/services/profile.service";
+import {TripService} from "../../application/services/trip.service";
+import {ProfileDrivenAdapter} from "../driven-adapters/profile.driven.adapter";
+import {TripDrivenAdapter} from "../driven-adapters/trip.driven.adappter";
+import {formatSafetyRecommendations} from "../../utils/formatResponse";
+import {IDashboard} from "../../domain/models/dashboard/dashboard";
+import {DashboardNotFoundError} from "../../domain/errors/dashboard-not-found.error";
 
 export class DashboardController {
   static async findOne(
-    { params: { userId } }: Request<{ userId: string }>,
+    {params: {userId}}: Request<{ userId: string }>,
     res: Response,
     next: any,
     serviceInjection: () => IDashboardUseCase
@@ -29,7 +29,7 @@ export class DashboardController {
   }
 
   static async create(
-    { params: { userId } }: Request<{ userId: string }>,
+    {params: {userId}}: Request<{ userId: string }>,
     res: Response,
     next: any,
     serviceInjection: () => IDashboardUseCase,
@@ -67,7 +67,7 @@ export class DashboardController {
   }
 
   static async delete(
-    { params: { userId, id } }: Request<{ userId: string; id: string }>,
+    {params: {userId, id}}: Request<{ userId: string; id: string }>,
     res: Response,
     next: any,
     serviceInjection: () => IDashboardUseCase

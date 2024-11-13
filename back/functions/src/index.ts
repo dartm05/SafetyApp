@@ -1,5 +1,5 @@
-import { initializeApp } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
+import {initializeApp} from "firebase-admin/app";
+import {getFirestore} from "firebase-admin/firestore";
 import dotenv from "dotenv";
 dotenv.config();
 const firebaseConfig = {
@@ -14,4 +14,4 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 export const db = getFirestore();
 
-export { api } from "./infrastructure/routes";
+export {api} from "./infrastructure/routes";

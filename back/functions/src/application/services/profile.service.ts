@@ -1,5 +1,5 @@
-import { IProfile } from "../../domain/models/profile/profile";
-import { IProfileUseCase } from "../../domain/usecases/profile/profile.usecase";
+import {IProfile} from "../../domain/models/profile/profile";
+import {IProfileUseCase} from "../../domain/usecases/profile/profile.usecase";
 
 export class ProfileService implements IProfileUseCase {
   constructor(private profileDrivenAdapter: IProfileUseCase) {}

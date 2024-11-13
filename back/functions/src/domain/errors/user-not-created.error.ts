@@ -1,4 +1,4 @@
-import { Error } from "./base.error";
+import {Error} from "./base.error";
 
 export class UserNotCreatedError extends Error {
   constructor() {

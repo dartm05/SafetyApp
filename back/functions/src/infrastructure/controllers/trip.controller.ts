@@ -1,11 +1,11 @@
-import { Request, Response } from "express";
-import { ITripUseCase } from "../../domain/usecases/trip/trip.usecase";
-import { TripService } from "../../application/services/trip.service";
-import { TripDrivenAdapter } from "../driven-adapters/trip.driven.adappter";
+import {Request, Response} from "express";
+import {ITripUseCase} from "../../domain/usecases/trip/trip.usecase";
+import {TripService} from "../../application/services/trip.service";
+import {TripDrivenAdapter} from "../driven-adapters/trip.driven.adappter";
 
 export class TripController {
   static async create(
-    { params: { userId }, body }: Request<{ userId: string }>,
+    {params: {userId}, body}: Request<{ userId: string }>,
     res: Response,
     next: any,
     serviceInjection: () => ITripUseCase
@@ -17,7 +17,7 @@ export class TripController {
   }
 
   static async findAll(
-    { params: { userId } }: Request<{ userId: string }>,
+    {params: {userId}}: Request<{ userId: string }>,
     res: Response,
     next: any,
     serviceInjection: () => ITripUseCase
@@ -28,7 +28,7 @@ export class TripController {
   }
 
   static async findOne(
-    { params: { userId, id } }: Request<{ userId: string; id: string }>,
+    {params: {userId, id}}: Request<{ userId: string; id: string }>,
     res: Response,
     next: any,
     serviceInjection: () => ITripUseCase
@@ -40,7 +40,7 @@ export class TripController {
   }
 
   static async update(
-    { params: { userId, id }, body }: Request<{ userId: string; id: string }>,
+    {params: {userId, id}, body}: Request<{ userId: string; id: string }>,
     res: Response,
     next: any,
     serviceInjection: () => ITripUseCase
@@ -52,7 +52,7 @@ export class TripController {
   }
 
   static async remove(
-    { params: { userId, id } }: Request<{ userId: string; id: string }>,
+    {params: {userId, id}}: Request<{ userId: string; id: string }>,
     res: Response,
     next: any,
     serviceInjection: () => ITripUseCase

@@ -1,6 +1,6 @@
-import { db } from "../../index";
-import { ITripUseCase } from "../../domain/usecases/trip/trip.usecase";
-import { ITrip } from "../../domain/models/trip/trip";
+import {db} from "../../index";
+import {ITripUseCase} from "../../domain/usecases/trip/trip.usecase";
+import {ITrip} from "../../domain/models/trip/trip";
 
 export class TripDrivenAdapter implements ITripUseCase {
   async create(userId: string, trip: ITrip): Promise<ITrip | undefined> {
@@ -16,7 +16,7 @@ export class TripDrivenAdapter implements ITripUseCase {
       timestamp: newDate,
     });
 
-    return { ...trip, id: newTrip.id, createdAt: newDate } as ITrip;
+    return {...trip, id: newTrip.id, createdAt: newDate} as ITrip;
   }
 
   async findAll(userId: string): Promise<ITrip[]> {
@@ -25,17 +25,17 @@ export class TripDrivenAdapter implements ITripUseCase {
       .doc(userId)
       .collection("trips")
       .get();
-      const trips: ITrip[] = querySnapshot.docs.map(doc => ({
-        ...doc.data(),
-        id: doc.id
-      })) as ITrip[];
+    const trips: ITrip[] = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    })) as ITrip[];
 
-      return trips.sort((a, b) => {
-        return (
-          new Date(b.createdAt).getTime() -
+    return trips.sort((a, b) => {
+      return (
+        new Date(b.createdAt).getTime() -
           new Date(a.createdAt).getTime()
-        );
-      });
+      );
+    });
   }
 
   async findOne(userId: string, id: string): Promise<ITrip | undefined> {
@@ -45,7 +45,7 @@ export class TripDrivenAdapter implements ITripUseCase {
       .collection("trips")
       .doc(id)
       .get();
-    return { ...querySnapshot.data(), id } as ITrip;
+    return {...querySnapshot.data(), id} as ITrip;
   }
 
   async update(
@@ -58,7 +58,7 @@ export class TripDrivenAdapter implements ITripUseCase {
       .doc(userId)
       .collection("trips")
       .doc(id)
-      .update({ ...trip })
+      .update({...trip})
       .then(() => {
         return trip;
       });
@@ -72,7 +72,7 @@ export class TripDrivenAdapter implements ITripUseCase {
       .collection("trips")
       .doc(id)
       .get();
-    const trip = { ...querySnapshot.data(), id: querySnapshot.id } as ITrip;
+    const trip = {...querySnapshot.data(), id: querySnapshot.id} as ITrip;
     await querySnapshot.ref.delete();
     return trip;
   }

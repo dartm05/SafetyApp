@@ -1,5 +1,5 @@
-import { IDashboard } from "../../domain/models/dashboard/dashboard";
-import { IDashboardUseCase } from "../../domain/usecases/dashboard/dashboard.usecase";
+import {IDashboard} from "../../domain/models/dashboard/dashboard";
+import {IDashboardUseCase} from "../../domain/usecases/dashboard/dashboard.usecase";
 
 export class DashboardService implements IDashboardUseCase {
   constructor(private dashboardDrivenAdapter: IDashboardUseCase) {}

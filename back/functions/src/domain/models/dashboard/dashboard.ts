@@ -1,4 +1,4 @@
-import { IDashboardCard } from "./dashboard-card";
+import {IDashboardCard} from "./dashboard-card";
 
 export interface IDashboard {
     id?: string;

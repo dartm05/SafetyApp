@@ -1,6 +1,6 @@
-import { db } from "../../index";
-import { IMessage } from "../../domain/models/message/message";
-import { IMessageUseCase } from "../../domain/usecases/message/message.usecase";
+import {db} from "../../index";
+import {IMessage} from "../../domain/models/message/message";
+import {IMessageUseCase} from "../../domain/usecases/message/message.usecase";
 
 export class MessageDrivenAdapter implements IMessageUseCase {
   async create(
