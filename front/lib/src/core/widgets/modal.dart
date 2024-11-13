@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/modal_model.dart';
+import '../../data/models/modal_model.dart';
 import '../providers/error_provider.dart';
 import '../providers/modal_provider.dart';
 

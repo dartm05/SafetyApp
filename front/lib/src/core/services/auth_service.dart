@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import '../models/modal_model.dart';
-import '../models/user_model.dart';
+import '../../data/models/modal_model.dart';
+import '../../data/models/user_model.dart';
 import '../providers/modal_provider.dart';
 import '../services/http_service.dart';
 import '../providers/error_provider.dart';

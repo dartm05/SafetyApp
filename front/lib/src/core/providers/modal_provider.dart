@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/modal_model.dart';
+import '../../data/models/modal_model.dart';
 
 class ModalProvider extends ChangeNotifier {
   bool? _isModalVisible = false;

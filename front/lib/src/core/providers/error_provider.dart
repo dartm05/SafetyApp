@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/modal_model.dart';
+import '../../data/models/modal_model.dart';
 
 class ErrorProvider extends ChangeNotifier {
   Modal? _error;
