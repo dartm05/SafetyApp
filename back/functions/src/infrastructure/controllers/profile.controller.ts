@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import { IProfileUseCase } from "../../domain/usecases/profile/profile.usecase";
 import { ProfileService } from "../../application/services/profile.service";
 import { ProfileDrivenAdapter } from "../driven-adapters/profile.driven.adapter";
-import { ProfileNotCreatedError } from "../../domain/errors/profile-not-created";
-import { ProfileNotFoundError } from "../../domain/errors/profile-not-found";
-import { ProfileNotUpdatedError } from "../../domain/errors/profile-not-updated";
+import { ProfileNotCreatedError } from "../../domain/errors/profile-not-created.error";
+import { ProfileNotFoundError } from "../../domain/errors/profile-not-found.error";
+import { ProfileNotUpdatedError } from "../../domain/errors/profile-not-updated.error";
 
 export class ProfileController {
   static async create(
