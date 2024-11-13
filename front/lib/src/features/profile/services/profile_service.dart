@@ -4,7 +4,7 @@ import 'package:safety_app/src/core/providers/error_provider.dart';
 import 'package:safety_app/src/core/providers/modal_provider.dart';
 import 'package:safety_app/src/core/services/http_service.dart';
 import 'package:safety_app/src/data/models/profile.dart';
-
+import 'package:safety_app/src/data/models/error.dart';
 import '../../../data/models/modal_model.dart';
 
 class ProfileService {
@@ -38,62 +38,77 @@ class ProfileService {
   }
 
   Future<Profile?> createProfile(String userId, Profile profile) async {
-    try {
-      var response =
-          await httpService.post('/$userId/profile', body: profile.toJson());
+    var response =
+        await httpService.post('/$userId/profile', body: profile.toJson());
 
-      if (response.statusCode == 200) {
-        return Profile.fromJson(jsonDecode(response.body));
-      } else {
-        throw Exception('Failed to create profile');
-      }
-    } catch (error) {
+    if (response.statusCode == 404) {
+      final Map<String, dynamic> errorResponse = jsonDecode(response.body);
+      Error error = Error(
+        title: errorResponse['title'],
+        message: errorResponse['message'],
+        statusCode: errorResponse['statusCode'],
+        status: errorResponse['status'],
+      );
       errorProvider.showError(
         error: Modal(
-          title: 'Error',
-          message:
-              'An error occurred while creating profile. Please try again.',
+          title: error.title,
+          message: error.message,
           actionText: 'Close',
           action: () {
             errorProvider.hideError();
           },
         ),
       );
+      return null;
     }
-    return null;
+    errorProvider.showError(
+      error: Modal(
+        title: 'Success',
+        message: 'Profile created successfully',
+        actionText: 'Close',
+        action: () {
+          errorProvider.hideError();
+        },
+      ),
+    );
+
+    return Profile.fromJson(jsonDecode(response.body));
   }
 
   Future<Profile?> updateProfile(String userId, Profile profile) async {
-    try {
-      var response =
-          await httpService.put('/$userId/profile', body: profile.toJson());
-      if (response.statusCode > 300) {
-        throw Exception('Failed to update profile');
-      }
+    var response =
+        await httpService.put('/$userId/profile', body: profile.toJson());
+
+    if (response.statusCode == 404) {
+      final Map<String, dynamic> errorResponse = jsonDecode(response.body);
+      Error error = Error(
+        title: errorResponse['title'],
+        message: errorResponse['message'],
+        statusCode: errorResponse['statusCode'],
+        status: errorResponse['status'],
+      );
       errorProvider.showError(
         error: Modal(
-          title: 'Success',
-          message: 'Profile updated successfully',
+          title: error.title,
+          message: error.message,
           actionText: 'Close',
           action: () {
             errorProvider.hideError();
           },
         ),
       );
-      return Profile.fromJson(jsonDecode(response.body));
-    } catch (error) {
-      errorProvider.showError(
-        error: Modal(
-          title: 'Error',
-          message:
-              'An error occurred while updating profile. Please try again.',
-          actionText: 'Close',
-          action: () {
-            errorProvider.hideError();
-          },
-        ),
-      );
+      return null;
     }
-    return null;
+    errorProvider.showError(
+      error: Modal(
+        title: 'Success',
+        message: 'Profile updated successfully',
+        actionText: 'Close',
+        action: () {
+          errorProvider.hideError();
+        },
+      ),
+    );
+    return Profile.fromJson(jsonDecode(response.body));
   }
 }
