@@ -15,10 +15,13 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  
   @override
   void initState() {
-    Provider.of<DashboardProvider>(context).initializeDashboard();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<DashboardProvider>(context, listen: false).initializeDashboard();
+    });
   }
 
   @override
