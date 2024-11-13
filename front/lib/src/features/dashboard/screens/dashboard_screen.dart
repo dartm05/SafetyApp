@@ -26,7 +26,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Provider.of<DashboardProvider>(context, listen: false);
 
       if (tripProvider.tripsList.isEmpty &&
-          dashboardProvider.dashboard != null) {
+          (dashboardProvider.dashboard != null)) {
         dashboardProvider.deleteDashboard();
       }
       dashboardProvider.initializeDashboard();
@@ -36,6 +36,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     double width = (MediaQuery.sizeOf(context).width);
+    double height = (MediaQuery.sizeOf(context).height);
     final provider = Provider.of<DashboardProvider>(context);
     final dashboard = provider.dashboard;
     return Scaffold(
@@ -142,46 +143,46 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             ? dashboard.cards.length
                                             : start + 2;
 
-                                    return IntrinsicHeight(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children:
-                                            List.generate(end - start, (index) {
-                                          return Container(
-                                            margin: const EdgeInsets.all(10),
-                                            child: SizedBox(
-                                              width: (MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      2) -
-                                                  48,
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 34),
-                                                    child: Text(
-                                                      dashboard
-                                                          .cards[index].title,
-                                                      style: const TextStyle(
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children:
+                                          List.generate(end - start, (index) {
+                                        return Container(
+                                          margin: const EdgeInsets.all(10),
+                                          child: SizedBox(
+                                            width: (MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2) -
+                                                48,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 34),
+                                                  child: Text(
+                                                    dashboard
+                                                        .cards[index].title,
+                                                    style: const TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                            textAlign: TextAlign.center,
                                                   ),
-                                                  DashboardCardWidget(
-                                                      card: dashboard.cards[
-                                                          start + index]),
-                                                ],
-                                              ),
+                                                ),
+                                                DashboardCardWidget(
+                                                    card: dashboard
+                                                        .cards[start + index]),
+                                              ],
                                             ),
-                                          );
-                                        }),
-                                      ),
+                                          ),
+                                        );
+                                      }),
                                     );
                                   },
                                 )
@@ -217,7 +218,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               )
             else if (dashboard == null && provider.isLoading)
-              const CircularProgressIndicator(),
+              Column(
+                children: [
+                  SizedBox(height: height > 800 ? 200 : 100),
+                  CircularProgressIndicator(),
+                ],
+              ),
             if (dashboard == null && !provider.isLoading)
               Padding(
                 padding:
