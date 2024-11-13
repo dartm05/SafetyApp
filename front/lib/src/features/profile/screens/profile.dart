@@ -5,7 +5,7 @@ import 'package:safety_app/src/data/models/profile.dart';
 import '../providers/profile_provider.dart';
 
 class ProfileForm extends StatefulWidget {
-  const ProfileForm({Key? key}) : super(key: key);
+  const ProfileForm({super.key});
 
   @override
   State<ProfileForm> createState() => _ProfileFormState();
@@ -112,7 +112,8 @@ class _ProfileFormState extends State<ProfileForm> {
                       children: [
                         sizedBox,
                         Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                          padding:
+                              const EdgeInsets.only(left: 20.0, right: 20.0),
                           child: Container(
                             constraints: const BoxConstraints(maxWidth: 600),
                             child: Form(
@@ -183,7 +184,8 @@ class _ProfileFormState extends State<ProfileForm> {
                                   ),
                                   sizedboxM,
                                   SwitchListTile(
-                                    title: const Text('Traveling with Children'),
+                                    title:
+                                        const Text('Traveling with Children'),
                                     value: _travelingWithChildren,
                                     onChanged: (value) {
                                       setState(() {
