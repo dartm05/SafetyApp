@@ -25,8 +25,6 @@ export class MessageController {
     profileServiceInjection: () => IProfileUseCase
   ): Promise<void> {
     const messageService = serviceInjection();
-    const success = await messageService.create(userId, body);
-    if (!success) return next(new MessageNotCreatedError());
 
     const tripService = tripServiceInjection();
     const trip = await tripService
@@ -38,6 +36,9 @@ export class MessageController {
     const profile = await profileService.findOne(userId);
 
     if (!profile) return next(new ProfileNotFoundError());
+
+    const success = await messageService.create(userId, body);
+    if (!success) return next(new MessageNotCreatedError());
 
     const messages = await messageService.findAll(userId);
 
