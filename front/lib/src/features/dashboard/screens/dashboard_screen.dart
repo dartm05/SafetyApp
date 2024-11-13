@@ -15,12 +15,12 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<DashboardProvider>(context, listen: false).initializeDashboard();
+      Provider.of<DashboardProvider>(context, listen: false)
+          .initializeDashboard();
     });
   }
 
@@ -201,6 +201,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
               )
             else if (dashboard == null && provider.isLoading)
               const CircularProgressIndicator(),
+            if (dashboard == null && !provider.isLoading)
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 34, vertical: 34),
+                child: Column(
+                  mainAxisAlignment: width > 800
+                      ? MainAxisAlignment.center
+                      : MainAxisAlignment.start,
+                  children: [
+                     Text(
+                      'Oops!',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Create your first trip and fill up your Profile!',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SvgPicture.asset(
+                      'assets/img/adventure.svg',
+                      height: width > 800 ? 300 : 200,
+                      placeholderBuilder: (context) =>
+                          const CircularProgressIndicator(),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              )
           ],
         ),
       ),
