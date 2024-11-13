@@ -16,9 +16,9 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   @override
-  void didChangeDependencies() {
+  void initState() {
     Provider.of<DashboardProvider>(context).initializeDashboard();
-    super.didChangeDependencies();
+    super.initState();
   }
 
   @override
