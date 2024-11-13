@@ -15,7 +15,7 @@ To run front:
 
 Requires flutter version 3.24.3
 
-Create .env file with the back url "http://127.0.0.1:5001/safety-app-ff42c/us-central1/api" inside the front folder
+Create .env file with the back url "http://127.0.0.1:5001/safety-app-edf4a/us-central1/api" inside the front folder
 
 on ios
 - cd front

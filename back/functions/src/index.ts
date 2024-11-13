@@ -1,13 +1,13 @@
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 
-export const firebaseConfig = {
-  apiKey: "AIzaSyAN-0YySo2sbt_YGTmxGP6cdUFT0Me9MAA",
-  authDomain: "safety-app-ff42c.firebaseapp.com",
-  projectId: "safety-app-ff42c",
-  storageBucket: "safety-app-ff42c.firebasestorage.app",
-  messagingSenderId: "1091468216825",
-  appId: "1:1091468216825:web:eaafc18da78dc7be699528"
+const firebaseConfig = {
+  apiKey: "AIzaSyDe7fPzka5hF8FwqEkNrur3qrBn1veYoKo",
+  authDomain: "safety-app-edf4a.firebaseapp.com",
+  projectId: "safety-app-edf4a",
+  storageBucket: "safety-app-edf4a.firebasestorage.app",
+  messagingSenderId: "669764617478",
+  appId: "1:669764617478:web:469416fb7145ba8049ca87"
 };
 
 initializeApp(firebaseConfig);
