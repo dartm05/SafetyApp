@@ -81,11 +81,6 @@ class _RegisterFormState extends State<RegisterForm> {
                               nameController.text.trim(),
                             )
                                 .then((user) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('User registered successfully'),
-                                ),
-                              );
                               if (user) {
                                 context.go('/profile');
                               }
