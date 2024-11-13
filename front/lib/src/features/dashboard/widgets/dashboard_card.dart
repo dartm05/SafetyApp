@@ -8,11 +8,10 @@ class DashboardCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(4),
         boxShadow: const [
           BoxShadow(
             color: Colors.grey,
@@ -21,13 +20,14 @@ class DashboardCardWidget extends StatelessWidget {
         ],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            card.title,
-            style: TextStyle(fontWeight: FontWeight.bold),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
+            child: Text(card.description),
           ),
           SizedBox(height: 10),
-          Text(card.description),
+          Container(color: Theme.of(context).primaryColor, height: 5),
         ],
       ),
     );

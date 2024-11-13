@@ -39,7 +39,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         title: 'Safety Chatbot4',
         description:
             'Research and book accommodations in reputable and safe areas. Opt for well-lit and secure accommodations with good reviews. Inform someone of your itinerary and accommodation detaisafe areas. Opt for welsafe areas. Opt for welsafe areas. Opt for welsafe areas. Opt for welsafe areas. Opt for wells.',
-      ),
+      )
     ],
   );
   @override
@@ -129,17 +129,85 @@ class _DashboardScreenState extends State<DashboardScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: width > 800 ? 600 : width,
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      controller: ScrollController(),
-                      shrinkWrap: true,
-                      itemCount: dashboard.cards.length,
-                      itemBuilder: (context, index) {
-                        return DashboardCardWidget(
-                            card: dashboard.cards[index]);
-                      }),
-                )
+                  width: width,
+                  child: LayoutBuilder(builder: (context, constraints) {
+                    return LayoutBuilder(
+                      builder: (context, constraints) {
+                        bool isWide = constraints.maxWidth > 600;
+                        return isWide
+                            ? ListView.builder(
+                                shrinkWrap: true,
+                                controller: ScrollController(),
+                                scrollDirection: Axis.vertical,
+                                itemCount: (dashboard.cards.length / 2).ceil(),
+                                itemBuilder: (context, rowIndex) {
+                                  int start = rowIndex * 2;
+                                  int end = (start + 2 > dashboard.cards.length)
+                                      ? dashboard.cards.length
+                                      : start + 2;
+
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children:
+                                        List.generate(end - start, (index) {
+                                      return Container(
+                                        margin: const EdgeInsets.all(10),
+                                        child: SizedBox(
+                                          width: (MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2) -
+                                              48,
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                dashboard.cards[index].title,
+                                                style: const TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              DashboardCardWidget(
+                                                  card: dashboard
+                                                      .cards[start + index]),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                  );
+                                },
+                              )
+                            : ListView.builder(
+                                controller: ScrollController(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: dashboard.cards.length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 20),
+                                        child: Text(
+                                          dashboard.cards[index].title,
+                                          style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      DashboardCardWidget(
+                                        card: dashboard.cards[index],
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                      },
+                    );
+                  }),
+                ),
               ],
             )
           ],
