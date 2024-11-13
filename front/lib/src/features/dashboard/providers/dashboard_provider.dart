@@ -13,12 +13,12 @@ class DashboardProvider extends ChangeNotifier {
 
   final DashboardUsecase dashboardUsecase;
 
-  DashboardProvider({required this.dashboardUsecase});
+  DashboardProvider({required this.dashboardUsecase}) ;
 
   Future<void> initializeDashboard() async {
-    var dashboard = await dashboardUsecase.getDashboard();
     isLoading = true;
     notifyListeners();
+    Dashboard? dashboard = await dashboardUsecase.getDashboard();
     if (dashboard == null) {
       await dashboardUsecase.createDashboard();
       dashboard = await dashboardUsecase.getDashboard();

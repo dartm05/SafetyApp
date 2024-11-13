@@ -3,8 +3,6 @@ import 'package:safety_app/src/data/models/dashboard.dart';
 
 import '../services/dashboard_service.dart';
 
-enum DashboardPrompt { TRIP, CHAT, PROFILE }
-
 class DashboardUsecase {
   final DashboardService dashboardService;
   final AuthenticationProvider authenticationProvider;
@@ -15,6 +13,7 @@ class DashboardUsecase {
   Future<Dashboard?> getDashboard() async {
     return await dashboardService.getDashboard(authenticationProvider.userId!);
   }
+
   Future<void> createDashboard() async {
     return await dashboardService.createDashboard(authenticationProvider.userId!);
   }
