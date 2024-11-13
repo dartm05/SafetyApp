@@ -54,29 +54,32 @@ class ChatService {
   }
 
   Future<List<Message>?> getMessages(String userId) async {
-    try {
-      final response = await _httpService.get(
-        '/$userId/messages',
+    final response = await _httpService.get(
+      '/$userId/messages',
+    );
+    if (response.statusCode == 404 || response.statusCode == 500) {
+      final Map<String, dynamic> errorResponse = jsonDecode(response.body);
+      Error error = Error(
+        title: errorResponse['title'],
+        message: errorResponse['message'],
+        statusCode: errorResponse['statusCode'],
+        status: errorResponse['status'],
       );
-      if (response.statusCode == 500) {
-        throw Exception('Error fetching messages');
-      }
-      var messages = List<Map<String, dynamic>>.from(jsonDecode(response.body));
-      return messages.map((message) => Message.fromMap(message)).toList();
-    } catch (error) {
       _errorProvider.showError(
         error: Modal(
-          title: 'Error',
-          message:
-              'An error occurred while fetching messages. Please try again.',
+          title: error.title,
+          message: error.message,
           actionText: 'Close',
           action: () {
             _errorProvider.hideError();
           },
         ),
       );
-      return [];
+      return null;
     }
+
+    var messages = List<Map<String, dynamic>>.from(jsonDecode(response.body));
+    return messages.map((message) => Message.fromMap(message)).toList();
   }
 
   Future<void> deleteMessages(String userId) async {
