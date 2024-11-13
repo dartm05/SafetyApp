@@ -6,4 +6,5 @@ export interface IDashboardUseCase {
     userId: string,
     dashboard: IDashboard
   ): Promise<IDashboard | undefined>;
+  delete(userId: string, id: string): Promise<IDashboard | undefined>;
 }

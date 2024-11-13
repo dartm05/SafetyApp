@@ -14,6 +14,7 @@ import { ProfileDrivenAdapter } from "../driven-adapters/profile.driven.adapter"
 import { TripDrivenAdapter } from "../driven-adapters/trip.driven.adappter";
 import { formatSafetyRecommendations } from "../../utils/formatResponse";
 import { IDashboard } from "../../domain/models/dashboard/dashboard";
+import { DashboardNotFoundError } from "../../domain/errors/dashboard-not-found.error";
 
 export class DashboardController {
   static async findOne(
@@ -62,6 +63,18 @@ export class DashboardController {
     };
     const success = await dashboardService.create(userId, newDashboard);
     if (!success) return next(new NoTripFoundError());
+    res.json(success);
+  }
+
+  static async delete(
+    { params: { userId, id } }: Request<{ userId: string; id: string }>,
+    res: Response,
+    next: any,
+    serviceInjection: () => IDashboardUseCase
+  ): Promise<void> {
+    const dashboardService = serviceInjection();
+    const success = await dashboardService.delete(userId, id);
+    if (!success) return next(new DashboardNotFoundError());
     res.json(success);
   }
 }

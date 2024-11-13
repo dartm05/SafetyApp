@@ -17,7 +17,7 @@ export class DashboardDrivenAdapter implements IDashboardUseCase {
     return querySnapshot.docs.map((doc) => {
       const data = doc.data() as IDashboard;
       return data;
-    })[querySnapshot.docs.length - 1];  
+    })[querySnapshot.docs.length - 1];
   }
 
   async create(
@@ -39,5 +39,27 @@ export class DashboardDrivenAdapter implements IDashboardUseCase {
       id: newDashboard.id,
       timestamp: newDate,
     } as IDashboard;
+  }
+
+  async delete(userId: string, id: string): Promise<IDashboard | undefined> {
+    const querySnapshot = await db
+      .collection("users")
+      .doc(userId)
+      .collection("dashboards")
+      .doc(id)
+      .get();
+
+    if (!querySnapshot.exists) {
+      return undefined;
+    }
+    const deleted = querySnapshot.data() as IDashboard;
+    await db
+      .collection("users")
+      .doc(userId)
+      .collection("dashboards")
+      .doc(id)
+      .delete();
+      
+    return deleted;
   }
 }

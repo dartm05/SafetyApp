@@ -14,4 +14,8 @@ export class DashboardService implements IDashboardUseCase {
   ): Promise<IDashboard | undefined> {
     return this.dashboardDrivenAdapter.create(userId, dashboard);
   }
+
+  delete(userId: string, id: string): Promise<IDashboard | undefined> {
+    return this.dashboardDrivenAdapter.delete(userId, id);
+  }
 }

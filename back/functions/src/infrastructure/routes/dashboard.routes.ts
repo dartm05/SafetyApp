@@ -23,4 +23,8 @@ dashboardApp.post("/:userId/dashboard", (req, res, next) =>
   )
 );
 
+dashboardApp.delete("/:userId/dashboard/:id", (req, res, next) =>
+  DashboardController.delete(req, res, next, dashboardServiceInjection)
+);
+
 export default dashboardApp;
