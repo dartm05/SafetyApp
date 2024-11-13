@@ -48,5 +48,8 @@ app.*.map.json
 # FVM Version Cache
 .fvm/
 
-/front/build/
+front/build/ios
+front/build/android
+front/build/flutter_assets
+
 .env
