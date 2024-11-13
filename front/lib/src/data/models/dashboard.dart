@@ -16,4 +16,16 @@ class Dashboard {
   final String description;
   final String? timestamp;
   final List<DashboardCard> cards;
+
+  factory Dashboard.fromMap(Map<String, dynamic> map) {
+    return Dashboard(
+      id: map['id'],
+      userId: map['userId'],
+      title: map['title'],
+      description: map['description'],
+      timestamp: map['timestamp'],
+      cards: List<DashboardCard>.from(
+          map['cards']?.map((x) => DashboardCard.fromMap(x))),
+    );
+  }
 }

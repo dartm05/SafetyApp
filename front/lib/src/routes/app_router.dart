@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:safety_app/src/features/dashboard/providers/dashboard_provider.dart';
 import 'package:safety_app/src/features/dashboard/screens/dashboard_screen.dart';
 import 'package:safety_app/src/features/trip_detail/providers/trip_form_provider.dart';
 import 'package:safety_app/src/features/trip_list/providers/trip_list_provider.dart';
@@ -132,7 +133,12 @@ final appRouter = GoRouter(
           ),
           GoRoute(
               path: '/dashboard',
-              builder: (context, state) => const DashboardScreen()),
+              builder: (context, state) {
+                return ChangeNotifierProvider.value(
+                  value: context.read<DashboardProvider>(),
+                  child: const DashboardScreen(),
+                );
+              }),
           GoRoute(
             name: 'login',
             path: '/login',

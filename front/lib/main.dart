@@ -7,6 +7,9 @@ import 'package:safety_app/src/core/providers/auth_provider.dart';
 import 'package:safety_app/src/features/chat/providers/chat_provider.dart';
 import 'package:safety_app/src/features/chat/services/chat_service.dart';
 import 'package:safety_app/src/features/chat/usecases/chat_usecases.dart';
+import 'package:safety_app/src/features/dashboard/providers/dashboard_provider.dart';
+import 'package:safety_app/src/features/dashboard/services/dashboard_service.dart';
+import 'package:safety_app/src/features/dashboard/usecases/dashboard_usecase.dart';
 
 import 'package:safety_app/src/features/profile/providers/profile_provider.dart';
 
@@ -86,6 +89,15 @@ Future<void> main() async {
         ),
       ),
     ),
+    ChangeNotifierProvider(
+        create: (context) => DashboardProvider(
+                dashboardUsecase: DashboardUsecase(
+              dashboardService: DashboardService(
+                httpService: HttpService(baseUrl: dotenv.env['BASE_URL'] ?? ''),
+                errorProvider: context.read<ErrorProvider>(),
+              ),
+              authenticationProvider: context.read<AuthenticationProvider>(),
+            ))),
   ], child: const MyApp()));
 }
 
