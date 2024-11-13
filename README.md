@@ -8,6 +8,7 @@ The Solo Travel Safety Companion app is an AI-powered solution designed to addre
 
 This app is crafted to empower women by addressing a fundamental safety concern that often limits their freedom and independence. By providing a reliable, AI-powered tool for real-time safety insights, it allows women to travel confidently and securely, aligning with global gender equality objectives, particularly UN Sustainable Development Goal 5. Additionally, the app’s community-sourced data and AI-driven personalization challenge gender stereotypes that discourage women from traveling solo, thereby promoting women’s agency and leadership
 
+live at: https://safety-app-edf4a.web.app/#/login 
 
 ## REQUIREMENTS
 
