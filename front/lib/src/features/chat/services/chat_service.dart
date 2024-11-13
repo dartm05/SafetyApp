@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:safety_app/src/core/providers/error_provider.dart';
 import 'package:safety_app/src/core/services/http_service.dart';
 
-import '../../../core/models/modal_model.dart';
+import '../../../data/models/modal_model.dart';
 import '../../../data/models/message.dart';
+import 'package:safety_app/src/data/models/error.dart';
 
 class ChatService {
   final HttpService _httpService;
@@ -22,29 +23,34 @@ class ChatService {
       message: message,
       isUser: true,
     );
-    try {
-      var response = await _httpService.post(
-        '/$userId/messages',
-        body: newMessage.toMap(),
+
+    var response = await _httpService.post(
+      '/$userId/messages',
+      body: newMessage.toMap(),
+    );
+    if (response.statusCode == 404) {
+      final Map<String, dynamic> errorResponse = jsonDecode(response.body);
+      Error error = Error(
+        title: errorResponse['title'],
+        message: errorResponse['message'],
+        statusCode: errorResponse['statusCode'],
+        status: errorResponse['status'],
       );
-      if (response.statusCode > 300) {
-        throw Exception('Error sending message');
-      }
-      return List<Map<String, dynamic>>.from(jsonDecode(response.body))
-          .map((message) => Message.fromMap(message))
-          .toList();
-    } catch (error) {
       _errorProvider.showError(
         error: Modal(
-          title: 'Error',
-          message: 'An error occurred while sending message. Please try again.',
+          title: error.title,
+          message: error.message,
           actionText: 'Close',
           action: () {
             _errorProvider.hideError();
           },
         ),
       );
+      return null;
     }
+    return List<Map<String, dynamic>>.from(jsonDecode(response.body))
+        .map((message) => Message.fromMap(message))
+        .toList();
   }
 
   Future<List<Message>?> getMessages(String userId) async {
