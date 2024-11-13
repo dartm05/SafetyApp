@@ -6,7 +6,7 @@ export interface ITrip {
   origin: string;
   destination: string;
   transportation: string;
-  createdAt: Date;
+  createdAt: string;
   hotel: string;
   travelStyle: string;
   ladiesOnlyMetro: boolean;

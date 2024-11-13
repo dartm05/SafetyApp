@@ -12,7 +12,7 @@ export class MessageDrivenAdapter implements IMessageUseCase {
       .doc(userId)
       .collection("messages")
       .add(message);
-    var newDate = new Date().toISOString();
+    const newDate = new Date().toISOString();
     await newMessage.update({
       id: newMessage.id,
       timestamp: newDate,
