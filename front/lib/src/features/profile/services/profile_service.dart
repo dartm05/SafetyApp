@@ -5,7 +5,7 @@ import 'package:safety_app/src/core/providers/modal_provider.dart';
 import 'package:safety_app/src/core/services/http_service.dart';
 import 'package:safety_app/src/data/models/profile.dart';
 
-import '../../../core/models/modal_model.dart';
+import '../../../data/models/modal_model.dart';
 
 class ProfileService {
   final HttpService httpService;

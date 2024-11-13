@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'package:safety_app/src/core/providers/error_provider.dart';
 import 'package:safety_app/src/core/services/http_service.dart';
 
-import '../../../core/models/modal_model.dart';
+import '../../../data/models/modal_model.dart';
 import '../../../data/models/trip.dart';
-import 'package:http/http.dart' as http;
 
 class TripService {
   final ErrorProvider errorProvider;

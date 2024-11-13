@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:safety_app/src/core/models/modal_model.dart';
+import 'package:safety_app/src/data/models/modal_model.dart';
 import 'package:safety_app/src/core/providers/error_provider.dart';
 import 'package:safety_app/src/core/services/http_service.dart';
 
