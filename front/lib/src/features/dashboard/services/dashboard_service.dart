@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:safety_app/src/core/models/modal_model.dart';
+import 'package:safety_app/src/data/models/modal_model.dart';
 
 import 'package:safety_app/src/core/providers/error_provider.dart';
 import 'package:safety_app/src/core/services/http_service.dart';
 import 'package:safety_app/src/data/models/dashboard.dart';
-import 'package:safety_app/src/data/models/error.model.dart';
+import 'package:safety_app/src/data/models/error.dart';
 
 class DashboardService {
   final HttpService _httpService;
@@ -24,20 +24,11 @@ class DashboardService {
     if (response.statusCode == 500) {
       throw Exception('Error fetching dashboard');
     }
-    if (response.statusCode == 404) {
-      Error error = Error.fromJson(jsonDecode(response as String));
-      _errorProvider.showError(
-        error: Modal(
-          title: error.title,
-          message: error.message,
-          actionText: 'Close',
-          action: () {
-            _errorProvider.hideError();
-          },
-        ),
-      );
+    if (response.statusCode == 204 ||
+        response.headers['content-length'] == '0') {
       return null;
     }
+
     return Dashboard.fromMap(jsonDecode(response.body));
   }
 
@@ -51,7 +42,13 @@ class DashboardService {
     }
 
     if (response.statusCode == 404) {
-      Error error = Error.fromJson(jsonDecode(response as String));
+      final Map<String, dynamic> errorResponse = jsonDecode(response.body);
+      Error error = Error(
+        title: errorResponse['title'],
+        message: errorResponse['message'],
+        statusCode: errorResponse['statusCode'],
+        status: errorResponse['status'],
+      );
       _errorProvider.showError(
         error: Modal(
           title: error.title,

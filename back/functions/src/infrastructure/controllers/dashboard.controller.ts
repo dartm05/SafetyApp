@@ -28,7 +28,7 @@ export class DashboardController {
   }
 
   static async create(
-    { params: { userId }, body }: Request<{ userId: string }>,
+    { params: { userId } }: Request<{ userId: string }>,
     res: Response,
     next: any,
     serviceInjection: () => IDashboardUseCase,
@@ -39,11 +39,11 @@ export class DashboardController {
     const profileService = profileServiceInjection();
     const dashboardService = serviceInjection();
 
-    const trip = await tripService
-      .findAll(userId)
-      .then((trips) => trips[trips.length - 1]);
+    const trips = await tripService.findAll(userId);
 
-    if (!trip) return next(new NoTripFoundError());
+    if (trips.length === 0) return next(new NoTripFoundError());
+
+    const trip = trips[trips.length - 1];
 
     const profile = await profileService.findOne(userId);
 
