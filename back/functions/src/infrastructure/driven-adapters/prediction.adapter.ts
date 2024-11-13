@@ -10,7 +10,6 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 const predict = async (trip: ITrip, profile: IProfile) => {
-
   const schema = {
     description: "List of safety recommendations for the trip",
     type: SchemaType.ARRAY,
@@ -22,11 +21,11 @@ const predict = async (trip: ITrip, profile: IProfile) => {
           description: "Title of the section of safety recommendation",
           nullable: false,
         },
-        description :{
+        description: {
           type: SchemaType.STRING,
           description: "Safety recommendation",
           nullable: false,
-        }
+        },
       },
       required: ["title", "description"],
     },
@@ -46,7 +45,17 @@ const predict = async (trip: ITrip, profile: IProfile) => {
 
 const formatSafetyPrompt = (trip: ITrip, profile: IProfile) => {
   return `
-      Provide safety recommendations for this trip, creating a maximum of 4 sections of detailed information, maximum of 300 characters, with safety recommendations in topics such as unsafe crime areas in trhe trip destination, accommodation, transportation and before departure based on the following information:
+     Please act as a personal travel planner and create a detailed itinerary for a trip from  ${trip.origin} to ${trip.destination}, covering  ${trip.startDate} to ${trip.endDate} days. The itinerary should be organized into four key sections that cater to the traveler’s preferences, safety needs, and the travel style mentioned. Keep in mind female safety and Include the following:
+
+    Day-by-Day Itinerary: Outline a recommended daily schedule with key sights, activities, and dining options tailored to the travel style (e.g., luxury, adventure, cultural exploration) and specific interests listed.
+
+    Transportation & Safety Preferences: Suggest safe transportation modes that match the traveler’s preferences (e.g., women-only options, public vs. private transport) and align with their comfort needs.
+
+    Local Safety Alerts: Provide recent alerts on ongoing issues (e.g., crime trends, natural disasters, civil unrest) in the destination area, highlighting severity, specific affected areas, and precautions for travelers.
+
+    General Safety Recommendations: Offer general safety tips tailored to the traveler’s profile, including best practices for solo travelers, emergency contacts, and situational safety guidance for tourist sites or crowded locations. Since the traveller is a female, especially highlight the city safety index and recommend female safety stops.
+
+    Personalize the recommendations based on the traveler’s profile data provided below.
 
       Trip Details:
       Origin: ${trip.origin}
