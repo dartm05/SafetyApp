@@ -1,21 +1,42 @@
 # Safety App
 
-To run the backend:
-Requirements
+**To run the backend:**
+
+**REQUIREMENTS**
+
 Node version ^18
 
+Firebase cli installed with credentials (you might need to create a new project within your console and replace the project id )
+
+- use command: firebase use **project_id**
+
+- You must create a .env file containing with:
+  
+**PLACES_API_KEY**={YOUR GOOGLE PLACES API KEY}
+
+**GOOGLE_API_KEY**={YOUR GOOGLE AI STUDIO API KEY}
+
+**YOUR_FIREBASE_API_KEY**={YOUR FIREBASE API KEY}  --> make sure not to use reserved FIREBASE_*** As Keys
+
+You must activate this APIs within each respective console.
+
+
 Run the following commands
+
 - cd back
 - cd functions
 - npm run serve
+
   
-if you are having troubles with firebase finding the index in the package.json main to point "lib/src/index.ts"
+**To run front:**
 
-To run front:
+**REQUIREMENTS** 
+flutter version 3.24.3
 
-Requires flutter version 3.24.3
+Create .env file with: 
 
-Create .env file with the back url "http://127.0.0.1:5001/safety-app-edf4a/us-central1/api" inside the front folder
+for testing locally
+BASE_URL=http://127.0.0.1:5001/safety-app-edf4a/us-central1/api 
 
 on ios
 - cd front
