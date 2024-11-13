@@ -32,19 +32,8 @@ export class MessageDrivenAdapter implements IMessageUseCase {
       .get();
 
     if (querySnapshot.empty) {
-      const defaultMessage: IMessage = {
-        isUser: false,
-        message: "Ask me about any concerns for your upcoming trip!",
-        userId: userId,
-      };
-      var newMessage = await this.create(userId, defaultMessage).then(
-        (message) => {
-          return message;
-        }
-      );
-      return [newMessage];
+      return [];
     }
-
     return querySnapshot.docs
       .map((doc) => {
         const data = doc.data() as IMessage;

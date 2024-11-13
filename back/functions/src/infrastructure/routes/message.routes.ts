@@ -9,7 +9,14 @@ import {
 const messageApp = express();
 
 messageApp.get("/:userId/messages", (req, res, next) =>
-  MessageController.findAll(req, res, next, serviceInjection)
+  MessageController.findAll(
+    req,
+    res,
+    next,
+    serviceInjection,
+    tripServiceInjection,
+    profileServiceInjection
+  )
 );
 
 messageApp.post("/:userId/messages", (req, res, next) =>

@@ -12,7 +12,7 @@ import { TripService } from "../../application/services/trip.service";
 import { ProfileService } from "../../application/services/profile.service";
 import { ProfileDrivenAdapter } from "../driven-adapters/profile.driven.adapter";
 import { NoTripFoundError } from "../../domain/errors/no-trip-found.error";
-import { ProfileNotFoundError } from "../../domain/errors/profile-not-found";
+import { ProfileNotFoundError } from "../../domain/errors/profile-not-found.error";
 import { IMessage } from "../../domain/models/message/message";
 
 export class MessageController {
@@ -57,10 +57,28 @@ export class MessageController {
     { params: { userId } }: Request<{ userId: string }>,
     res: Response,
     next: any,
-    serviceInjection: () => IMessageUseCase
+    serviceInjection: () => IMessageUseCase,
+    tripServiceInjection: () => ITripUseCase,
+    profileServiceInjection: () => IProfileUseCase
   ): Promise<void> {
     const messageService = serviceInjection();
+    const profileService = profileServiceInjection();
+    const tripService = tripServiceInjection();
     const messages = await messageService.findAll(userId);
+
+    if (messages.length === 0) {
+      const profile = await profileService.findOne(userId);
+      if (!profile) return next(new ProfileNotFoundError());
+      const trips = await tripService.findAll(userId);
+      if (trips.length === 0) return next(new NoTripFoundError());
+      const defaultMessage: IMessage = {
+        isUser: false,
+        message: "Ask me about any concerns for your upcoming trip!",
+        userId: userId,
+      };
+      var newMessage = await messageService.create(userId, defaultMessage);
+      messages.push(newMessage);
+    }
     res.json(messages);
   }
 
@@ -87,7 +105,6 @@ export function tripServiceInjection(): ITripUseCase {
   const tripService = new TripService(tripDrivenAdapter);
   return tripService;
 }
-
 export function profileServiceInjection(): IProfileUseCase {
   const profileDrivenAdapter = new ProfileDrivenAdapter();
   const profileService = new ProfileService(profileDrivenAdapter);
