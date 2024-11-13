@@ -5,7 +5,7 @@ export class NoTripFoundError extends Error {
     super(
       404,
       "No Trips Found",
-      "Please create a trip before sending a message",
+      "Please create a trip before sending a message or consulting the dashboard",
       "Not Found"
     );
   }
